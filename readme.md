@@ -1,15 +1,10 @@
-## Template Simple
+## Android DevKit
 
-Simple android app template. 
-
-## Use 
-
-    git@github.com:klee0kai/template_android_simple.git
-    rm -rf template_android_simple/.git
+Collection of android dev tools
 
 
 ## License
 ```
-Copyright (c) 2022 Andrey Kuzubov
+Copyright (c) 2023 Andrey Kuzubov
 ```
 
