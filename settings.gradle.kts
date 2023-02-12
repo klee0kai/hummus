@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Android DevKit"
 include(":kdevkit")
+include(":jdevkit")
