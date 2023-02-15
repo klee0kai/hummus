@@ -1,14 +1,14 @@
 package com.github.klee0kai.android_devkit.threads
 
 import android.os.Handler
-import android.os.Looper
 import android.os.HandlerThread
-import com.github.klee0kai.android_devkit.AndroidDevKitLogs
+import android.os.Looper
 import com.github.klee0kai.android_devkit.AndroidDevKitLogs.devKitLog
 import com.github.klee0kai.android_devkit.BuildConfig
 import java.util.concurrent.*
 
 object Threads {
+
     var defUncaughtExceptionHandler: Thread.UncaughtExceptionHandler? =
         Thread.getDefaultUncaughtExceptionHandler()
 
@@ -79,7 +79,7 @@ object Threads {
                 if (t != null) {
                     defUncaughtExceptionHandler?.uncaughtException(Thread.currentThread(), t)
                 } else {
-                    devKitLog?.w(t)
+                    devKitLog?.w(t = t)
                 }
             }
         }
@@ -113,7 +113,7 @@ object Threads {
                 if (t != null) {
                     defUncaughtExceptionHandler?.uncaughtException(Thread.currentThread(), t)
                 } else {
-                    devKitLog?.w(t)
+                    devKitLog?.w(t = t)
                 }
             }
         }
