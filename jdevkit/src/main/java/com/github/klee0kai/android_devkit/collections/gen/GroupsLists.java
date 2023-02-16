@@ -16,12 +16,12 @@ public class GroupsLists {
     }
 
 
-    public static <Key, T> IGroup<Key, T, List<T>> simpleToLists(IGroupLongSimple<Key, T> group) {
+    public static <Key, T> IGroup<Key, T, List<T>> simple(IGroupLongSimple<Key, T> group) {
         return new IGroup<Key, T, List<T>>() {
 
             @Override
             public Key groupId(T it) {
-                return null;
+                return group.groupId(it);
             }
 
             @Override
@@ -34,7 +34,7 @@ public class GroupsLists {
     }
 
 
-    public static <T> IGroup<Class<T>, T, List<T>> byTypeToLists() {
+    public static <T> IGroup<Class<T>, T, List<T>> byType() {
         return new IGroup<Class<T>, T, List<T>>() {
 
             @Override
