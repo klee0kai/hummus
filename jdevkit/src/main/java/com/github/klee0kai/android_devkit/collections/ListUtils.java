@@ -163,4 +163,33 @@ public class ListUtils {
         }
         return out;
     }
+
+    public static <T1, T2, TOut> List<TOut> fullOuterJoin(
+            List<T1> l1,
+            List<T2> l2,
+            boolean multiToMulti,
+            IJoin<T1, T2, TOut> joinHelper
+    ) {
+        if (l1 == null || l2 == null) return null;
+        LinkedList<T2> l2Left = new LinkedList<>(l2);
+        LinkedList<T1> l1Left = new LinkedList<>(l1);
+        LinkedList<TOut> out = new LinkedList<>();
+        for (T1 it1 : l1) {
+            if (it1 == null) continue;
+            for (T2 it2 : l2)
+                if (it2 != null && joinHelper.isJoin(it1, it2)) {
+                    out.add(joinHelper.join(it1, it2));
+                    l2Left.remove(it2);
+                    l1Left.remove(it1);
+                    if (!multiToMulti) break;
+                }
+        }
+        for (T1 it1 : l1Left) {
+            out.add(joinHelper.join(it1, null));
+        }
+        for (T2 it2 : l2Left) {
+            out.add(joinHelper.join(null, it2));
+        }
+        return out;
+    }
 }

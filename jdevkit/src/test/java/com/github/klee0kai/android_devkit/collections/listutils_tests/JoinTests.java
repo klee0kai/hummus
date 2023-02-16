@@ -2,6 +2,7 @@ package com.github.klee0kai.android_devkit.collections.listutils_tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import android.util.Pair;
 
@@ -112,5 +113,61 @@ public class JoinTests {
         assertEquals(-3, leftJoin.get(2).second.intValue());
     }
 
+
+    @Test(timeout = 100)
+    public void fullouter_join() {
+        //Given
+        List<Integer> leftNumberCollection = Arrays.asList(-1, 2, -3);
+        List<Integer> rightNumberCollection = Arrays.asList(2, 3, 6, 4, -3);
+
+        //When
+        List<Pair<Integer, Integer>> joined = ListUtils.fullOuterJoin(
+                leftNumberCollection,
+                rightNumberCollection,
+                false,
+                Joins.simplePair((((it1, it2) -> Math.abs(it1) == Math.abs(it2))))
+        );
+
+        //then
+        assertEquals(6, joined.size());
+        assertEquals(new Pair<>(2, 2), joined.get(0));
+        assertEquals(new Pair<>(-3, 3), joined.get(1));
+        assertEquals(-1, joined.get(2).first.intValue());
+        assertNull(joined.get(2).second);
+        assertEquals(6, joined.get(3).second.intValue());
+        assertNull(joined.get(3).first);
+        assertEquals(4, joined.get(4).second.intValue());
+        assertNull(joined.get(4).first);
+        assertEquals(-3, joined.get(5).second.intValue());
+        assertNull(joined.get(5).first);
+    }
+
+
+    @Test(timeout = 100)
+    public void fullouter_multi_join() {
+        //Given
+        List<Integer> leftNumberCollection = Arrays.asList(-1, 2, -3);
+        List<Integer> rightNumberCollection = Arrays.asList(2, 3, 6, 4, -3);
+
+        //When
+        List<Pair<Integer, Integer>> joined = ListUtils.fullOuterJoin(
+                leftNumberCollection,
+                rightNumberCollection,
+                true,
+                Joins.simplePair((((it1, it2) -> Math.abs(it1) == Math.abs(it2))))
+        );
+
+        //then
+        assertEquals(6, joined.size());
+        assertEquals(new Pair<>(2, 2), joined.get(0));
+        assertEquals(new Pair<>(-3, 3), joined.get(1));
+        assertEquals(new Pair<>(-3, -3), joined.get(2));
+        assertEquals(-1, joined.get(3).first.intValue());
+        assertNull(joined.get(3).second);
+        assertEquals(6, joined.get(4).second.intValue());
+        assertNull(joined.get(4).first);
+        assertEquals(4, joined.get(5).second.intValue());
+        assertNull(joined.get(5).first);
+    }
 
 }
