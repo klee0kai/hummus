@@ -1,71 +1,50 @@
 package com.github.klee0kai.android_devkit.collections;
 
-import org.jetbrains.annotations.Nullable;
+import com.github.klee0kai.android_devkit.collections.interfaces.IEq;
+import com.github.klee0kai.android_devkit.collections.interfaces.IFilterIndexed;
+import com.github.klee0kai.android_devkit.collections.interfaces.IGroup;
+import com.github.klee0kai.android_devkit.collections.interfaces.IJoin;
+import com.github.klee0kai.android_devkit.collections.interfaces.IMapIndexed;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class ListUtils {
 
-    public interface IEq<T> {
-        boolean eq(T it1, T it2);
-    }
-
-    public interface IFilter<T> {
-        boolean filt(int i, T it);
-    }
-
-    public interface IMap<T, TOut> {
-        TOut map(T it);
-    }
-
-    public interface IGroup<T, TOut> {
-        int groupId(T it);
-
-        List<TOut> group(List<T> lGroup);
-    }
-
-    public interface IJoin<T1, T2, TOut> {
-
-        boolean isJoin(T1 it1, T2 it2);
-
-        TOut join(@Nullable T1 it1, @Nullable T2 it2);
-
-    }
-
-    public static <T> List<T> filter(List<T> list, IFilter<T> filtHelper) {
+    public static <T> List<T> filter(List<T> list, IFilterIndexed<T> filtHelper) {
         if (list == null) return null;
         LinkedList<T> out = new LinkedList<>();
         int i = 0;
         for (T it : list)
-            if (filtHelper.filt(i++, it))
+            if (filtHelper.filter(i++, it))
                 out.add(it);
         return out;
     }
 
-
-    public static <T> T first(List<T> list, IFilter<T> filtHelper) {
+    public static <T> T first(List<T> list, IFilterIndexed<T> filtHelper) {
         if (list == null) return null;
         int i = 0;
         for (T it : list)
-            if (filtHelper.filt(i++, it))
+            if (filtHelper.filter(i++, it))
                 return it;
         return null;
     }
 
 
-    public static <T> int index(List<T> list, IFilter<T> filtHelper) {
+    public static <T> int index(List<T> list, IFilterIndexed<T> filtHelper) {
         if (list == null) return -1;
         int i = 0;
         for (T it : list)
-            if (filtHelper.filt(i++, it))
+            if (filtHelper.filter(i++, it))
                 return --i;
         return -1;
     }
 
 
-    public static <T> boolean contains(List<T> list, IFilter<T> filtHelper) {
+    public static <T> boolean contains(List<T> list, IFilterIndexed<T> filtHelper) {
         return index(list, filtHelper) >= 0;
     }
 
@@ -81,11 +60,12 @@ public class ListUtils {
         return out;
     }
 
-    public static <T, TOut> List<TOut> map(List<T> list, IMap<T, TOut> mapHelper) {
+    public static <T, TOut> List<TOut> map(List<T> list, IMapIndexed<T, TOut> mapHelper) {
         if (list == null) return null;
         List<TOut> out = (list instanceof ArrayList) ? new ArrayList<>(list.size()) : new LinkedList<>();
+        int i = 0;
         for (T it : list)
-            out.add(mapHelper.map(it));
+            out.add(mapHelper.map(i++, it));
         return out;
     }
 
@@ -95,22 +75,24 @@ public class ListUtils {
     }
 
 
-    public static <T, TOut> List<TOut> group(List<T> list, IGroup<T, TOut> groupHelper) {
+    public static <Key, T, TOut> List<TOut> group(List<T> list, IGroup<Key, T, TOut> groupHelper) {
         if (list == null) return null;
-        ExtSparseArray<LinkedList<T>> groups = new ExtSparseArray<>();
+        LinkedList<Key> keys = new LinkedList<>();
+        Map<Key, LinkedList<T>> groups = new HashMap<>();
         for (T it : list) {
-            int groupId = groupHelper.groupId(it);
+            Key groupId = groupHelper.groupId(it);
             LinkedList<T> gr = groups.get(groupId);
             if (gr == null) {
                 gr = new LinkedList<>();
                 groups.put(groupId, gr);
+                keys.add(groupId);
             }
             gr.add(it);
         }
 
         List<TOut> out = new LinkedList<>();
-        for (int i = 0; i < groups.size(); i++) {
-            out.addAll(groupHelper.group(groups.valueAt(i)));
+        for (Key groupKey : keys) {
+            out.addAll(groupHelper.group(groups.get(groupKey)));
         }
         return out;
     }

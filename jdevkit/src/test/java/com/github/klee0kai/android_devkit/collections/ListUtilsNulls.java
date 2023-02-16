@@ -5,10 +5,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import org.jetbrains.annotations.Nullable;
+import com.github.klee0kai.android_devkit.collections.gen.GroupsFlat;
+import com.github.klee0kai.android_devkit.collections.gen.Joins;
+import com.github.klee0kai.android_devkit.collections.gen.Maps;
+
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.List;
 
 public class ListUtilsNulls {
@@ -69,7 +71,7 @@ public class ListUtilsNulls {
         List<Integer> list = null;
 
         //Then
-        assertNull(ListUtils.map(list, (it) -> true));
+        assertNull(ListUtils.map(list, Maps.simple((it) -> true)));
     }
 
     @Test
@@ -88,17 +90,7 @@ public class ListUtilsNulls {
         List<Integer> list = null;
 
         //Then
-        assertNull(ListUtils.group(list, new ListUtils.IGroup<Integer, Integer>() {
-            @Override
-            public int groupId(Integer it) {
-                return 0;
-            }
-
-            @Override
-            public List<Integer> group(List<Integer> lGroup) {
-                return Collections.emptyList();
-            }
-        }));
+        assertNull(ListUtils.group(list, GroupsFlat.simple((it) -> it)));
     }
 
 
@@ -109,17 +101,12 @@ public class ListUtilsNulls {
         List<Integer> list2 = null;
 
         //Then
-        assertNull(ListUtils.leftJoin(list, list2, new ListUtils.IJoin<Integer, Integer, Integer>() {
-            @Override
-            public boolean isJoin(Integer it1, Integer it2) {
-                return false;
-            }
-
-            @Override
-            public Integer join(@Nullable Integer it1, @Nullable Integer it2) {
-                return null;
-            }
-        }));
+        assertNull(
+                ListUtils.leftJoin(
+                        list,
+                        list2,
+                        Joins.simplePair((it1, it2) -> true))
+        );
     }
 
 
@@ -130,17 +117,13 @@ public class ListUtilsNulls {
         List<Integer> list2 = null;
 
         //Then
-        assertNull(ListUtils.innerJoin(list, list2, false, new ListUtils.IJoin<Integer, Integer, Integer>() {
-            @Override
-            public boolean isJoin(Integer it1, Integer it2) {
-                return false;
-            }
-
-            @Override
-            public Integer join(@Nullable Integer it1, @Nullable Integer it2) {
-                return null;
-            }
-        }));
+        assertNull(
+                ListUtils.innerJoin(
+                        list,
+                        list2,
+                        false,
+                        Joins.simpleLeft((it1, it2) -> true))
+        );
     }
 
 

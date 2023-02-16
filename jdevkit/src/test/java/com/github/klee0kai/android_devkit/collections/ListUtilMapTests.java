@@ -2,6 +2,8 @@ package com.github.klee0kai.android_devkit.collections;
 
 import static org.junit.Assert.assertEquals;
 
+import com.github.klee0kai.android_devkit.collections.gen.Maps;
+
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -15,7 +17,7 @@ public class ListUtilMapTests {
         List<Integer> someNumberCollection = Arrays.asList(1, 2, 3, 4, 56, -1, 2, -3, 4, -5, 10, 1);
 
         //When
-        List<String> stringNumbers = ListUtils.map(someNumberCollection, Object::toString);
+        List<String> stringNumbers = ListUtils.map(someNumberCollection, Maps.simple(Object::toString));
 
         //Then
         assertEquals(

@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import com.github.klee0kai.android_devkit.collections.gen.Filters;
+
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -63,9 +65,9 @@ public class ListUtilFilterTests {
         List<Integer> someNumberCollection = Arrays.asList(-1, 2, -3, 4, -5, 10, 1);
 
         //When
-        List<Integer> positiveNumbers = ListUtils.filter(someNumberCollection, (i, it) -> {
+        List<Integer> positiveNumbers = ListUtils.filter(someNumberCollection, Filters.simple((it) -> {
             return it >= 0;
-        });
+        }));
 
         //Then
         assertEquals(
@@ -85,9 +87,7 @@ public class ListUtilFilterTests {
         List<Integer> someNumberCollection = Arrays.asList(-1, 2, -3, 4, -5, 10, 1);
 
         //When
-        List<Integer> first3Numbers = ListUtils.filter(someNumberCollection, (i, it) -> {
-            return i < 3;
-        });
+        List<Integer> first3Numbers = ListUtils.filter(someNumberCollection, Filters.sublist(0, 2));
 
         //Then
         assertEquals(
