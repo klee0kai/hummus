@@ -1,7 +1,8 @@
-package com.github.klee0kai.android_devkit.collections;
+package com.github.klee0kai.android_devkit.collections.listutils_tests;
 
 import static org.junit.Assert.assertEquals;
 
+import com.github.klee0kai.android_devkit.collections.ListUtils;
 import com.github.klee0kai.android_devkit.collections.gen.GroupsLists;
 
 import org.junit.Test;
@@ -9,7 +10,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-public class ListUtilsGroupToListsTests {
+public class GroupToListsTests {
 
     @Test(timeout = 100)
     public void group_numbers() {

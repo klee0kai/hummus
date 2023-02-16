@@ -66,16 +66,20 @@ public class ListUtils {
         if (list == null) return null;
         List<TOut> out = (list instanceof ArrayList) ? new ArrayList<>(list.size()) : new LinkedList<>();
         int i = 0;
-        for (T it : list)
-            out.add(mapHelper.map(i++, it));
+        for (T it : list) out.add(mapHelper.map(i++, it));
         return out;
     }
 
+    public static <T> List<T> flatList(List<List<T>> list) {
+        if (list == null) return null;
+        List<T> out = new LinkedList<>();
+        for (List<T> l : list) if (!ListUtils.isEmpty(l)) out.addAll(l);
+        return out;
+    }
 
     public static <T> boolean isEmpty(List<T> list) {
         return list == null || list.isEmpty();
     }
-
 
     public static <Key, T, TOut> List<TOut> group(List<T> list, IGroup<Key, T, TOut> groupHelper) {
         if (list == null) return null;
@@ -94,7 +98,8 @@ public class ListUtils {
 
         List<TOut> out = new LinkedList<>();
         for (Key groupKey : keys) {
-            out.addAll(groupHelper.group(groups.get(groupKey)));
+            List<TOut> g = groupHelper.group(groups.get(groupKey));
+            if (!ListUtils.isEmpty(g)) out.addAll(g);
         }
         return out;
     }

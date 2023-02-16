@@ -1,14 +1,16 @@
-package com.github.klee0kai.android_devkit.collections;
+package com.github.klee0kai.android_devkit.collections.listutils_tests;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import com.github.klee0kai.android_devkit.collections.ListUtils;
 
 import org.junit.Test;
 
 import java.util.Collections;
 import java.util.List;
 
-public class ListUtilsEmptyTests {
+public class EmptyTests {
 
     @Test(timeout = 100)
     public void null_is_empty() {

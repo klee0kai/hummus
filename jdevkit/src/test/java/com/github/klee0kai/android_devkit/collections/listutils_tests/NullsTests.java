@@ -1,10 +1,11 @@
-package com.github.klee0kai.android_devkit.collections;
+package com.github.klee0kai.android_devkit.collections.listutils_tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import com.github.klee0kai.android_devkit.collections.ListUtils;
 import com.github.klee0kai.android_devkit.collections.gen.GroupsFlat;
 import com.github.klee0kai.android_devkit.collections.gen.Joins;
 import com.github.klee0kai.android_devkit.collections.gen.Maps;
@@ -13,7 +14,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-public class ListUtilsNulls {
+public class NullsTests {
 
     @Test(timeout = 100)
     public void filter_null() {

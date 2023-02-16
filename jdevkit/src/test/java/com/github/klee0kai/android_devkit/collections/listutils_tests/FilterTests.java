@@ -1,10 +1,11 @@
-package com.github.klee0kai.android_devkit.collections;
+package com.github.klee0kai.android_devkit.collections.listutils_tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import com.github.klee0kai.android_devkit.collections.ListUtils;
 import com.github.klee0kai.android_devkit.collections.gen.Filters;
 
 import org.junit.Test;
@@ -13,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class ListUtilFilterTests {
+public class FilterTests {
 
     @Test(timeout = 100)
     public void middle_filter() {

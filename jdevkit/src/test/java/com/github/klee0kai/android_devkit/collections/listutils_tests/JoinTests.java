@@ -1,10 +1,11 @@
-package com.github.klee0kai.android_devkit.collections;
+package com.github.klee0kai.android_devkit.collections.listutils_tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import android.util.Pair;
 
+import com.github.klee0kai.android_devkit.collections.ListUtils;
 import com.github.klee0kai.android_devkit.collections.gen.Joins;
 
 import org.junit.Test;
@@ -15,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RunWith(RobolectricTestRunner.class)
-public class ListUtilJoinTests {
+public class JoinTests {
 
     @Test(timeout = 100)
     public void left_join() {
