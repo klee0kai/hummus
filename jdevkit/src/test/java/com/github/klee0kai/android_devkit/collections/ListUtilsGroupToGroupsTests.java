@@ -2,7 +2,6 @@ package com.github.klee0kai.android_devkit.collections;
 
 import static org.junit.Assert.assertEquals;
 
-import com.github.klee0kai.android_devkit.collections.gen.GroupsLists;
 import com.github.klee0kai.android_devkit.collections.gen.GroupsToGroups;
 import com.github.klee0kai.android_devkit.model.Group;
 
@@ -13,7 +12,7 @@ import java.util.List;
 
 public class ListUtilsGroupToGroupsTests {
 
-    @Test
+    @Test(timeout = 100)
     public void group_numbers() {
         //Given
         List<Float> someNumberCollection = Arrays.asList(-1f, 2f, 0f, -3f, 4f, 0f, -5f, 10f, 1f);

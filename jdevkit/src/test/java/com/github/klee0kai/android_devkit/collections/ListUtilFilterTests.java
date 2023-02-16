@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class ListUtilFilterTests {
 
-    @Test
+    @Test(timeout = 100)
     public void middle_filter() {
         //Given
         List<Integer> someNumberCollection = Arrays.asList(1, 2, 3, 4, 56, -1, 2, -3, 4, -5, 10, 1);
@@ -37,7 +37,7 @@ public class ListUtilFilterTests {
     }
 
 
-    @Test
+    @Test(timeout = 100)
     public void end_filter() {
         //Given
         List<Integer> someNumberCollection = Arrays.asList(1, 2, 3, 4, 56, -1, 2, -3, 4, -5);
@@ -59,7 +59,7 @@ public class ListUtilFilterTests {
     }
 
 
-    @Test
+    @Test(timeout = 100)
     public void start_filter() {
         //Given
         List<Integer> someNumberCollection = Arrays.asList(-1, 2, -3, 4, -5, 10, 1);
@@ -81,7 +81,7 @@ public class ListUtilFilterTests {
     }
 
 
-    @Test
+    @Test(timeout = 100)
     public void filter_by_index() {
         //Given
         List<Integer> someNumberCollection = Arrays.asList(-1, 2, -3, 4, -5, 10, 1);
@@ -101,7 +101,7 @@ public class ListUtilFilterTests {
     }
 
 
-    @Test
+    @Test(timeout = 100)
     public void first_find() {
         //Given
         List<Integer> someNumberCollection = Arrays.asList(-1, 2, -3, 4, -5, 10, 1);
@@ -123,7 +123,7 @@ public class ListUtilFilterTests {
     }
 
 
-    @Test
+    @Test(timeout = 100)
     public void first_in_first() {
         //Given
         List<Integer> someNumberCollection = Arrays.asList(-1, 2, -3, 4, -5, 10, 1);
@@ -145,7 +145,7 @@ public class ListUtilFilterTests {
     }
 
 
-    @Test
+    @Test(timeout = 100)
     public void first_no_found() {
         //Given
         List<Integer> someNumberCollection = Arrays.asList(-1, 2, -3, 4, -5, 10, 1);
@@ -166,7 +166,7 @@ public class ListUtilFilterTests {
     }
 
 
-    @Test
+    @Test(timeout = 100)
     public void index_first() {
         //Given
         List<Integer> someNumberCollection = Arrays.asList(-1, 2, -3, 4, -5, 10, 1);
@@ -188,7 +188,7 @@ public class ListUtilFilterTests {
     }
 
 
-    @Test
+    @Test(timeout = 100)
     public void index_second() {
         //Given
         List<Integer> someNumberCollection = Arrays.asList(-1, 2, -3, 4, -5, 10, 1);
@@ -209,7 +209,7 @@ public class ListUtilFilterTests {
         );
     }
 
-    @Test
+    @Test(timeout = 100)
     public void contains_in_list() {
         //Given
         List<Integer> someNumberCollection = Arrays.asList(-1, 2, -3, 4, -5, 10, 1);
@@ -228,7 +228,7 @@ public class ListUtilFilterTests {
     }
 
 
-    @Test
+    @Test(timeout = 100)
     public void non_contains_in_list() {
         //Given
         List<Integer> someNumberCollection = Arrays.asList(-1, 2, -3, 4, -5, 10, 1);
@@ -247,7 +247,7 @@ public class ListUtilFilterTests {
     }
 
 
-    @Test
+    @Test(timeout = 100)
     public void remove_doubles() {
         //Given
         List<Integer> someNumberCollection = Arrays.asList(1, 2, 3, 1, 2, 3, 1, 2, 3, -1);

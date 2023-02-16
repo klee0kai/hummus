@@ -8,7 +8,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class Joins {
 
-
     public interface IJoinSimple<T> {
 
         boolean isJoin(T it1, T it2);

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ListUtilsNulls {
 
-    @Test
+    @Test(timeout = 100)
     public void filter_null() {
         //When
         List<Integer> list = null;
@@ -24,7 +24,7 @@ public class ListUtilsNulls {
         assertNull(ListUtils.filter(list, (i, it) -> true));
     }
 
-    @Test
+    @Test(timeout = 100)
     public void first_null() {
         //When
         List<Integer> list = null;
@@ -33,7 +33,7 @@ public class ListUtilsNulls {
         assertNull(ListUtils.first(list, (i, it) -> true));
     }
 
-    @Test
+    @Test(timeout = 100)
     public void index_null() {
         //When
         List<Integer> list = null;
@@ -46,7 +46,7 @@ public class ListUtilsNulls {
     }
 
 
-    @Test
+    @Test(timeout = 100)
     public void contains_null() {
         //When
         List<Integer> list = null;
@@ -56,7 +56,7 @@ public class ListUtilsNulls {
     }
 
 
-    @Test
+    @Test(timeout = 100)
     public void remove_doubles_null() {
         //When
         List<Integer> list = null;
@@ -65,7 +65,7 @@ public class ListUtilsNulls {
         assertNull(ListUtils.removeDoubles(list, (i, it) -> true));
     }
 
-    @Test
+    @Test(timeout = 100)
     public void map_null() {
         //When
         List<Integer> list = null;
@@ -74,7 +74,7 @@ public class ListUtilsNulls {
         assertNull(ListUtils.map(list, Maps.simple((it) -> true)));
     }
 
-    @Test
+    @Test(timeout = 100)
     public void isEmpty_null() {
         //When
         List<Integer> list = null;
@@ -84,7 +84,7 @@ public class ListUtilsNulls {
     }
 
 
-    @Test
+    @Test(timeout = 100)
     public void group_null() {
         //When
         List<Integer> list = null;
@@ -94,7 +94,7 @@ public class ListUtilsNulls {
     }
 
 
-    @Test
+    @Test(timeout = 100)
     public void leftjoin_null() {
         //When
         List<Integer> list = null;
@@ -110,7 +110,7 @@ public class ListUtilsNulls {
     }
 
 
-    @Test
+    @Test(timeout = 100)
     public void innerjoin_null() {
         //When
         List<Integer> list = null;

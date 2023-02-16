@@ -6,6 +6,8 @@ import com.github.klee0kai.android_devkit.collections.interfaces.IGroup;
 import com.github.klee0kai.android_devkit.collections.interfaces.IJoin;
 import com.github.klee0kai.android_devkit.collections.interfaces.IMapIndexed;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -97,7 +99,11 @@ public class ListUtils {
         return out;
     }
 
-    public static <T1, T2, TOut> List<TOut> leftJoin(List<T1> l1, List<T2> l2, IJoin<T1, T2, TOut> joinHelper) {
+    public static <T1, T2, TOut> List<TOut> leftJoin(
+            List<T1> l1,
+            List<T2> l2,
+            IJoin<T1, T2, TOut> joinHelper
+    ) {
         if (l1 == null) return null;
         LinkedList<TOut> out = new LinkedList<>();
         for (T1 it1 : l1) {
@@ -116,7 +122,30 @@ public class ListUtils {
         return out;
     }
 
-    public static <T1, T2, TOut> List<TOut> innerJoin(List<T1> l1, List<T2> l2, boolean multiToMulti, IJoin<T1, T2, TOut> joinHelper) {
+    public static <T1, T2, TOut> List<TOut> rightJoin(
+            List<T1> l1,
+            List<T2> l2,
+            IJoin<T1, T2, TOut> joinHelper
+    ) {
+        return leftJoin(l2, l1, new IJoin<T2, T1, TOut>() {
+            @Override
+            public boolean isJoin(T2 it1, T1 it2) {
+                return joinHelper.isJoin(it2, it1);
+            }
+
+            @Override
+            public TOut join(@Nullable T2 it1, @Nullable T1 it2) {
+                return joinHelper.join(it2, it1);
+            }
+        });
+    }
+
+    public static <T1, T2, TOut> List<TOut> innerJoin(
+            List<T1> l1,
+            List<T2> l2,
+            boolean multiToMulti,
+            IJoin<T1, T2, TOut> joinHelper
+    ) {
         if (l1 == null || l2 == null) return null;
         LinkedList<TOut> out = new LinkedList<>();
         for (T1 it1 : l1) {

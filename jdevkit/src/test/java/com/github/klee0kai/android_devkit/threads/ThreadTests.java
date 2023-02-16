@@ -1,8 +1,6 @@
-package com.github.klee0kai.android_devkit;
+package com.github.klee0kai.android_devkit.threads;
 
 import static org.junit.Assert.assertEquals;
-
-import com.github.klee0kai.android_devkit.threads.Threads;
 
 import org.junit.Test;
 
@@ -15,7 +13,7 @@ public class ThreadTests {
 
     private static final int RUN_COUNT = 300;
 
-    @Test
+    @Test(timeout = 100)
     public void sequence_run() throws ExecutionException, InterruptedException {
         //Give
         LinkedList<Integer> runs = new LinkedList<>();

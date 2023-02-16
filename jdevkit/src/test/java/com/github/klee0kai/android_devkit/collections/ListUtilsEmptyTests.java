@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ListUtilsEmptyTests {
 
-    @Test
+    @Test(timeout = 100)
     public void null_is_empty() {
         //When
         List<Integer> null_list = null;
@@ -19,7 +19,7 @@ public class ListUtilsEmptyTests {
         assertTrue(ListUtils.isEmpty(null_list));
     }
 
-    @Test
+    @Test(timeout = 100)
     public void empty_is_empty() {
         //When
         List<Integer> null_list = Collections.emptyList();
@@ -29,7 +29,7 @@ public class ListUtilsEmptyTests {
     }
 
 
-    @Test
+    @Test(timeout = 100)
     public void nonempty_is_nonempty() {
         //When
         List<Integer> null_list = Collections.singletonList(1);

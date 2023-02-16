@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ListUtilMapTests {
 
-    @Test
+    @Test(timeout = 100)
     public void int_to_string() {
         //Given
         List<Integer> someNumberCollection = Arrays.asList(1, 2, 3, 4, 56, -1, 2, -3, 4, -5, 10, 1);

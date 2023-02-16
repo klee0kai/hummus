@@ -2,7 +2,6 @@ package com.github.klee0kai.android_devkit.collections;
 
 import static org.junit.Assert.assertEquals;
 
-import com.github.klee0kai.android_devkit.collections.gen.Filters;
 import com.github.klee0kai.android_devkit.collections.gen.GroupsFlat;
 
 import org.junit.Test;
@@ -12,7 +11,7 @@ import java.util.List;
 
 public class ListUtilsGroupFlatTests {
 
-    @Test
+    @Test(timeout = 100)
     public void group_numbers() {
         //Given
         List<Integer> someNumberCollection = Arrays.asList(-1, 2, 0, -3, 4, 0, -5, 10, 1);
