@@ -263,4 +263,23 @@ public class RefListTests {
     }
 
 
+    @Test(timeout = 100)
+    public void WeakItemsCollect() {
+        //Given
+        ChangeListsHelper.SimpleIntPair strongRef = new ChangeListsHelper.SimpleIntPair(7, 4);
+        WeakList<ChangeListsHelper.SimpleIntPair> refList = new WeakList<>();
+        refList.add(new ChangeListsHelper.SimpleIntPair(1, 2));
+        refList.add(new ChangeListsHelper.SimpleIntPair(3, 4));
+        refList.add(strongRef);
+        refList.add(new ChangeListsHelper.SimpleIntPair(5, 4));
+
+        //When
+        System.gc();
+        refList.clearNulls();
+
+        //Then
+        assertEquals(1, refList.size());
+        assertEquals(strongRef, refList.get(0));
+    }
+
 }

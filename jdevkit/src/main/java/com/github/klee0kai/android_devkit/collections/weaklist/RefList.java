@@ -193,7 +193,11 @@ public abstract class RefList<T> implements List<T> {
         return ListUtils.map(list, Maps.simple(IProvide::get));
     }
 
-    public boolean clearNulls(Object item) {
+    public boolean clearNulls() {
+        return clearNulls(null);
+    }
+
+    private boolean clearNulls(Object item) {
         Iterator<IProvide<T>> it = list.iterator();
         boolean removed = false;
         while (it.hasNext()) {
