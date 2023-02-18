@@ -17,6 +17,8 @@ public abstract class RefList<T> implements List<T> {
 
     abstract IProvide<T> wrapRef(T val);
 
+    abstract RefList<T> createNew(List<T> list);
+
 
     @Override
     public int size() {
@@ -60,7 +62,7 @@ public abstract class RefList<T> implements List<T> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return toList().containsAll(c);
+        return toStrongList().containsAll(c);
     }
 
     @Override
@@ -168,7 +170,7 @@ public abstract class RefList<T> implements List<T> {
 
     @Override
     public List<T> subList(int fromIndex, int toIndex) {
-        return toList().subList(fromIndex, toIndex);
+        return createNew(toStrongList().subList(fromIndex, toIndex));
     }
 
     @Override
@@ -189,7 +191,7 @@ public abstract class RefList<T> implements List<T> {
         return list.toString();
     }
 
-    public List<T> toList() {
+    public List<T> toStrongList() {
         return ListUtils.map(list, Maps.simple(IProvide::get));
     }
 
