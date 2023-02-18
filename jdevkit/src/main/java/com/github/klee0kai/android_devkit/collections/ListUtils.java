@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 public class ListUtils {
@@ -37,11 +38,24 @@ public class ListUtils {
 
 
     public static <T> int index(List<T> list, IFilterIndexed<T> filtHelper) {
-        if (list == null) return -1;
+        if (ListUtils.isEmpty(list)) return -1;
         int i = 0;
-        for (T it : list)
+        for (T it : list) {
             if (filtHelper.filter(i++, it))
                 return --i;
+        }
+        return -1;
+    }
+
+
+    public static <T> int lastIndex(List<T> list, IFilterIndexed<T> filtHelper) {
+        if (ListUtils.isEmpty(list)) return -1;
+        int i = list.size() - 1;
+        ListIterator<T> it = list.listIterator(list.size());
+        while (it.hasPrevious()) {
+            if (filtHelper.filter(i--, it.previous()))
+                return ++i;
+        }
         return -1;
     }
 
@@ -67,6 +81,13 @@ public class ListUtils {
         List<TOut> out = (list instanceof ArrayList) ? new ArrayList<>(list.size()) : new LinkedList<>();
         int i = 0;
         for (T it : list) out.add(mapHelper.map(i++, it));
+        return out;
+    }
+
+    public static <T> List<T> reverse(List<List<T>> list) {
+        if (list == null) return null;
+        List<T> out = new LinkedList<>();
+        for (List<T> l : list) if (!ListUtils.isEmpty(l)) out.addAll(l);
         return out;
     }
 

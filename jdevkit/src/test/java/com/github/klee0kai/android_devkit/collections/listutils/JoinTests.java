@@ -1,8 +1,7 @@
-package com.github.klee0kai.android_devkit.collections.listutils_tests;
+package com.github.klee0kai.android_devkit.collections.listutils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import android.util.Pair;
 
