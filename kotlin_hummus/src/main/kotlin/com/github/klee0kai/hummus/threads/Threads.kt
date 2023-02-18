@@ -1,10 +1,7 @@
 package com.github.klee0kai.hummus.threads
 
-import android.os.Handler
-import android.os.HandlerThread
-import android.os.Looper
-import com.github.klee0kai.hummus.AndroidDevKitLogs.devKitLog
-import com.github.klee0kai.hummus.BuildConfig
+import com.github.klee0kai.hummus.Hummus
+import com.github.klee0kai.hummus.Hummus.devKitLog
 import java.util.concurrent.*
 
 object Threads {
@@ -12,20 +9,13 @@ object Threads {
     var defUncaughtExceptionHandler: Thread.UncaughtExceptionHandler? =
         Thread.getDefaultUncaughtExceptionHandler()
 
-    fun newThreadLooper(nameThread: String?): Looper {
-        val handlerThread = HandlerThread(nameThread)
-        handlerThread.isDaemon = true
-        handlerThread.start()
-        return handlerThread.looper
-    }
-
     fun newSingleThreadExecutor(poolName: String?): ThreadPoolExecutor {
         return object : ThreadPoolExecutor(
             0, 1, 0L,
             TimeUnit.MILLISECONDS,
             LinkedBlockingQueue(),
             DefaultThreadFactory(poolName!!, false),
-            if (BuildConfig.DEBUG) AbortPolicy() else DiscardPolicy()
+            if (Hummus.isDebug) AbortPolicy() else DiscardPolicy()
         ) {
             override fun afterExecute(r: Runnable, t: Throwable?) {
                 var t: Throwable? = t
@@ -57,7 +47,7 @@ object Threads {
             TimeUnit.MILLISECONDS,
             LinkedBlockingQueue(),
             DefaultThreadFactory(poolName!!, daemon),
-            if (BuildConfig.DEBUG) AbortPolicy() else DiscardPolicy()
+            if (Hummus.isDebug) AbortPolicy() else DiscardPolicy()
         ) {
             override fun afterExecute(r: Runnable, t: Throwable?) {
                 var t: Throwable? = t
@@ -91,7 +81,7 @@ object Threads {
             TimeUnit.MILLISECONDS,
             SynchronousQueue(),
             DefaultThreadFactory(poolName!!, false),
-            if (BuildConfig.DEBUG) AbortPolicy() else DiscardPolicy()
+            if (Hummus.isDebug) AbortPolicy() else DiscardPolicy()
         ) {
             override fun afterExecute(r: Runnable, t: Throwable?) {
                 var t: Throwable? = t
@@ -121,16 +111,6 @@ object Threads {
 
     fun startThread(r: Runnable?) {
         Thread(r).start()
-    }
-
-    fun runMain(runnable: Runnable?) {
-        Handler(Looper.getMainLooper()).post(runnable!!)
-    }
-
-    fun runMainDelayed(delay: Long, runnable: Runnable?): Handler {
-        val handler = Handler(Looper.getMainLooper())
-        handler.postDelayed(runnable!!, delay)
-        return handler
     }
 
     fun trySleep(millis: Long) {

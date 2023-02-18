@@ -1,7 +1,5 @@
 package com.github.klee0kai.hummus.collections.weaklist
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.github.klee0kai.hummus.collections.contains
 import com.github.klee0kai.hummus.model.IProvide
 import java.util.*
@@ -23,15 +21,8 @@ abstract class RefList<T> : MutableList<T?>, List<T?> {
     }
 
     override fun contains(element: T?): Boolean {
-        return list.contains { it.get() == element }
+        return list.contains{ it.get() == element }
     }
-
-
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    override fun <T : Any?> toArray(generator: IntFunction<Array<T>>): Array<T> {
-        return list.map { it.get() }.toArray(generator)
-    }
-
 
     override fun add(element: T?): Boolean {
         clearNulls()

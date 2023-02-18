@@ -1,6 +1,6 @@
 package com.github.klee0kai.hummus.threads
 
-import com.github.klee0kai.hummus.AndroidDevKitLogs.devKitLog
+import com.github.klee0kai.hummus.Hummus.devKitLog
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
 

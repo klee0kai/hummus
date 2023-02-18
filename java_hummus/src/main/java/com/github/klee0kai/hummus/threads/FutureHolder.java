@@ -1,6 +1,6 @@
 package com.github.klee0kai.hummus.threads;
 
-import com.github.klee0kai.hummus.AndroidDevKitLogs;
+import com.github.klee0kai.hummus.Hummus;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -31,7 +31,7 @@ public class FutureHolder<T> {
         try {
             return future != null ? future.get() : null;
         } catch (Exception e) {
-            AndroidDevKitLogs.w(e);
+            Hummus.w(e);
             return null;
         }
     }
@@ -40,7 +40,7 @@ public class FutureHolder<T> {
         try {
             return future != null && future.isDone() ? future.get(1, TimeUnit.MICROSECONDS) : null;
         } catch (Exception e) {
-            AndroidDevKitLogs.w(e);
+            Hummus.w(e);
             return null;
         }
     }
@@ -52,7 +52,7 @@ public class FutureHolder<T> {
                 future = null;
             return res;
         } catch (Exception e) {
-            AndroidDevKitLogs.w(e);
+            Hummus.w(e);
             return null;
         }
     }

@@ -8,12 +8,8 @@ import com.github.klee0kai.hummus.collections.rightJoin
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import java.util.*
 import kotlin.math.abs
 
-@RunWith(RobolectricTestRunner::class)
 class JoinTests {
 
     @Test(timeout = 100)

@@ -4,8 +4,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 
-import com.github.klee0kai.hummus.AndroidDevKitLogs;
-import com.github.klee0kai.hummus.BuildConfig;
+import com.github.klee0kai.hummus.Hummus;
 
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
@@ -32,7 +31,7 @@ public class Threads {
                 TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<>(),
                 new DefaultThreadFactory(poolName, false),
-                BuildConfig.DEBUG ? new ThreadPoolExecutor.AbortPolicy() : new ThreadPoolExecutor.DiscardPolicy()) {
+                Hummus.isDebug ? new ThreadPoolExecutor.AbortPolicy() : new ThreadPoolExecutor.DiscardPolicy()) {
 
             @Override
             protected void afterExecute(Runnable r, Throwable t) {
@@ -60,7 +59,7 @@ public class Threads {
                 TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<Runnable>(),
                 new DefaultThreadFactory(poolName, daemon),
-                BuildConfig.DEBUG ? new ThreadPoolExecutor.AbortPolicy() : new ThreadPoolExecutor.DiscardPolicy()) {
+                Hummus.isDebug ? new ThreadPoolExecutor.AbortPolicy() : new ThreadPoolExecutor.DiscardPolicy()) {
             @Override
             protected void afterExecute(Runnable r, Throwable t) {
                 super.afterExecute(r, t);
@@ -80,7 +79,7 @@ public class Threads {
                 if (t != null && defUncaughtExceptionHandler != null) {
                     defUncaughtExceptionHandler.uncaughtException(Thread.currentThread(), t);
                 } else {
-                    AndroidDevKitLogs.w(t);
+                    Hummus.w(t);
                 }
             }
         };
@@ -91,7 +90,7 @@ public class Threads {
                 TimeUnit.MILLISECONDS,
                 new SynchronousQueue<>(),
                 new DefaultThreadFactory(poolName, false),
-                BuildConfig.DEBUG ? new ThreadPoolExecutor.AbortPolicy() : new ThreadPoolExecutor.DiscardPolicy()) {
+                Hummus.isDebug ? new ThreadPoolExecutor.AbortPolicy() : new ThreadPoolExecutor.DiscardPolicy()) {
             @Override
             protected void afterExecute(Runnable r, Throwable t) {
                 super.afterExecute(r, t);
@@ -111,7 +110,7 @@ public class Threads {
                 if (t != null && defUncaughtExceptionHandler != null) {
                     defUncaughtExceptionHandler.uncaughtException(Thread.currentThread(), t);
                 } else {
-                    AndroidDevKitLogs.w(t);
+                    Hummus.w(t);
                 }
             }
         };

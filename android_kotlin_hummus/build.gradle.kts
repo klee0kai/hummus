@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "org.template.hummus"
+    namespace = "com.github.klee0kai.hummus"
     compileSdk = 33
 
     defaultConfig {
@@ -23,6 +23,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":kotlin_hummus"))
+
     implementation("com.jakewharton.timber:timber:5.0.1")
     implementation("androidx.core:core-ktx:1.9.0")
 
