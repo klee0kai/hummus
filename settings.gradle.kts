@@ -14,6 +14,8 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Android DevKit"
-include(":kdevkit")
-include(":jdevkit")
+rootProject.name = "Hummus"
+include(":kotlin_hummus")
+include(":java_hummus")
+include(":android_java_hummus")
+include(":android_kotlin_hummus")
