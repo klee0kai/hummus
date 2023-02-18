@@ -5,7 +5,7 @@ import org.junit.Test
 
 class FilterTests {
 
-    @Test()
+    @Test(timeout = 100)
     fun remove_doubles() {
         //Given
         val someNumberCollection = listOf(1, 2, 3, 1, 2, 3, 1, 2, 3, -1)

@@ -36,7 +36,6 @@ public class ListUtils {
         return null;
     }
 
-
     public static <T> int index(List<T> list, IFilterIndexed<T> filtHelper) {
         if (ListUtils.isEmpty(list)) return -1;
         int i = 0;
@@ -46,7 +45,6 @@ public class ListUtils {
         }
         return -1;
     }
-
 
     public static <T> int lastIndex(List<T> list, IFilterIndexed<T> filtHelper) {
         if (ListUtils.isEmpty(list)) return -1;
@@ -59,11 +57,9 @@ public class ListUtils {
         return -1;
     }
 
-
     public static <T> boolean contains(List<T> list, IFilterIndexed<T> filtHelper) {
         return index(list, filtHelper) >= 0;
     }
-
 
     public static <T> List<T> removeDoubles(List<T> list, IEq<T> eqHelper) {
         if (list == null) return null;
@@ -102,7 +98,10 @@ public class ListUtils {
         return list == null || list.isEmpty();
     }
 
-    public static <Key, Type, OutType> List<OutType> group(List<Type> list, IGroup<Key, Type, OutType> groupHelper) {
+    public static <Key, Type, OutType> List<OutType> group(
+            List<Type> list,
+            IGroup<Key, Type, OutType> groupHelper
+    ) {
         if (list == null) return null;
         LinkedList<Key> keys = new LinkedList<>();
         Map<Key, LinkedList<Type>> groups = new HashMap<>();
