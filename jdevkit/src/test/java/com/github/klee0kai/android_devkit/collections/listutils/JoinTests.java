@@ -49,20 +49,20 @@ public class JoinTests {
         List<Integer> rightNumberCollection = Arrays.asList(-1, 2, -3);
 
         //When
-        List<Pair<Integer, Integer>> leftJoin = ListUtils.rightJoin(
+        List<Pair<Integer, Integer>> rightJoin = ListUtils.rightJoin(
                 leftNumberCollection,
                 rightNumberCollection,
                 Joins.simplePair((((it1, it2) -> Math.abs(it1) == Math.abs(it2))))
         );
 
         //then
-        assertEquals(3, leftJoin.size());
-        assertEquals(-1, leftJoin.get(0).second.intValue());
-        assertNull(leftJoin.get(0).first);
-        assertEquals(2, leftJoin.get(1).second.intValue());
-        assertEquals(2, leftJoin.get(1).first.intValue());
-        assertEquals(-3, leftJoin.get(2).second.intValue());
-        assertEquals(3, leftJoin.get(2).first.intValue());
+        assertEquals(3, rightJoin.size());
+        assertEquals(-1, rightJoin.get(0).second.intValue());
+        assertNull(rightJoin.get(0).first);
+        assertEquals(2, rightJoin.get(1).second.intValue());
+        assertEquals(2, rightJoin.get(1).first.intValue());
+        assertEquals(-3, rightJoin.get(2).second.intValue());
+        assertEquals(3, rightJoin.get(2).first.intValue());
     }
 
     @Test(timeout = 100)
@@ -72,7 +72,7 @@ public class JoinTests {
         List<Integer> rightNumberCollection = Arrays.asList(2, 3, 6, 4, -3);
 
         //When
-        List<Pair<Integer, Integer>> leftJoin = ListUtils.innerJoin(
+        List<Pair<Integer, Integer>> innerJoin = ListUtils.innerJoin(
                 leftNumberCollection,
                 rightNumberCollection,
                 false,
@@ -80,11 +80,11 @@ public class JoinTests {
         );
 
         //then
-        assertEquals(2, leftJoin.size());
-        assertEquals(2, leftJoin.get(0).first.intValue());
-        assertEquals(2, leftJoin.get(0).second.intValue());
-        assertEquals(-3, leftJoin.get(1).first.intValue());
-        assertEquals(3, leftJoin.get(1).second.intValue());
+        assertEquals(2, innerJoin.size());
+        assertEquals(2, innerJoin.get(0).first.intValue());
+        assertEquals(2, innerJoin.get(0).second.intValue());
+        assertEquals(-3, innerJoin.get(1).first.intValue());
+        assertEquals(3, innerJoin.get(1).second.intValue());
     }
 
 
@@ -95,7 +95,7 @@ public class JoinTests {
         List<Integer> rightNumberCollection = Arrays.asList(2, 3, 6, 4, -3);
 
         //When
-        List<Pair<Integer, Integer>> leftJoin = ListUtils.innerJoin(
+        List<Pair<Integer, Integer>> innerJoin = ListUtils.innerJoin(
                 leftNumberCollection,
                 rightNumberCollection,
                 true,
@@ -103,13 +103,13 @@ public class JoinTests {
         );
 
         //then
-        assertEquals(3, leftJoin.size());
-        assertEquals(2, leftJoin.get(0).first.intValue());
-        assertEquals(2, leftJoin.get(0).second.intValue());
-        assertEquals(-3, leftJoin.get(1).first.intValue());
-        assertEquals(3, leftJoin.get(1).second.intValue());
-        assertEquals(-3, leftJoin.get(2).first.intValue());
-        assertEquals(-3, leftJoin.get(2).second.intValue());
+        assertEquals(3, innerJoin.size());
+        assertEquals(2, innerJoin.get(0).first.intValue());
+        assertEquals(2, innerJoin.get(0).second.intValue());
+        assertEquals(-3, innerJoin.get(1).first.intValue());
+        assertEquals(3, innerJoin.get(1).second.intValue());
+        assertEquals(-3, innerJoin.get(2).first.intValue());
+        assertEquals(-3, innerJoin.get(2).second.intValue());
     }
 
 

@@ -84,14 +84,14 @@ public class ListUtils {
         return out;
     }
 
-    public static <T> List<T> reverse(List<List<T>> list) {
+    public static <T> List<T> reversed(List<List<T>> list) {
         if (list == null) return null;
         List<T> out = new LinkedList<>();
         for (List<T> l : list) if (!ListUtils.isEmpty(l)) out.addAll(l);
         return out;
     }
 
-    public static <T> List<T> flatList(List<List<T>> list) {
+    public static <T> List<T> flatten(List<List<T>> list) {
         if (list == null) return null;
         List<T> out = new LinkedList<>();
         for (List<T> l : list) if (!ListUtils.isEmpty(l)) out.addAll(l);
@@ -102,13 +102,13 @@ public class ListUtils {
         return list == null || list.isEmpty();
     }
 
-    public static <Key, T, TOut> List<TOut> group(List<T> list, IGroup<Key, T, TOut> groupHelper) {
+    public static <Key, Type, OutType> List<OutType> group(List<Type> list, IGroup<Key, Type, OutType> groupHelper) {
         if (list == null) return null;
         LinkedList<Key> keys = new LinkedList<>();
-        Map<Key, LinkedList<T>> groups = new HashMap<>();
-        for (T it : list) {
+        Map<Key, LinkedList<Type>> groups = new HashMap<>();
+        for (Type it : list) {
             Key groupId = groupHelper.groupId(it);
-            LinkedList<T> gr = groups.get(groupId);
+            LinkedList<Type> gr = groups.get(groupId);
             if (gr == null) {
                 gr = new LinkedList<>();
                 groups.put(groupId, gr);
@@ -117,21 +117,21 @@ public class ListUtils {
             gr.add(it);
         }
 
-        List<TOut> out = new LinkedList<>();
+        List<OutType> out = new LinkedList<>();
         for (Key groupKey : keys) {
-            List<TOut> g = groupHelper.group(groups.get(groupKey));
+            List<OutType> g = groupHelper.group(groups.get(groupKey));
             if (!ListUtils.isEmpty(g)) out.addAll(g);
         }
         return out;
     }
 
-    public static <T1, T2, TOut> List<TOut> leftJoin(
+    public static <T1, T2, OutType> List<OutType> leftJoin(
             List<T1> l1,
             List<T2> l2,
-            IJoin<T1, T2, TOut> joinHelper
+            IJoin<T1, T2, OutType> joinHelper
     ) {
         if (l1 == null) return null;
-        LinkedList<TOut> out = new LinkedList<>();
+        LinkedList<OutType> out = new LinkedList<>();
         for (T1 it1 : l1) {
             if (it1 == null) continue;
             boolean added = false;
@@ -166,14 +166,14 @@ public class ListUtils {
         });
     }
 
-    public static <T1, T2, TOut> List<TOut> innerJoin(
+    public static <T1, T2, OutType> List<OutType> innerJoin(
             List<T1> l1,
             List<T2> l2,
             boolean multiToMulti,
-            IJoin<T1, T2, TOut> joinHelper
+            IJoin<T1, T2, OutType> joinHelper
     ) {
         if (l1 == null || l2 == null) return null;
-        LinkedList<TOut> out = new LinkedList<>();
+        LinkedList<OutType> out = new LinkedList<>();
         for (T1 it1 : l1) {
             if (it1 == null) continue;
             for (T2 it2 : l2)
@@ -185,16 +185,16 @@ public class ListUtils {
         return out;
     }
 
-    public static <T1, T2, TOut> List<TOut> fullOuterJoin(
+    public static <T1, T2, OutType> List<OutType> fullOuterJoin(
             List<T1> l1,
             List<T2> l2,
             boolean multiToMulti,
-            IJoin<T1, T2, TOut> joinHelper
+            IJoin<T1, T2, OutType> joinHelper
     ) {
         if (l1 == null || l2 == null) return null;
-        LinkedList<T2> l2Left = new LinkedList<>(l2);
         LinkedList<T1> l1Left = new LinkedList<>(l1);
-        LinkedList<TOut> out = new LinkedList<>();
+        LinkedList<T2> l2Left = new LinkedList<>(l2);
+        LinkedList<OutType> out = new LinkedList<>();
         for (T1 it1 : l1) {
             if (it1 == null) continue;
             for (T2 it2 : l2)

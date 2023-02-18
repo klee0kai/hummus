@@ -27,7 +27,7 @@ public class FlatListTests {
         listOfLists.add(null);
 
         //When
-        List<Integer> flatList = ListUtils.flatList(listOfLists);
+        List<Integer> flatList = ListUtils.flatten(listOfLists);
 
         //Then
         assertEquals(

@@ -1,0 +1,27 @@
+package com.github.klee0kai.android_devkit.collections
+
+import org.junit.Assert.assertEquals
+import org.junit.Test
+
+class FilterTests {
+
+    @Test()
+    fun remove_doubles() {
+        //Given
+        val someNumberCollection = listOf(1, 2, 3, 1, 2, 3, 1, 2, 3, -1)
+
+        //When
+        val unicNumbers = someNumberCollection.removeDoubles()
+
+        //Then
+        assertEquals(
+            listOf(1, 2, 3, 1, 2, 3, 1, 2, 3, -1),
+            someNumberCollection
+        )
+        assertEquals(
+            listOf(1, 2, 3, -1),
+            unicNumbers
+        )
+    }
+
+}

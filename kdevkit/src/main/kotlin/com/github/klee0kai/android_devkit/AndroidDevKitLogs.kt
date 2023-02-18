@@ -6,4 +6,8 @@ object AndroidDevKitLogs {
 
     var devKitLog: Timber.Tree? = Timber.tag("android_devkit")
 
+    @JvmStatic
+    fun main(args: Array<String>) {
+    }
+
 }
