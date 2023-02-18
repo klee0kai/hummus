@@ -6,8 +6,6 @@ import com.github.klee0kai.hummus.collections.interfaces.IGroup;
 import com.github.klee0kai.hummus.collections.interfaces.IJoin;
 import com.github.klee0kai.hummus.collections.interfaces.IMapIndexed;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -159,7 +157,7 @@ public class ListUtils {
             }
 
             @Override
-            public TOut join(@Nullable T2 it1, @Nullable T1 it2) {
+            public TOut join(T2 it1, T1 it2) {
                 return joinHelper.join(it2, it1);
             }
         });

@@ -3,19 +3,15 @@ package com.github.klee0kai.hummus.collections.listutils;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import android.util.Pair;
-
 import com.github.klee0kai.hummus.collections.ListUtils;
 import com.github.klee0kai.hummus.collections.gen.Joins;
+import com.github.klee0kai.hummus.model.Pair;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
 
 import java.util.Arrays;
 import java.util.List;
 
-@RunWith(RobolectricTestRunner.class)
 public class JoinTests {
 
     @Test(timeout = 100)

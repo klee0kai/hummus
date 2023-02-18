@@ -1,6 +1,6 @@
-## Android DevKit
+## Hummus
 
-Collection of android dev tools
+DevKit for java/kotlin projects.
 
 
 ## License

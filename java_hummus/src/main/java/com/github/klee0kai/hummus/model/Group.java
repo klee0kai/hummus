@@ -21,4 +21,12 @@ public class Group<K, T> {
     public int hashCode() {
         return Objects.hash(key, items);
     }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "key=" + key +
+                ", items=" + items +
+                '}';
+    }
 }

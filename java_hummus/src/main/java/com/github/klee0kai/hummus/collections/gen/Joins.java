@@ -1,10 +1,8 @@
 package com.github.klee0kai.hummus.collections.gen;
 
-import android.util.Pair;
 
 import com.github.klee0kai.hummus.collections.interfaces.IJoin;
-
-import org.jetbrains.annotations.Nullable;
+import com.github.klee0kai.hummus.model.Pair;
 
 public class Joins {
 
@@ -23,7 +21,7 @@ public class Joins {
             }
 
             @Override
-            public T join(@Nullable T it1, @Nullable T it2) {
+            public T join(T it1, T it2) {
                 return it1;
             }
         };
@@ -39,14 +37,14 @@ public class Joins {
             }
 
             @Override
-            public T join(@Nullable T it1, @Nullable T it2) {
+            public T join(T it1, T it2) {
                 return it2;
             }
         };
     }
 
     public static <T> IJoin<T, T, Pair<T, T>> simplePair(IJoinSimple<T> join) {
-        return new IJoin<T, T, Pair<T, T>>() {
+        return new IJoin<>() {
 
             @Override
             public boolean isJoin(T it1, T it2) {
@@ -54,7 +52,7 @@ public class Joins {
             }
 
             @Override
-            public Pair<T, T> join(@Nullable T it1, @Nullable T it2) {
+            public Pair<T, T> join(T it1, T it2) {
                 return new Pair<T, T>(it1, it2);
             }
         };

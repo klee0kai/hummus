@@ -1,9 +1,5 @@
 package com.github.klee0kai.hummus.threads;
 
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Looper;
-
 import com.github.klee0kai.hummus.Hummus;
 
 import java.util.concurrent.CancellationException;
@@ -16,15 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Threads {
 
-
     public static Thread.UncaughtExceptionHandler defUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
-
-    public static Looper newThreadLooper(String nameThread) {
-        HandlerThread handlerThread = new HandlerThread(nameThread);
-        handlerThread.setDaemon(true);
-        handlerThread.start();
-        return handlerThread.getLooper();
-    }
 
     public static ThreadPoolExecutor newSingleThreadExecutor(String poolName) {
         return new ThreadPoolExecutor(0, 1, 0L,
@@ -116,21 +104,9 @@ public class Threads {
         };
     }
 
-
     public static void startThread(Runnable r) {
         new Thread(r).start();
     }
-
-    public static void runMain(Runnable runnable) {
-        new Handler(Looper.getMainLooper()).post(runnable);
-    }
-
-    public static Handler runMainDelayed(long delay, Runnable runnable) {
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(runnable, delay);
-        return handler;
-    }
-
 
     public static void trySleep(long millis) {
         if (millis <= 0) return;
