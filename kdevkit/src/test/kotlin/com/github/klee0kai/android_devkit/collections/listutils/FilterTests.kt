@@ -1,5 +1,6 @@
-package com.github.klee0kai.android_devkit.collections
+package com.github.klee0kai.android_devkit.collections.listutils
 
+import com.github.klee0kai.android_devkit.collections.removeDoubles
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

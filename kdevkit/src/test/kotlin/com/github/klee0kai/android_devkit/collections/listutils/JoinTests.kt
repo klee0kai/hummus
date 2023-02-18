@@ -1,6 +1,10 @@
-package com.github.klee0kai.android_devkit.collections
+package com.github.klee0kai.android_devkit.collections.listutils
 
+import com.github.klee0kai.android_devkit.collections.fullOuterJoin
 import com.github.klee0kai.android_devkit.collections.gen.Joins
+import com.github.klee0kai.android_devkit.collections.innerJoin
+import com.github.klee0kai.android_devkit.collections.leftJoin
+import com.github.klee0kai.android_devkit.collections.rightJoin
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test

@@ -1,6 +1,7 @@
-package com.github.klee0kai.android_devkit.collections
+package com.github.klee0kai.android_devkit.collections.listutils
 
 import com.github.klee0kai.android_devkit.collections.gen.GroupGrouping
+import com.github.klee0kai.android_devkit.collections.group
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 

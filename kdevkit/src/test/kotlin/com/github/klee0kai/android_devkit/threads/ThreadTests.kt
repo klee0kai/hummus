@@ -1,6 +1,5 @@
-package com.github.klee0kai.android_devkit
+package com.github.klee0kai.android_devkit.threads
 
-import com.github.klee0kai.android_devkit.threads.Threads
 import org.junit.Assert
 import org.junit.Test
 import java.util.*

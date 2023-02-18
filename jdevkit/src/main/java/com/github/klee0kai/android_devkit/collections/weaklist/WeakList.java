@@ -4,6 +4,7 @@ import com.github.klee0kai.android_devkit.model.IProvide;
 import com.github.klee0kai.android_devkit.model.RefProvide;
 
 import java.util.Collection;
+import java.util.List;
 
 public class WeakList<T> extends RefList<T> {
 
@@ -20,5 +21,10 @@ public class WeakList<T> extends RefList<T> {
     @Override
     IProvide<T> wrapRef(T val) {
         return RefProvide.weak(val);
+    }
+
+    @Override
+    RefList<T> createNew(List<T> list) {
+        return new WeakList<>(list);
     }
 }

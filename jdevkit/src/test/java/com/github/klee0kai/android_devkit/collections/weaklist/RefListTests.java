@@ -14,7 +14,7 @@ import java.util.List;
 public class RefListTests {
 
     @Test(timeout = 100)
-    public void empty_list() {
+    public void emptyList() {
         //When
         List<Integer> exampleList = new LinkedList<>();
         List<Integer> refList = new SoftList<>();
@@ -25,7 +25,7 @@ public class RefListTests {
     }
 
     @Test(timeout = 100)
-    public void init_list() {
+    public void initList() {
         //When
         List<Integer> exampleList = new LinkedList<>(Arrays.asList(1, 2, 4));
         List<Integer> refList = new SoftList<>(Arrays.asList(1, 2, 4));
@@ -36,7 +36,7 @@ public class RefListTests {
     }
 
     @Test(timeout = 100)
-    public void add_one() {
+    public void addOne() {
         //When
         List<Integer> exampleList = new LinkedList<>();
         List<Integer> refList = new SoftList<>();
@@ -47,7 +47,7 @@ public class RefListTests {
     }
 
     @Test(timeout = 100)
-    public void add_few() {
+    public void addFew() {
         //When
         List<Integer> exampleList = new LinkedList<>();
         List<Integer> refList = new SoftList<>();
@@ -61,7 +61,7 @@ public class RefListTests {
     }
 
     @Test(timeout = 100)
-    public void add_remove() {
+    public void addRemove() {
         //When
         List<ChangeListsHelper.SimpleIntPair> exampleList = new LinkedList<>();
         List<ChangeListsHelper.SimpleIntPair> refList = new SoftList<>();
@@ -78,7 +78,7 @@ public class RefListTests {
     }
 
     @Test(timeout = 100)
-    public void remove_All() {
+    public void removeAll() {
         //When
         List<ChangeListsHelper.SimpleIntPair> exampleList = new LinkedList<>();
         List<ChangeListsHelper.SimpleIntPair> refList = new SoftList<>();

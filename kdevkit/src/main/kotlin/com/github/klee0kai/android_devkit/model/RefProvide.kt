@@ -18,5 +18,19 @@ data class RefProvide<T>(
 
     override fun get(): T? = reference.get()
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        return get() == (other as? RefProvide<*>)?.get()
+    }
+
+    override fun hashCode(): Int {
+        return get().hashCode()
+    }
+
+    override fun toString(): String {
+        return "RefProvide(${get()})"
+    }
+
 
 }
