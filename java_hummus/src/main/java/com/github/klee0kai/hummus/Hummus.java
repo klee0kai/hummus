@@ -4,16 +4,16 @@ import com.github.klee0kai.hummus.logger.IHummusLogger;
 
 public class Hummus {
 
-    public static IHummusLogger hummusLogger = null;
+    public static IHummusLogger hummusLog = null;
 
     public static boolean isDebug = false;
 
     static public void w(String text, Object... args) {
-        if (hummusLogger != null) hummusLogger.w(text, args);
+        if (hummusLog != null) hummusLog.w(text, args);
     }
 
     static public void w(Throwable t) {
-        if (hummusLogger != null) hummusLogger.w(t);
+        if (hummusLog != null) hummusLog.w(t);
     }
 
 }

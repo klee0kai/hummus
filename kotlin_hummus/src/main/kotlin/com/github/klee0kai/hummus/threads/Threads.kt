@@ -1,7 +1,7 @@
 package com.github.klee0kai.hummus.threads
 
 import com.github.klee0kai.hummus.Hummus
-import com.github.klee0kai.hummus.Hummus.devKitLog
+import com.github.klee0kai.hummus.Hummus.hummusLog
 import java.util.concurrent.*
 
 object Threads {
@@ -69,7 +69,7 @@ object Threads {
                 if (t != null) {
                     defUncaughtExceptionHandler?.uncaughtException(Thread.currentThread(), t)
                 } else {
-                    devKitLog?.w(t = t)
+                    hummusLog?.w(t = t)
                 }
             }
         }
@@ -103,7 +103,7 @@ object Threads {
                 if (t != null) {
                     defUncaughtExceptionHandler?.uncaughtException(Thread.currentThread(), t)
                 } else {
-                    devKitLog?.w(t = t)
+                    hummusLog?.w(t = t)
                 }
             }
         }

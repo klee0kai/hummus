@@ -1,6 +1,6 @@
 package com.github.klee0kai.hummus.threads
 
-import com.github.klee0kai.hummus.Hummus.devKitLog
+import com.github.klee0kai.hummus.Hummus.hummusLog
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
 
@@ -29,7 +29,7 @@ open class FutureHolder<T> {
     fun tryAwait(): T? = runCatching {
         future?.get()
     }.onFailure {
-        devKitLog?.w(it)
+        hummusLog?.w(it)
     }.getOrNull()
 
     fun result(): T? = runCatching {
@@ -39,7 +39,7 @@ open class FutureHolder<T> {
             null
         }
     }.onFailure {
-        devKitLog?.w(it)
+        hummusLog?.w(it)
     }.getOrNull()
 
 

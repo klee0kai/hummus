@@ -1,9 +1,10 @@
 plugins {
-    id("kotlin")
+    id("org.jetbrains.kotlin.jvm")
 }
 
-kotlin {
-    jvmToolchain(11)
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 dependencies {

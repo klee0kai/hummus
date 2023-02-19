@@ -44,7 +44,7 @@ public class Joins {
     }
 
     public static <T> IJoin<T, T, Pair<T, T>> simplePair(IJoinSimple<T> join) {
-        return new IJoin<>() {
+        return new IJoin<T, T, Pair<T, T>>() {
 
             @Override
             public boolean isJoin(T it1, T it2) {
