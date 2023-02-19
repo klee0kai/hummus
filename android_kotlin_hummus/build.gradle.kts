@@ -1,24 +1,35 @@
+import publishingtls.publishToMaven
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    `maven-publish`
 }
 
+group = "com.github.klee0kai.hummus"
+version = "0.1-SNAPSHOT"
+
 android {
-    namespace = "com.github.klee0kai.hummus"
+    namespace = project.group.toString()
     compileSdk = 33
 
     defaultConfig {
         minSdk = 21
         targetSdk = 33
-
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_11.majorVersion
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publishToMaven(project)
     }
 }
 

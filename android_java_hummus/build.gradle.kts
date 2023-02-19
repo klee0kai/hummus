@@ -1,9 +1,15 @@
+import publishingtls.publishToMaven
+
 plugins {
     id("com.android.library")
+    `maven-publish`
 }
 
+group = "com.github.klee0kai.hummus"
+version = "0.1-SNAPSHOT"
+
 android {
-    namespace = "com.github.klee0kai.hummus"
+    namespace = project.group.toString()
     compileSdk = 33
 
     defaultConfig {
@@ -13,8 +19,13 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+}
+afterEvaluate {
+    publishing {
+        publishToMaven(project)
     }
 }
 

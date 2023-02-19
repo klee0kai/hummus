@@ -1,3 +1,5 @@
+//apply(from="gradle/plugins/maven_publish/gradle.kts")
+
 buildscript {
     repositories {
         gradlePluginPortal()

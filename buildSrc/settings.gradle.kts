@@ -13,10 +13,3 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-
-rootProject.name = "Hummus"
-//includeBuild("gradle_tools")
-include(":kotlin_hummus")
-include(":java_hummus")
-include(":android_java_hummus")
-include(":android_kotlin_hummus")
