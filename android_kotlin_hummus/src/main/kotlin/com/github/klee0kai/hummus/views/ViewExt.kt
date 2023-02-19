@@ -1,4 +1,4 @@
-package com.github.klee0kai.hummus.extensions
+package com.github.klee0kai.hummus.views
 
 import android.content.res.Resources
 import android.util.TypedValue
