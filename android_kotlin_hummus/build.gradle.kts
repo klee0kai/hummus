@@ -1,9 +1,10 @@
-import publishingtls.publishToMaven
+//import publishingtls.publishToMaven
 
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     `maven-publish`
+    id("maven_publish.hummus_publish")
 }
 
 group = "com.github.klee0kai.hummus"
@@ -24,12 +25,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.majorVersion
-    }
-}
-
-afterEvaluate {
-    publishing {
-        publishToMaven(project)
     }
 }
 

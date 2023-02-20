@@ -15,7 +15,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Hummus"
-//includeBuild("gradle_tools")
+includeBuild("gradle_plugins")
 include(":kotlin_hummus")
 include(":java_hummus")
 include(":android_java_hummus")

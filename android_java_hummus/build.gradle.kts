@@ -1,8 +1,9 @@
-import publishingtls.publishToMaven
+//import publishingtls.publishToMaven
 
 plugins {
     id("com.android.library")
     `maven-publish`
+    id("maven_publish.hummus_publish")
 }
 
 group = "com.github.klee0kai.hummus"
@@ -21,11 +22,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-}
-afterEvaluate {
-    publishing {
-        publishToMaven(project)
     }
 }
 

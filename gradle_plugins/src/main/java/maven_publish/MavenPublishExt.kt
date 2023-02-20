@@ -1,4 +1,4 @@
-package publishingtls
+package maven_publish
 
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
@@ -7,7 +7,7 @@ import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.get
 
 
-fun PublishingExtension.publishToMaven(project: Project) {
+fun PublishingExtension.hummusToMaven(project: Project) {
     publications {
         create<MavenPublication>("maven") {
             groupId = project.group.toString()
