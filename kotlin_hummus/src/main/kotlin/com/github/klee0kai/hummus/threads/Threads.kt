@@ -69,7 +69,7 @@ object Threads {
                 if (t != null) {
                     defUncaughtExceptionHandler?.uncaughtException(Thread.currentThread(), t)
                 } else {
-                    hummusLog?.w(t = t)
+                    hummusLog?.w(t =t!!)
                 }
             }
         }
@@ -103,7 +103,7 @@ object Threads {
                 if (t != null) {
                     defUncaughtExceptionHandler?.uncaughtException(Thread.currentThread(), t)
                 } else {
-                    hummusLog?.w(t = t)
+                    hummusLog?.w(t = t!!)
                 }
             }
         }

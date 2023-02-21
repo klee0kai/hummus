@@ -1,9 +1,16 @@
+//import publishingtls.publishToMaven
+
 plugins {
     id("com.android.library")
+    `maven-publish`
+    id("maven_publish.hummus_publish")
 }
 
+group = "com.github.klee0kai.hummus"
+version = "0.1-SNAPSHOT"
+
 android {
-    namespace = "com.github.klee0kai.hummus"
+    namespace = project.group.toString()
     compileSdk = 33
 
     defaultConfig {
