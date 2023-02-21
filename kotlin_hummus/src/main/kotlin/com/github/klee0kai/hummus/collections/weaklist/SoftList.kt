@@ -3,7 +3,7 @@ package com.github.klee0kai.hummus.collections.weaklist
 import com.github.klee0kai.hummus.model.IProvide
 import com.github.klee0kai.hummus.model.RefProvide
 
-class SoftList<T> constructor() : RefList<T>() {
+open class SoftList<T> constructor() : RefList<T>() {
 
     constructor(list: Iterable<T?>) : this() {
         addAll(list)
