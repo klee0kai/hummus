@@ -1,6 +1,7 @@
 package com.github.klee0kai.hummus.adapterdelegates.diffutil;
 
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +26,15 @@ public class SameDiffResult<T> {
             diffResult.dispatchUpdatesTo(adapter);
         } else {
             adapter.notifyDataSetChanged();
+        }
+    }
+
+
+    public void dispatchUpdatesTo(@NonNull IListUpdateCallbackExt updateCallback) {
+        if (diffResult != null) {
+            diffResult.dispatchUpdatesTo(updateCallback);
+        } else {
+            updateCallback.updateAll();
         }
     }
 
