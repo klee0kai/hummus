@@ -3,7 +3,7 @@ package com.github.klee0kai.hummus.threads
 import java.util.concurrent.ThreadFactory
 import java.util.concurrent.atomic.AtomicInteger
 
-class DefaultThreadFactory(
+open class DefaultThreadFactory(
     poolname: String,
     private val isDaemonThreads: Boolean
 ) : ThreadFactory {
