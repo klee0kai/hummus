@@ -1,5 +1,3 @@
-//import publishingtls.publishToMaven
-
 plugins {
     id("com.android.library")
     `maven-publish`
@@ -27,7 +25,12 @@ android {
 
 dependencies {
     implementation(project(":java_hummus"))
+
+    //timber
     implementation("com.jakewharton.timber:timber:5.0.1")
+
+    //adapter delegate
+    implementation("com.hannesdorfmann:adapterdelegates4:4.3.2")
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.robolectric:robolectric:4.9")
