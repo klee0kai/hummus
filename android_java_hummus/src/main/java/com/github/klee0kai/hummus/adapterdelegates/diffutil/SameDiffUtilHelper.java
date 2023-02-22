@@ -18,7 +18,7 @@ public class SameDiffUtilHelper<T extends ICloneable> {
     public SameDiffUtilHelper() {
     }
 
-    public void saveOld(List<T> old) {
+    public void saveOld(List<T> old, boolean deepCopy) {
         if (old == null) {
             this.oldList = null;
             return;
@@ -29,12 +29,16 @@ public class SameDiffUtilHelper<T extends ICloneable> {
             return;
         }
         this.oldList = new ArrayList<>(len);
-        for (ICloneable item : old) {
-            try {
-                oldList.add((T) item.clone());
-            } catch (CloneNotSupportedException e) {
-                Hummus.w(e);
+        if (deepCopy) {
+            for (ICloneable item : old) {
+                try {
+                    oldList.add((T) item.clone());
+                } catch (CloneNotSupportedException e) {
+                    Hummus.w(e);
+                }
             }
+        } else {
+            this.oldList.addAll(old);
         }
     }
 
