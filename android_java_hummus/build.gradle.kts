@@ -5,7 +5,6 @@ plugins {
 }
 
 group = "com.github.klee0kai.hummus"
-version = "0.1-SNAPSHOT"
 
 android {
     namespace = project.group.toString()

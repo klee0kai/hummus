@@ -12,3 +12,7 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-serialization:1.7.21")
     }
 }
+
+allprojects {
+    version = findProperty("hummus_version")!!
+}
