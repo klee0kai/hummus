@@ -2,7 +2,7 @@ package com.github.klee0kai.hummus.adapterdelegates.diffutil;
 
 import androidx.recyclerview.widget.DiffUtil;
 
-import com.github.klee0kai.hummus.Hummus;
+import com.github.klee0kai.hummus.model.CloneableHelper;
 import com.github.klee0kai.hummus.model.ICloneable;
 
 import java.util.ArrayList;
@@ -30,12 +30,8 @@ public class SameDiffUtilHelper<T extends ICloneable> {
         }
         this.oldList = new ArrayList<>(len);
         if (deepCopy) {
-            for (ICloneable item : old) {
-                try {
-                    oldList.add((T) item.clone());
-                } catch (CloneNotSupportedException e) {
-                    Hummus.w(e);
-                }
+            for (T item : old) {
+                oldList.add(CloneableHelper.tryClone(item, item));
             }
         } else {
             this.oldList.addAll(old);

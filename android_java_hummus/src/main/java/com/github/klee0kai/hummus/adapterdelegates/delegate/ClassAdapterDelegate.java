@@ -7,7 +7,6 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.github.klee0kai.hummus.adapterdelegates.SimpleViewHolder;
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegate;
 
@@ -18,15 +17,26 @@ public abstract class ClassAdapterDelegate<T> extends AdapterDelegate<List<Objec
     @LayoutRes
     private final int layoutRes;
     private final Class<T> tClass;
+    private final boolean forceTheSameClass;
 
-    public ClassAdapterDelegate(Class<T> tClass, @LayoutRes int layoutRes) {
+    public ClassAdapterDelegate(Class<T> tClass, @LayoutRes int layoutRes, boolean forceTheSameClass) {
         this.tClass = tClass;
         this.layoutRes = layoutRes;
+        this.forceTheSameClass = forceTheSameClass;
+    }
+
+    public ClassAdapterDelegate(Class<T> tClass, @LayoutRes int layoutRes) {
+        this(tClass, layoutRes, false);
     }
 
     @Override
     protected boolean isForViewType(@NonNull List<Object> items, int position) {
-        return tClass.isInstance(items.get(position));
+        Object item = items.get(position);
+        if (forceTheSameClass) {
+            return tClass.equals(item.getClass());
+        } else {
+            return tClass.isInstance(item);
+        }
     }
 
     @NonNull
@@ -37,10 +47,10 @@ public abstract class ClassAdapterDelegate<T> extends AdapterDelegate<List<Objec
 
     @Override
     protected void onBindViewHolder(@NonNull List<Object> objects, int i, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull List<Object> list) {
-        onBindViewHolder((T) objects.get(i), i, (SimpleViewHolder) viewHolder, objects, list);
+        onBindViewHolder((T) objects.get(i), i, (SimpleViewHolder) viewHolder);
     }
 
 
-    protected abstract void onBindViewHolder(T it, int pos, @NonNull SimpleViewHolder vh, @NonNull List<Object> allObjects, @NonNull List<Object> allOldlist);
+    protected abstract void onBindViewHolder(T it, int pos, @NonNull SimpleViewHolder vh);
 
 }

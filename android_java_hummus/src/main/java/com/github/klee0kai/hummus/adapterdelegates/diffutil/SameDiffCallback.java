@@ -35,7 +35,11 @@ public class SameDiffCallback extends DiffUtil.Callback {
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
         Object oldObject = oldList.get(oldItemPosition);
         Object newObject = newList.get(newItemPosition);
-        return oldObject instanceof ISameModel && ((ISameModel) oldObject).isSame(newObject) || Objects.equals(oldObject, newObject);
+        if (oldObject instanceof ISameModel) {
+            return ((ISameModel) oldObject).isSame(newObject);
+        } else {
+            return Objects.equals(oldObject, newObject);
+        }
     }
 
     @Override
