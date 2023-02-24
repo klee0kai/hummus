@@ -1,10 +1,9 @@
-package com.github.klee0kai.hummus.adapterdelegates.delegate
+package com.github.klee0kai.hummus.adapterdelegates.delegate.simple
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.github.klee0kai.hummus.adapterdelegates.SimpleViewHolder
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegate
 
 
@@ -13,7 +12,6 @@ abstract class ClassAdapterDelegate<T>(
     @field:LayoutRes @param:LayoutRes protected open val layoutRes: Int,
     protected open val forceTheSameClass: Boolean = false
 ) : AdapterDelegate<List<Any>>() {
-
 
     override fun isForViewType(items: List<Any>, position: Int): Boolean {
         val item = items[position]
@@ -42,4 +40,21 @@ abstract class ClassAdapterDelegate<T>(
     }
 
     protected abstract fun onBindViewHolder(it: T, pos: Int, vh: SimpleViewHolder)
+
+
+    companion object {
+
+        fun <T> create(
+            tClass: Class<T>,
+            @LayoutRes layoutRes: Int,
+            forceTheSameClass: Boolean = false,
+            bind: SimpleViewHolder.(it: T, pos: Int) -> Unit
+        ): ClassAdapterDelegate<T> =
+            object : ClassAdapterDelegate<T>(tClass, layoutRes, forceTheSameClass) {
+                override fun onBindViewHolder(it: T, pos: Int, vh: SimpleViewHolder) {
+                    bind.invoke(vh, it, pos)
+                }
+            }
+
+    }
 }
