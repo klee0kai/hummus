@@ -5,8 +5,6 @@ plugins {
 }
 
 group = "com.github.klee0kai.hummus"
-version = "0.1-SNAPSHOT"
-
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8

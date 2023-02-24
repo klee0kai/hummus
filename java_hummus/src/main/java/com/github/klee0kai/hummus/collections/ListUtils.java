@@ -7,6 +7,8 @@ import com.github.klee0kai.hummus.collections.interfaces.IJoin;
 import com.github.klee0kai.hummus.collections.interfaces.IMapIndexed;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,6 +26,14 @@ public class ListUtils {
                 out.add(it);
         return out;
     }
+
+
+    public static <T> List<T> sort(List<T> list, Comparator<T> comparable) {
+        LinkedList<T> out = new LinkedList<>(list);
+        Collections.sort(out, comparable);
+        return out;
+    }
+
 
     public static <T> T first(List<T> list, IFilterIndexed<T> filtHelper) {
         if (list == null) return null;
