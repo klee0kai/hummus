@@ -10,12 +10,12 @@ import com.hannesdorfmann.adapterdelegates4.AbsDelegationAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SameDiffResult<T> {
+public class ListDiffResult<T> {
 
     private final DiffUtil.DiffResult diffResult;
     private final List<T> oldList, newList;
 
-    public SameDiffResult(DiffUtil.DiffResult diffResult, List<T> oldList, List<T> newList) {
+    public ListDiffResult(DiffUtil.DiffResult diffResult, List<T> oldList, List<T> newList) {
         this.diffResult = diffResult;
         this.oldList = oldList;
         this.newList = newList;

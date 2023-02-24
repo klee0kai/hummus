@@ -1,12 +1,12 @@
 package com.github.klee0kai.hummus.model
 
-interface IIdItem<IdType> : ISame {
+interface IIdItemModel<IdType> : ISameModel {
 
     val id: IdType
 
     override fun isSame(o: Any?): Boolean {
         return this.javaClass == o?.javaClass
-                && id == (o as? IIdItem<IdType>)?.id
+                && id == (o as? IIdItemModel<IdType>)?.id
     }
 
 }

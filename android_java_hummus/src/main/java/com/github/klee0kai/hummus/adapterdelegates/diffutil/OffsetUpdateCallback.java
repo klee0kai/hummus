@@ -8,17 +8,17 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class OffsetUpdateCallback implements IListUpdateCallbackExt {
 
-    private int offset;
-    RecyclerView.Adapter adapter;
+    private final int offset;
+    private RecyclerView.Adapter adapter;
 
-    public OffsetUpdateCallback(int offset, RecyclerView.Adapter adapter) {
+    public OffsetUpdateCallback(RecyclerView.Adapter adapter, int offset) {
         this.offset = offset;
         this.adapter = adapter;
     }
 
 
     public OffsetUpdateCallback(RecyclerView.Adapter adapter) {
-        this(0, adapter);
+        this(adapter, 0);
     }
 
 
