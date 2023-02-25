@@ -1,7 +1,6 @@
 package com.github.klee0kai.hummus.threads
 
-import com.github.klee0kai.hummus.threads.Threads
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.util.*
 import java.util.concurrent.ExecutionException
@@ -28,7 +27,7 @@ class ThreadTests {
 
         //then
         for (i in 0 until RUN_COUNT) {
-            Assert.assertEquals(i.toLong(), runs[i].toLong())
+            assertEquals(i.toLong(), runs[i].toLong())
         }
     }
 }

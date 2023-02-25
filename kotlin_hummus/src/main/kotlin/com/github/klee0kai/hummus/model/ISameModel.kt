@@ -1,6 +1,6 @@
 package com.github.klee0kai.hummus.model
 
-interface ISame {
+interface ISameModel {
 
     fun isSame(o: Any?): Boolean
 

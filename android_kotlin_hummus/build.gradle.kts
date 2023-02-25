@@ -22,13 +22,20 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    viewBinding {
+        enable = true
+    }
 }
 
 dependencies {
     implementation(project(":kotlin_hummus"))
 
+    //timber
     implementation("com.jakewharton.timber:timber:5.0.1")
-    implementation("androidx.core:core-ktx:1.9.0")
+
+    //adapter delegate
+    implementation("com.hannesdorfmann:adapterdelegates4:4.3.2")
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.robolectric:robolectric:4.9")

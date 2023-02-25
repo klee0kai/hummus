@@ -10,13 +10,10 @@ import java.util.List;
 
 public class SameDiffUtilHelper<T extends ICloneable> {
 
-    private static final int MAX_LIST_SIZE = 10_000;
+    public static final int MAX_LIST_SIZE = 10_000;
+
     private List<T> oldList = null;
-
-    private SameDiffResult<T> diffResult = null;
-
-    public SameDiffUtilHelper() {
-    }
+    private ListDiffResult<T> diffResult = null;
 
     public void saveOld(List<T> old, boolean deepCopy) {
         if (old == null) {
@@ -38,10 +35,10 @@ public class SameDiffUtilHelper<T extends ICloneable> {
         }
     }
 
-    public SameDiffResult<T> calculateWith(List<T> newList, boolean detectMoves) {
+    public ListDiffResult<T> calculateWith(List<T> newList, boolean detectMoves) {
         if (oldList == null) {
             // nothing to compare
-            return diffResult = new SameDiffResult<>(null, null, newList);
+            return diffResult = new ListDiffResult<>(null, null, newList);
         }
 
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(
@@ -51,20 +48,20 @@ public class SameDiffUtilHelper<T extends ICloneable> {
                         false
                 ),
                 detectMoves);
-        diffResult = new SameDiffResult<>(result, oldList, newList);
+        diffResult = new ListDiffResult<>(result, oldList, newList);
         oldList = null;
         return diffResult;
     }
 
-    public SameDiffResult<T> calculateWith(List<T> newList) {
+    public ListDiffResult<T> calculateWith(List<T> newList) {
         return calculateWith(newList, false);
     }
 
 
-    public SameDiffResult<T> popDiffResult(List<T> list) {
-        SameDiffResult<T> changes = diffResult;
+    public ListDiffResult<T> popDiffResult(List<T> list) {
+        ListDiffResult<T> changes = diffResult;
         diffResult = null;
-        return changes != null ? changes : new SameDiffResult<>(null, null, list);
+        return changes != null ? changes : new ListDiffResult<>(null, null, list);
     }
 
 
