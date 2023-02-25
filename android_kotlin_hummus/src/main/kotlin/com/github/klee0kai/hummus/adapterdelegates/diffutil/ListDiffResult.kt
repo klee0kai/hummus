@@ -2,18 +2,13 @@ package com.github.klee0kai.hummus.adapterdelegates.diffutil
 
 import androidx.recyclerview.widget.DiffUtil.DiffResult
 import androidx.recyclerview.widget.RecyclerView
-import com.github.klee0kai.hummus.model.ICloneable
 import com.hannesdorfmann.adapterdelegates4.AbsDelegationAdapter
 
 data class ListDiffResult<T>(
     val diffResult: DiffResult?,
     val oldList: List<T>?,
     val newList: List<T>?
-) : ICloneable {
-    override fun clone(): Any {
-        return super.clone()
-    }
-}
+)
 
 fun <T> ListDiffResult<T>.dispatchUpdatesTo(adapter: RecyclerView.Adapter<*>) {
     if (diffResult != null) {

@@ -1,14 +1,13 @@
 package com.github.klee0kai.hummus.adapterdelegates.diffutil
 
 import androidx.recyclerview.widget.DiffUtil
-import com.github.klee0kai.hummus.extensions.tryClone
 
 open class SameDiffUtilHelper<T : Any> {
 
     protected open var oldList: MutableList<T>? = null
     protected open var diffResult: ListDiffResult<T>? = null
 
-    fun saveOld(old: List<T>?, deepCopy: Boolean) {
+    fun saveOld(old: List<T>?) {
         if (old == null) {
             oldList = null
             return
@@ -20,15 +19,10 @@ open class SameDiffUtilHelper<T : Any> {
         }
 
 
+        // we not prefer use deep copy for kotlin
+        // use immutable data classes to protect data and for correct diff util working
         oldList = mutableListOf()
-        if (deepCopy) {
-            for (item in old) {
-                oldList?.add(item.tryClone() ?: item)
-            }
-        } else {
-            oldList?.addAll(old)
-        }
-
+        oldList?.addAll(old)
     }
 
     fun calculateWith(newList: List<T>?, detectMoves: Boolean = false): ListDiffResult<T> {

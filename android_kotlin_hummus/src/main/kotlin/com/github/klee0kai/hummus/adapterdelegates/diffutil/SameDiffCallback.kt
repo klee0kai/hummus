@@ -15,8 +15,8 @@ open class SameDiffCallback(
     override fun getNewListSize(): Int = newList?.size ?: 0
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val oldObject = oldList!![oldItemPosition]
-        val newObject = newList!![newItemPosition]
+        val oldObject = oldList?.get(oldItemPosition)
+        val newObject = newList?.get(newItemPosition)
         return if (oldObject is ISameModel) {
             oldObject.isSame(newObject)
         } else {
@@ -25,8 +25,8 @@ open class SameDiffCallback(
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val oldObject = oldList!![oldItemPosition]
-        val newObject = newList!![newItemPosition]
+        val oldObject = oldList?.get(oldItemPosition)
+        val newObject = newList?.get(newItemPosition)
         return !changeAll && oldObject == newObject
     }
 }

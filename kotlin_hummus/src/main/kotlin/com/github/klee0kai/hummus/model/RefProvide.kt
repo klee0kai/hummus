@@ -6,7 +6,7 @@ import java.lang.ref.WeakReference
 
 data class RefProvide<T>(
     val reference: Reference<T>
-) : IProvide<T>, ICloneable {
+) : IProvide<T> {
 
     companion object {
 
