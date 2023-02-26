@@ -15,5 +15,5 @@ jobs:
           lfs: true
       - uses: klee0kai/screwdriver@master
         with:
-          gh_api_token:  ${{ secrets.SECRETS_GH_API_TOKEN }}
+          gh_api_token: ${{ secrets.SECRETS_GH_API_TOKEN }}
           cmd: "hello_world -l -d --summary"
