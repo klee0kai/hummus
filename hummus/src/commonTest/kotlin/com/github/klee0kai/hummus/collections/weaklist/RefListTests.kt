@@ -2,19 +2,17 @@ package com.github.klee0kai.hummus.collections.weaklist
 
 import com.github.klee0kai.hummus.collections.weaklist.ChangeListsHelper.assertListsSame
 import com.github.klee0kai.hummus.collections.weaklist.ChangeListsHelper.changeForEachListsSame
-import com.github.klee0kai.hummus.collections.weaklist.SoftList
-import com.github.klee0kai.hummus.collections.weaklist.WeakList
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
-import org.junit.Test
-import java.util.*
+import com.github.klee0kai.stone.weakref.Memory
+import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
+import kotlin.test.Test
 
 class RefListTests {
 
-    @Test(timeout = 100)
+    @Test
     fun emptyList() {
         //When
-        val exampleList: List<Int?> = LinkedList()
+        val exampleList: List<Int?> = mutableListOf()
         val refList: List<Int?> = SoftList()
 
         //Then
@@ -22,10 +20,10 @@ class RefListTests {
     }
 
 
-    @Test(timeout = 100)
+    @Test
     fun initList() {
         //When
-        val exampleList: List<Int?> = LinkedList(listOf(1, 2, 4))
+        val exampleList: List<Int?> = mutableListOf(1, 2, 4)
         val refList: List<Int?> = SoftList(listOf(1, 2, 4))
 
 
@@ -33,10 +31,10 @@ class RefListTests {
         assertListsSame(exampleList, refList)
     }
 
-    @Test(timeout = 100)
+    @Test
     fun addOne() {
         //When
-        val exampleList = LinkedList<Int?>()
+        val exampleList: MutableList<Int?> = mutableListOf()
         val refList = SoftList<Int?>()
         changeForEachListsSame(exampleList, refList) {
             add(1)
@@ -46,10 +44,10 @@ class RefListTests {
         assertListsSame(exampleList, refList)
     }
 
-    @Test(timeout = 100)
+    @Test
     fun addFew() {
         //When
-        val exampleList = LinkedList<Int?>()
+        val exampleList: MutableList<Int?> = mutableListOf()
         val refList = SoftList<Int?>()
         changeForEachListsSame(exampleList, refList) {
             add(1)
@@ -60,10 +58,10 @@ class RefListTests {
         assertListsSame(exampleList, refList)
     }
 
-    @Test(timeout = 100)
+    @Test
     fun addRemove() {
         //When
-        val exampleList = LinkedList<Pair<Int, Int>?>()
+        val exampleList: MutableList<Pair<Int, Int>?> = mutableListOf()
         val refList = SoftList<Pair<Int, Int>?>()
         changeForEachListsSame(exampleList, refList) {
             add(Pair(1, 2))
@@ -76,10 +74,10 @@ class RefListTests {
         assertListsSame(exampleList, refList)
     }
 
-    @Test(timeout = 100)
+    @Test
     fun removeAll() {
         //When
-        val exampleList = LinkedList<Pair<Int, Int>?>()
+        val exampleList: MutableList<Pair<Int, Int>?> = mutableListOf()
         val refList = SoftList<Pair<Int, Int>?>()
         changeForEachListsSame(exampleList, refList) {
             addAll(
@@ -105,10 +103,10 @@ class RefListTests {
         assertListsSame(exampleList, refList)
     }
 
-    @Test(timeout = 100)
+    @Test
     fun nothingRemoveAll() {
         //When
-        val exampleList = LinkedList<Pair<Int, Int>?>()
+        val exampleList: MutableList<Pair<Int, Int>?> = mutableListOf()
         val refList = SoftList<Pair<Int, Int>?>()
         changeForEachListsSame(exampleList, refList) {
             addAll(
@@ -134,10 +132,10 @@ class RefListTests {
         assertListsSame(exampleList, refList)
     }
 
-    @Test(timeout = 100)
+    @Test
     fun clear() {
         //When
-        val exampleList = LinkedList<Pair<Int, Int>?>()
+        val exampleList: MutableList<Pair<Int, Int>?> = mutableListOf()
         val refList = SoftList<Pair<Int, Int>?>()
         changeForEachListsSame(exampleList, refList) {
             addAll(
@@ -158,10 +156,10 @@ class RefListTests {
         assertListsSame(exampleList, refList)
     }
 
-    @Test(timeout = 100)
+    @Test
     fun retailAll() {
         //When
-        val exampleList = LinkedList<Pair<Int, Int>?>()
+        val exampleList: MutableList<Pair<Int, Int>?> = mutableListOf()
         val refList = SoftList<Pair<Int, Int>?>()
         changeForEachListsSame(exampleList, refList) {
             addAll(
@@ -187,10 +185,10 @@ class RefListTests {
         assertListsSame(exampleList, refList)
     }
 
-    @Test(timeout = 100)
+    @Test
     fun nothingRetailAll() {
         //When
-        val exampleList = LinkedList<Pair<Int, Int>?>()
+        val exampleList: MutableList<Pair<Int, Int>?> = mutableListOf()
         val refList = SoftList<Pair<Int, Int>?>()
         changeForEachListsSame(exampleList, refList) {
             addAll(
@@ -216,10 +214,10 @@ class RefListTests {
         assertListsSame(exampleList, refList)
     }
 
-    @Test(timeout = 100)
+    @Test
     fun removeByIndex() {
         //When
-        val exampleList = LinkedList<Pair<Int, Int>?>()
+        val exampleList: MutableList<Pair<Int, Int>?> = mutableListOf()
         val refList = SoftList<Pair<Int, Int>?>()
         changeForEachListsSame(exampleList, refList) {
             addAll(
@@ -241,7 +239,7 @@ class RefListTests {
     }
 
 
-    @Test(timeout = 100)
+    @Test
     fun sameLists() {
         //When
         val ref1List = SoftList<Pair<Int, Int>>()
@@ -257,7 +255,7 @@ class RefListTests {
         assertEquals(ref1List, ref2List)
     }
 
-    @Test(timeout = 100)
+    @Test
     fun diffLists() {
         //When
         val ref1List = SoftList<Pair<Int, Int>>()
@@ -275,8 +273,8 @@ class RefListTests {
     }
 
 
-    @Test(timeout = 100)
-    fun WeakItemsCollect() {
+    @Test
+    fun weakItemsCollect() {
         //Given
         val strongRef = Pair(7, 4)
         val refList = WeakList<Pair<Int, Int>>()
@@ -286,7 +284,7 @@ class RefListTests {
         refList.add(Pair(5, 4))
 
         //When
-        System.gc()
+        Memory.gc()
         refList.clearNulls()
 
         //Then

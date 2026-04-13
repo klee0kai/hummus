@@ -2,13 +2,11 @@ package com.github.klee0kai.hummus.collections.weaklist
 
 import com.github.klee0kai.hummus.collections.weaklist.ChangeListsHelper.assertListsSame
 import com.github.klee0kai.hummus.collections.weaklist.ChangeListsHelper.changeForEachListsSame
-import com.github.klee0kai.hummus.collections.weaklist.SoftList
-import org.junit.Test
-import java.util.*
+import kotlin.test.Test
 
 class RefListIteratorTests {
 
-    @Test(timeout = 100)
+    @Test
     fun removeByIterator() {
         //Given
         val originalList = listOf(
@@ -20,8 +18,8 @@ class RefListIteratorTests {
             Pair(3, 5),
             Pair(4, 5)
         )
-        val expList = LinkedList(originalList)
-        val actList = SoftList(originalList)
+        val expList = mutableListOf(*originalList.toTypedArray())
+        val actList = SoftList(originalList) as MutableList<Pair<Int, Int>>
 
         //When
         changeForEachListsSame(expList, actList) {
@@ -37,7 +35,7 @@ class RefListIteratorTests {
         assertListsSame(expList, actList)
     }
 
-    @Test(timeout = 100)
+    @Test
     fun removeByListIterator() {
         //Given
         val originalList = listOf(
@@ -49,8 +47,8 @@ class RefListIteratorTests {
             Pair(3, 5),
             Pair(4, 5)
         )
-        val expList = LinkedList(originalList)
-        val actList = SoftList(originalList)
+        val expList = mutableListOf(*originalList.toTypedArray())
+        val actList = SoftList(originalList) as MutableList<Pair<Int, Int>>
 
         //When
         changeForEachListsSame(expList, actList) {
@@ -67,15 +65,15 @@ class RefListIteratorTests {
     }
 
 
-    @Test(timeout = 100)
+    @Test()
     fun addByListIterator() {
         //Given
         val originalList = listOf(
             Pair(1, 2),
             Pair(1, 3)
         )
-        val expList = LinkedList(originalList)
-        val actList = SoftList(originalList)
+        val expList = mutableListOf(*originalList.toTypedArray())
+        val actList = SoftList(originalList) as MutableList<Pair<Int, Int>>
 
         //When
         changeForEachListsSame(expList, actList) {
@@ -88,7 +86,7 @@ class RefListIteratorTests {
     }
 
 
-    @Test(timeout = 100)
+    @Test()
     fun setByListIterator() {
         //Given
         val originalList = listOf(
@@ -96,8 +94,8 @@ class RefListIteratorTests {
             Pair(1, 3)
         )
 
-        val expList = LinkedList(originalList)
-        val actList = SoftList(originalList)
+        val expList = mutableListOf(*originalList.toTypedArray())
+        val actList = SoftList(originalList) as MutableList<Pair<Int, Int>>
 
         //When
         changeForEachListsSame(expList, actList) {

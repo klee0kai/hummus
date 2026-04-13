@@ -1,6 +1,9 @@
 package com.github.klee0kai.hummus.collections.weaklist
 
-import org.junit.Assert.*
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
+
 
 object ChangeListsHelper {
 

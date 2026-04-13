@@ -2,12 +2,12 @@ package com.github.klee0kai.hummus.collections.listutils
 
 import com.github.klee0kai.hummus.collections.gen.GroupGrouping
 import com.github.klee0kai.hummus.collections.group
-import junit.framework.Assert.assertEquals
-import org.junit.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class GroupTests {
 
-    @Test(timeout = 100)
+    @Test()
     fun groupFlatten() {
         //Given
         val someNumberCollection = listOf(-1, 2, 0, -3, 4, 0, -5, 10, 1)
@@ -35,7 +35,7 @@ class GroupTests {
         )
     }
 
-    @Test(timeout = 100)
+    @Test()
     fun groupToLists() {
         //Given
         val someNumberCollection = listOf(-1, 2, 0, -3, 4, 0, -5, 10, 1)
@@ -75,7 +75,7 @@ class GroupTests {
     }
 
 
-    @Test(timeout = 100)
+    @Test()
     fun groupToGroups() {
         //Given
         val someNumberCollection = listOf(-1f, 2f, 0f, -3f, 4f, 0f, -5f, 10f, 1f)

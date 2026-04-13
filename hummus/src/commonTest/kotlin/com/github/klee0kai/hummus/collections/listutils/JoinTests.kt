@@ -5,14 +5,14 @@ import com.github.klee0kai.hummus.collections.gen.Joins
 import com.github.klee0kai.hummus.collections.innerJoin
 import com.github.klee0kai.hummus.collections.leftJoin
 import com.github.klee0kai.hummus.collections.rightJoin
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
-import org.junit.Test
 import kotlin.math.abs
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class JoinTests {
 
-    @Test(timeout = 100)
+    @Test()
     fun left_join() {
         //Given
         val leftNumberCollection = listOf(-1, 2, -3)
@@ -36,7 +36,7 @@ class JoinTests {
         assertEquals(3, leftJoin[2].second)
     }
 
-    @Test(timeout = 100)
+    @Test()
     fun right_join() {
         //Given
         val leftNumberCollection = listOf(2, 3, 6, 4, 3)
@@ -59,7 +59,7 @@ class JoinTests {
         assertEquals(3, rightJoin[2].first)
     }
 
-    @Test(timeout = 100)
+    @Test()
     fun inner_join() {
         //Given
         val leftNumberCollection = listOf(-1, 2, -3)
@@ -80,7 +80,7 @@ class JoinTests {
         assertEquals(3, innerJoin[1].second)
     }
 
-    @Test(timeout = 100)
+    @Test()
     fun inner_multi_join() {
         //Given
         val leftNumberCollection = listOf(-1, 2, -3)
@@ -105,7 +105,7 @@ class JoinTests {
         assertEquals(-3, innerJoin[2].second)
     }
 
-    @Test(timeout = 100)
+    @Test()
     fun fullouter_join() {
         //Given
         val leftNumberCollection = listOf(-1, 2, -3)
@@ -133,7 +133,7 @@ class JoinTests {
         assertNull(joined[5].first)
     }
 
-    @Test(timeout = 100)
+    @Test()
     fun fullouter_multi_join() {
         //Given
         val leftNumberCollection = listOf(-1, 2, -3)
