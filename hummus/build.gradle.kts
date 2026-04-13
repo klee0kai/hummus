@@ -23,6 +23,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            api(libs.stone.ref)
+            api(libs.stone.inject)
 //            api(libs.java.inject)
 //            api(libs.kotlinx.coroutines)
         }

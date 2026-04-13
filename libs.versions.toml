@@ -13,6 +13,7 @@ jetbrain-coroutines = "1.10.1"
 kotlinx-atomicfu = "0.29.0"
 
 kotlinpoet = "2.0.0"
+stone = "2.1.0_lc"
 
 junit = "6.0.0"
 junit-launcher = "6.0.0"
@@ -43,6 +44,12 @@ jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", v
 jupiter-launcher = { group = "org.junit.platform", name = "junit-platform-launcher", version.ref = "junit-launcher" }
 
 testing-kapt-compile = { group = "com.google.testing.compile", name = "compile-testing", version.ref = "testing-compile" }
+
+# https://github.com/klee0kai/stone
+stone-kotlin = { group = "com.github.klee0kai.stone", name = "stone_multiplatform", version.ref = "stone" }
+stone-ksp = { group = "com.github.klee0kai.stone", name = "stone_ksp", version.ref = "stone" }
+stone-ref = { group = "com.github.klee0kai.stone", name = "weakref_multiplatform", version.ref = "stone" }
+stone-inject = { group = "com.github.klee0kai.stone", name = "inject_multiplatform", version.ref = "stone" }
 
 [bundles]
 

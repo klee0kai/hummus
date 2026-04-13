@@ -1,6 +1,6 @@
 package com.github.klee0kai.hummus.collections.gen
 
-import com.github.klee0kai.hummus.model.ISameModel
+import com.github.klee0kai.hummus.model.SameModel
 
 object Equals {
 
@@ -18,7 +18,11 @@ object Equals {
 
 
     fun <T1, T2> sameOrEq(): (T1, T2) -> Boolean = { it1, it2 ->
-        ((it1 as? ISameModel)?.isSame(it2) ?: false) || it1 == it2
+        when {
+            it1 === it2 -> true
+            it2 == null -> false
+            else -> ((it1 as? SameModel)?.isSame(it2) ?: false) || it1 == it2
+        }
     }
 
 

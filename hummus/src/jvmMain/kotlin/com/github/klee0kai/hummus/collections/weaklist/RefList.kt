@@ -1,15 +1,13 @@
 package com.github.klee0kai.hummus.collections.weaklist
 
-import com.github.klee0kai.hummus.collections.contains
-import com.github.klee0kai.hummus.model.IProvide
+import com.github.klee0kai.stone.weakref.Ref
 import java.util.*
-import java.util.function.IntFunction
 
 abstract class RefList<T> : MutableList<T?>, List<T?> {
 
-    private val list: MutableList<IProvide<T?>> = LinkedList()
+    private val list: MutableList<Ref<T?>> = LinkedList()
 
-    abstract fun wrapRef(it: T?): IProvide<T?>
+    abstract fun wrapRef(it: T?): Ref<T?>
 
     abstract fun createNew(list: List<T?>): RefList<T>
 
@@ -21,7 +19,7 @@ abstract class RefList<T> : MutableList<T?>, List<T?> {
     }
 
     override fun contains(element: T?): Boolean {
-        return list.contains{ it.get() == element }
+        return list.any { it.get() == element }
     }
 
     override fun add(element: T?): Boolean {
@@ -30,39 +28,44 @@ abstract class RefList<T> : MutableList<T?>, List<T?> {
     }
 
 
-    override fun remove(o: T?): Boolean {
-        return clearNulls(o)
+    override fun remove(element: T?): Boolean {
+        return clearNulls(element)
     }
 
-    override fun containsAll(c: Collection<T?>): Boolean {
-        return toStrongList().containsAll(c)
+    override fun containsAll(elements: Collection<T?>): Boolean {
+        return toStrongList().containsAll(elements)
     }
 
-    override fun addAll(collection: Collection<T?>): Boolean {
+    override fun addAll(elements: Collection<T?>): Boolean {
         clearNulls(null)
         var added = false
-        for (c in collection) {
+        for (c in elements) {
             added = added or list.add(wrapRef(c))
         }
         return added
     }
 
-    override fun addAll(index: Int, collection: Collection<T?>): Boolean {
+    override fun addAll(
+        index: Int,
+        elements: Collection<T?>,
+    ): Boolean {
         var index = index
         var added = false
-        for (c in collection) {
+        for (c in elements) {
             list.add(index++, wrapRef(c))
             added = true
         }
         return added
     }
 
-    override fun removeAll(collection: Collection<T?>): Boolean {
+    override fun removeAll(
+        elements: Collection<T?>
+    ): Boolean {
         val it = list.iterator()
         var removed = false
         while (it.hasNext()) {
             val ref = it.next()
-            if (ref.get() == null || collection.contains(ref.get())) {
+            if (ref.get() == null || elements.contains(ref.get())) {
                 it.remove()
                 removed = true
             }
@@ -70,12 +73,14 @@ abstract class RefList<T> : MutableList<T?>, List<T?> {
         return removed
     }
 
-    override fun retainAll(collection: Collection<T?>): Boolean {
+    override fun retainAll(
+        elements: Collection<T?>
+    ): Boolean {
         val it = list.iterator()
         var removed = false
         while (it.hasNext()) {
             val ref = it.next()
-            if (ref.get() == null || !collection.contains(ref.get())) {
+            if (ref.get() == null || !elements.contains(ref.get())) {
                 it.remove()
                 removed = true
             }
@@ -129,10 +134,10 @@ abstract class RefList<T> : MutableList<T?>, List<T?> {
         return createNew(toStrongList().subList(fromIndex, toIndex))
     }
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) return true
-        if (o == null || javaClass != o.javaClass) return false
-        val refList = o as RefList<*>
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+        val refList = other as RefList<*>
         return list == refList.list
     }
 
@@ -160,7 +165,7 @@ abstract class RefList<T> : MutableList<T?>, List<T?> {
     }
 
     private inner class ListItr(
-        private val iterator: MutableListIterator<IProvide<T?>>
+        private val iterator: MutableListIterator<Ref<T?>>
     ) :
         MutableListIterator<T?> {
 

@@ -1,6 +1,6 @@
 package com.github.klee0kai.hummus.collections.gen
 
-import com.github.klee0kai.hummus.model.IIdItemModel
+import com.github.klee0kai.hummus.model.IdItemModel
 
 object GroupKeys {
 
@@ -8,7 +8,7 @@ object GroupKeys {
         it.javaClass
     }
 
-    fun <Type : IIdItemModel<IdType>, IdType> idKey(): (Type) -> IdType = { it ->
+    fun <Type : IdItemModel<IdType>, IdType> idKey(): (Type) -> IdType = { it ->
         it.id
     }
 
