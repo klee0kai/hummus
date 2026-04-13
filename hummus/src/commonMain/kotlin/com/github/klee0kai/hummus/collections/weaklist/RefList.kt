@@ -1,11 +1,15 @@
 package com.github.klee0kai.hummus.collections.weaklist
 
 import com.github.klee0kai.stone.weakref.Ref
-import java.util.*
 
+/**
+ * A MutableList that stores elements as weak/soft references.
+ * Elements can be garbage collected even while in the list.
+ * Automatically removes null references on operations.
+ */
 abstract class RefList<T> : MutableList<T?>, List<T?> {
 
-    private val list: MutableList<Ref<T?>> = LinkedList()
+    private val list: MutableList<Ref<T?>> = mutableListOf()
 
     abstract fun wrapRef(it: T?): Ref<T?>
 
@@ -26,7 +30,6 @@ abstract class RefList<T> : MutableList<T?>, List<T?> {
         clearNulls()
         return list.add(wrapRef(element))
     }
-
 
     override fun remove(element: T?): Boolean {
         return clearNulls(element)
@@ -49,10 +52,10 @@ abstract class RefList<T> : MutableList<T?>, List<T?> {
         index: Int,
         elements: Collection<T?>,
     ): Boolean {
-        var index = index
+        var idx = index
         var added = false
         for (c in elements) {
-            list.add(index++, wrapRef(c))
+            list.add(idx++, wrapRef(c))
             added = true
         }
         return added
@@ -142,7 +145,7 @@ abstract class RefList<T> : MutableList<T?>, List<T?> {
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(list)
+        return list.hashCode()
     }
 
     override fun toString(): String {
@@ -166,8 +169,7 @@ abstract class RefList<T> : MutableList<T?>, List<T?> {
 
     private inner class ListItr(
         private val iterator: MutableListIterator<Ref<T?>>
-    ) :
-        MutableListIterator<T?> {
+    ) : MutableListIterator<T?> {
 
         override fun hasNext(): Boolean = iterator.hasNext()
 
@@ -186,6 +188,5 @@ abstract class RefList<T> : MutableList<T?>, List<T?> {
         override fun set(t: T?) = iterator.set(wrapRef(t))
 
         override fun add(t: T?) = iterator.add(wrapRef(t))
-
     }
 }

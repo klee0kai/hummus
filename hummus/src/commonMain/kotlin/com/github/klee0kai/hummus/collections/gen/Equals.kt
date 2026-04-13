@@ -1,6 +1,7 @@
 package com.github.klee0kai.hummus.collections.gen
 
 import com.github.klee0kai.hummus.model.SameModel
+import kotlin.reflect.KClass
 
 object Equals {
 
@@ -13,7 +14,7 @@ object Equals {
     }
 
     fun <T1 : Any, T2 : Any> typeEq(): (T1, T2) -> Boolean = { it1, it2 ->
-        it1.javaClass === it2.javaClass
+        it1::class === it2::class
     }
 
 

@@ -1,7 +1,6 @@
 package com.github.klee0kai.hummus.collections
 
 import com.github.klee0kai.hummus.collections.gen.Equals
-import java.util.*
 
 inline fun <T> Iterable<T>.contains(
     crossinline predicate: (T) -> Boolean
@@ -11,7 +10,7 @@ inline fun <T> Iterable<T>.contains(
 fun <T> Iterable<T>.removeDoubles(
     predicate: (T, T) -> Boolean = Equals.sameOrEq()
 ): List<T> {
-    val out = LinkedList<T>()
+    val out = mutableListOf<T>()
     for (item in this) {
         val contains = out.contains { predicate.invoke(item, it) }
         if (!contains) out.add(item)
@@ -23,20 +22,20 @@ fun <Key, Type, OutType> Iterable<Type>.group(
     groupId: (Type) -> Key,
     grouping: (Key, Iterable<Type>) -> Iterable<OutType>?,
 ): List<OutType> {
-    val keys = LinkedList<Key>()
-    val groups: MutableMap<Key, LinkedList<Type>?> = HashMap<Key, LinkedList<Type>?>()
+    val keys = mutableListOf<Key>()
+    val groups: MutableMap<Key, MutableList<Type>?> = mutableMapOf()
     for (it in this) {
         val key: Key = groupId(it)
-        var gr: LinkedList<Type>? = groups[key]
+        var gr: MutableList<Type>? = groups[key]
         if (gr == null) {
-            gr = LinkedList<Type>()
+            gr = mutableListOf<Type>()
             groups[key] = gr
             keys.add(key)
         }
         gr.add(it)
     }
 
-    val out: MutableList<OutType> = LinkedList<OutType>()
+    val out: MutableList<OutType> = mutableListOf<OutType>()
     for (key in keys) {
         val g: List<OutType>? = grouping.invoke(key, groups[key]!!)?.toList()
         if (g?.isNotEmpty() == true) {
@@ -51,7 +50,7 @@ fun <T1, T2, OutType> Iterable<T1>.leftJoin(
     isJoin: (T1, T2) -> Boolean = Equals.sameOrEq(),
     join: (T1, T2?) -> OutType,
 ): List<OutType> {
-    val out = LinkedList<OutType>()
+    val out = mutableListOf<OutType>()
     for (it1 in this) {
         if (it1 == null) continue
         var added = false
@@ -79,14 +78,13 @@ fun <T1, T2, OutType> Iterable<T1>.rightJoin(
     )
 }
 
-
 fun <T1, T2, OutType> Iterable<T1>.innerJoin(
     list: Iterable<T2>,
     multiToMulti: Boolean = false,
     isJoin: (T1, T2) -> Boolean = Equals.sameOrEq(),
     join: (T1, T2) -> OutType,
 ): List<OutType> {
-    val out = LinkedList<OutType>()
+    val out = mutableListOf<OutType>()
     for (it1 in this) {
         if (it1 == null) continue
         for (it2 in list) if (it2 != null && isJoin(it1, it2)) {
@@ -97,30 +95,41 @@ fun <T1, T2, OutType> Iterable<T1>.innerJoin(
     return out
 }
 
-
 fun <T1, T2, OutType> Iterable<T1>.fullOuterJoin(
     list: Iterable<T2>,
     multiToMulti: Boolean = false,
     isJoin: (T1, T2) -> Boolean = Equals.sameOrEq(),
-    join: (T1?, T2?) -> OutType?,
+    join: (T1?, T2?) -> OutType,
 ): List<OutType> {
-    val out = LinkedList<OutType>()
-    val l1Left = this.toMutableList()
-    val l2Left = list.toMutableList()
-    for (it1 in this) {
+    val out = mutableListOf<OutType>()
+    val leftList = this.toList()
+    val rightList = list.toList()
+    val matchedRight = BooleanArray(rightList.size)
+    val matchedLeft = BooleanArray(leftList.size)
+
+    for ((leftIdx, it1) in leftList.withIndex()) {
         if (it1 == null) continue
-        for (it2 in list) if (it2 != null && isJoin(it1, it2)) {
-            join(it1, it2)?.let { out.add(it) }
-            l2Left.remove(it2)
-            l1Left.remove(it1)
-            if (!multiToMulti) break
+        for ((rightIdx, it2) in rightList.withIndex()) {
+            if (it2 != null && isJoin(it1, it2)) {
+                out.add(join(it1, it2))
+                matchedRight[rightIdx] = true
+                matchedLeft[leftIdx] = true
+                if (!multiToMulti) break
+            }
         }
     }
-    for (it1 in l1Left) {
-        join(it1, null)?.let { out.add(it) }
+
+    for ((leftIdx, it1) in leftList.withIndex()) {
+        if (it1 != null && !matchedLeft[leftIdx]) {
+            out.add(join(it1, null))
+        }
     }
-    for (it2 in l2Left) {
-        join(null, it2)?.let { out.add(it) }
+
+    for ((rightIdx, it2) in rightList.withIndex()) {
+        if (it2 != null && !matchedRight[rightIdx]) {
+            out.add(join(null, it2))
+        }
     }
+
     return out
 }

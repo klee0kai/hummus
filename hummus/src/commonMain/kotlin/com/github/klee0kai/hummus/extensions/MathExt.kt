@@ -29,5 +29,21 @@ fun Number.roundDecExponent(exp: Int): Float {
 fun Number.strFormat(exp: Int): String {
     if (exp >= 0)
         return this.toInt().toString()
-    return String.format("%.${-exp}f", this);
+
+    val multiplier = 10f.pow(-exp).toInt()
+    val intValue = this.toFloat()
+    val scaled = (intValue * multiplier).toLong()
+
+    return buildString {
+        append((scaled / multiplier).toInt())
+        append('.')
+        val remainder = scaled % multiplier
+        val padding = -exp - 1
+        for (i in 0 until padding) {
+            if (remainder < 10f.pow(i + 1)) {
+                append('0')
+            }
+        }
+        append(remainder)
+    }
 }
