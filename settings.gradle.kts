@@ -12,11 +12,15 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
+    versionCatalogs {
+        create("libs") {
+            from(files("libs.versions.toml"))
+        }
+    }
 }
 
 rootProject.name = "Hummus"
 includeBuild("gradle_plugins")
-include(":kotlin_hummus")
-include(":java_hummus")
-include(":android_java_hummus")
-include(":android_kotlin_hummus")
+include(
+    ":hummus",
+)

@@ -1,18 +1,6 @@
-buildscript {
-    repositories {
-        gradlePluginPortal()
-        mavenLocal()
-        mavenCentral()
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle:7.3.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.21")
-        classpath("org.jetbrains.kotlin:kotlin-serialization:1.7.21")
-    }
-}
-
-allprojects {
-    version = findProperty("hummus_version")!!
+plugins {
+    // We declare plugins without application. We avoid possible version conflicts.
+    alias(libs.plugins.kotlin.multiplatform) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.android.library) apply false
 }
