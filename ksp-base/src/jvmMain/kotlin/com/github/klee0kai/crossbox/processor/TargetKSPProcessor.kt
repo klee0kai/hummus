@@ -1,12 +1,8 @@
 package com.github.klee0kai.crossbox.processor
 
-import com.github.klee0kai.hummus.coroutine.LaunchConductor
 import com.github.klee0kai.crossbox.processor.exceptions.KspBaseException
-import com.github.klee0kai.crossbox.processor.ksp.arch.GenSpec
-import com.github.klee0kai.crossbox.processor.ksp.arch.TargetSymbolProcessor
-import com.github.klee0kai.crossbox.processor.ksp.arch.filter
-import com.github.klee0kai.crossbox.processor.ksp.arch.forceProcess
-import com.github.klee0kai.crossbox.processor.ksp.arch.nowTakeOnly
+import com.github.klee0kai.crossbox.processor.ksp.arch.*
+import com.github.klee0kai.hummus.coroutine.LaunchConductor
 import com.google.devtools.ksp.containingFile
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
@@ -24,11 +20,11 @@ import java.util.concurrent.atomic.AtomicInteger
 import kotlin.math.max
 import kotlin.math.min
 
-class TargetKSPProcessor(
-    private val targetProcessors: Array<TargetSymbolProcessor>,
-    private val options: Map<String, String>,
-    private val logger: KSPLogger,
-    private val codeGenerator: CodeGenerator,
+open class TargetKSPProcessor(
+    val targetProcessors: Array<TargetSymbolProcessor>,
+    val options: Map<String, String>,
+    val logger: KSPLogger,
+    val codeGenerator: CodeGenerator,
     val oneRunSymbolsCount: Int = options["oneRunSymbolsCount"]?.toInt()
         ?: max(Runtime.getRuntime().availableProcessors(), 4),
 
@@ -37,7 +33,7 @@ class TargetKSPProcessor(
     var debugPkgFilter: String? = options["debugPkgFilter"],
 ) : SymbolProcessor {
 
-    val dispatcher by lazy { if (multithread) Dispatchers.Default else Dispatchers.Unconfined }
+    open val dispatcher by lazy { if (multithread) Dispatchers.Default else Dispatchers.Unconfined }
 
     override fun process(
         resolver: Resolver
