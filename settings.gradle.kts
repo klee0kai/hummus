@@ -27,4 +27,5 @@ rootProject.name = "Hummus"
 includeBuild("gradle_plugins")
 include(
     ":hummus",
+    ":ksp-base",
 )

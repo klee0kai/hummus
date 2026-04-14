@@ -53,9 +53,9 @@ stone-inject = { group = "com.github.klee0kai.stone", name = "inject_multiplatfo
 
 [bundles]
 
-junit = ["jupiter-api", "jupiter-engine", "jupiter-launcher"]
-kotlinpoet = ["kotlinpoet", "kotlinpoet-ksp"]
 kotlin = ["jetbrain-coroutines", "jetbrain-immutable"]
+kotlinpoet = ["kotlinpoet", "kotlinpoet-ksp"]
+junit = ["jupiter-api", "jupiter-engine", "jupiter-launcher"]
 
 [plugins]
 
