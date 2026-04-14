@@ -1,0 +1,102 @@
+package com.github.klee0kai.crossbox.processor.ksp
+
+import com.github.klee0kai.hummus.collections.removeDoubles
+import com.google.devtools.ksp.getAllSuperTypes
+import com.google.devtools.ksp.getDeclaredFunctions
+import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSDeclaration
+import com.google.devtools.ksp.symbol.KSFunctionDeclaration
+import com.google.devtools.ksp.symbol.KSType
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.ksp.toClassName
+import kotlin.reflect.KClass
+
+fun KSClassDeclaration.findConstructor(
+    parameters: List<KSType>,
+): KSFunctionDeclaration? = getDeclaredFunctions().firstOrNull { function ->
+    function.simpleName.asString() == "<init>"
+            && function.parameters.all { it.type.resolve() in parameters || it.hasDefault }
+}
+
+fun KSDeclaration.isAnyType(
+    vararg cl: KClass<*>,
+) = cl.any { isType(it) }
+
+fun KSDeclaration.isType(cl: KClass<*>): Boolean = qualifiedName?.asString() == cl.qualifiedName.toString()
+
+fun KSDeclaration.isType(cl: ClassName): Boolean = qualifiedName?.asString() == cl.toString()
+
+fun KSClassDeclaration.getAllMethods(
+    includeObjectMethods: Boolean = false,
+    allowDoubles: Boolean = false,
+    vararg exceptNames: String = emptyArray(),
+): Sequence<KSFunctionDeclaration> = sequence<KSFunctionDeclaration> {
+    val cl = this@getAllMethods
+    if (!includeObjectMethods && cl.qualifiedName?.asString() in listOf(
+            Object::class.qualifiedName,
+            Any::class.qualifiedName
+        )
+    ) {
+        return@sequence
+    }
+
+    val allMethods = mutableListOf<KSFunctionDeclaration>()
+    getAllSuperTypes().forEach { superType ->
+        allMethods.addAll(
+            (superType.declaration as KSClassDeclaration)
+                .getAllMethods(
+                    includeObjectMethods = includeObjectMethods,
+                    allowDoubles = allowDoubles,
+                    exceptNames = exceptNames,
+                )
+        )
+    }
+    allMethods.addAll(getDeclaredFunctions())
+
+    yieldAll(
+        allMethods
+            .filter {
+                it.simpleName.asString() !in exceptNames
+            }
+            .removeDoubles { it1, it2 ->
+                it1.isSameMethods(it2)
+            }
+    )
+}
+
+
+fun KSClassDeclaration.isChildOf(
+    parentType: ClassName,
+): Boolean {
+    if (toClassName() == parentType) return true
+    superTypes.forEach { type ->
+        if (type.resolve().toClassName() == type) return true
+        if ((type.resolve().declaration as? KSClassDeclaration)?.isChildOf(parentType) == true) return true
+    }
+    return false
+}
+
+val KSType.isUnit: Boolean get() = declaration.qualifiedName?.asString() == "kotlin.Unit"
+
+val KSType.isNotPrimitive: Boolean
+    get() {
+        return declaration.qualifiedName?.asString() !in setOf(
+            "java.lang.Boolean",
+            "java.lang.Byte",
+            "java.lang.Short",
+            "java.lang.Integer",
+            "java.lang.Long",
+            "java.lang.Character",
+            "java.lang.Float",
+            "java.lang.Double",
+            "kotlin.Boolean",
+            "kotlin.Byte",
+            "kotlin.Short",
+            "kotlin.Int",
+            "kotlin.Long",
+            "kotlin.Char",
+            "kotlin.Float",
+            "kotlin.Double",
+            "kotlin.Unit",
+        )
+    }

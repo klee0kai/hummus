@@ -4,10 +4,12 @@ plugins {
 //    alias(libs.plugins.publish.crossbox)
 }
 
-group = "com.github.klee0kai.crossbox.processor"
+group = "com.github.klee0kai.ksp.base"
 version = libs.versions.hummus.get()
 
 dependencies {
+    api(project(":hummus"))
+
     implementation(libs.bundles.kotlin)
     implementation(libs.bundles.kotlinpoet)
     implementation(libs.ksp)

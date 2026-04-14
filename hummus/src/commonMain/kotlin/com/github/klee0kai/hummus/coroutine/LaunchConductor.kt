@@ -1,4 +1,4 @@
-package com.github.klee0kai.crossbox.processor.coroutines
+package com.github.klee0kai.hummus.coroutine
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first

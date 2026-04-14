@@ -1,4 +1,4 @@
-package com.github.klee0kai.crossbox.processor.ksp
+package com.github.klee0kai.crossbox.processor.ksp.arch
 
 import com.google.devtools.ksp.processing.Dependencies
 import com.squareup.kotlinpoet.FileSpec
