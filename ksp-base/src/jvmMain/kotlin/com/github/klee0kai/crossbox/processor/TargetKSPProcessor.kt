@@ -20,6 +20,62 @@ import java.util.concurrent.atomic.AtomicInteger
 import kotlin.math.max
 import kotlin.math.min
 
+/**
+ * Main KSP processor that manages the execution of symbol processing.
+ *
+ * This class coordinates the work of an array of [TargetSymbolProcessor]s and processes discovered symbols
+ * in parallel or sequential mode depending on configuration.
+ *
+ * **Processing workflow:**
+ * 1. Each [TargetSymbolProcessor] finds symbols to process via [TargetSymbolProcessor.findSymbolsToProcess]
+ * 2. Symbols are processed in batches of size [oneRunSymbolsCount] to support incremental builds
+ * 3. For each symbol, [TargetSymbolProcessor.process] and/or [TargetSymbolProcessor.multiSymbolsProcess] is called
+ * 4. Generated specifications ([GenSpec]) are written to code via [CodeGenerator]
+ * 5. Unprocessed symbols are returned for reprocessing in the next pass
+ *
+ * **Configuration options:**
+ * - `oneRunSymbolsCount`: maximum number of symbols to process in one pass (default = number of processors)
+ * - `multithread`: enable multithreading (default false)
+ * - `debug`: enable debug mode
+ * - `debugPkgFilter`: package filter for debugging (processes only symbols from specified package)
+ *
+ * **gradle configuration example:**
+ * ```gradle
+ * ksp {
+ *     arg("oneRunSymbolsCount", "10")
+ *     arg("multithread", "true")
+ *     arg("debug", "false")
+ * }
+ * ```
+ *
+ * **Processor registration:**
+ * Create a `SymbolProcessorProvider` and return instances of `TargetKSPProcessor`:
+ *
+ * ```kotlin
+ * class MySymbolProcessorProvider : SymbolProcessorProvider {
+ *     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
+ *         return TargetKSPProcessor(
+ *             targetProcessors = arrayOf(
+ *                 ClassInfoTargetProcessor(),
+ *                 AnotherProcessor(),
+ *             ),
+ *             options = environment.options,
+ *             logger = environment.logger,
+ *             codeGenerator = environment.codeGenerator,
+ *         )
+ *     }
+ * }
+ * ```
+ *
+ * @property targetProcessors array of symbol processors
+ * @property options configuration options from gradle/maven
+ * @property logger KSP logger
+ * @property codeGenerator code generator for writing files
+ * @property oneRunSymbolsCount max symbols per processing run for incremental builds
+ * @property multithread enable multithreading
+ * @property debug debug mode flag
+ * @property debugPkgFilter package filter for debugging
+ */
 open class TargetKSPProcessor(
     val targetProcessors: Array<TargetSymbolProcessor>,
     val options: Map<String, String>,
@@ -33,8 +89,18 @@ open class TargetKSPProcessor(
     var debugPkgFilter: String? = options["debugPkgFilter"],
 ) : SymbolProcessor {
 
+    /**
+     * Dispatcher for executing asynchronous operations.
+     * Uses [Dispatchers.Default] for multithreading, otherwise [Dispatchers.Unconfined].
+     */
     open val dispatcher by lazy { if (multithread) Dispatchers.Default else Dispatchers.Unconfined }
 
+    /**
+     * Processes discovered symbols and generates code.
+     *
+     * @param resolver resolver for working with KSP symbols
+     * @return list of symbols for reprocessing in the next pass
+     */
     override fun process(
         resolver: Resolver
     ): List<KSAnnotated> = runBlocking(dispatcher) {
