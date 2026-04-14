@@ -28,4 +28,6 @@ includeBuild("gradle_plugins")
 include(
     ":hummus",
     ":ksp-base",
+    ":ksp-tests:processor",
+    ":ksp-tests:sample",
 )
