@@ -72,6 +72,50 @@ fun Number.roundDecExponent(exp: Int): Float {
 }
 
 
+/**
+ * Formats a Double to a string with a fixed number of decimal places.
+ *
+ * Rounds the number to the specified decimal places and formats it with exactly
+ * that many decimal digits. Missing decimal places are padded with zeros.
+ *
+ * **Rounding:**
+ * - Rounds to the nearest value at the specified precision
+ * - Handles banker's rounding (round-to-even) from [roundToLong]
+ *
+ * **Formatting:**
+ * - Always shows exactly [digits] decimal places
+ * - Pads with zeros if needed (e.g., 1.5 formatted with 2 digits = "1.50")
+ * - Integer part shown as-is
+ * - Truncates if more decimal places exist (keeps [digits] places)
+ *
+ * **Examples:**
+ * ```kotlin
+ * 123.456.format(1)    // "123.5" (rounded up)
+ * 123.456.format(2)    // "123.46" (rounded)
+ * 123.456.format(4)    // "123.4560" (padded with 0)
+ * 1.0.format(3)        // "1.000" (padded)
+ * 0.005.format(2)      // "0.01" (rounded up)
+ * 999.9999.format(2)   // "1000.00" (significant digits)
+ * ```
+ *
+ * **Use cases:**
+ * - Formatting prices (2 decimal places)
+ * - Scientific measurements (variable precision)
+ * - UI display of numbers
+ * - String output with consistent decimal places
+ *
+ * **vs. other methods:**
+ * - [String.format]: more flexible, requires locale awareness
+ * - [DecimalFormat]: Java-specific, heavier
+ * - [format]: simple, Kotlin-native, handles padding well
+ *
+ * **Precision note:**
+ * Double precision may cause unexpected results for very small differences.
+ * For financial calculations, use BigDecimal instead.
+ *
+ * @param digits number of decimal places to show (0 = integer)
+ * @return string with exactly [digits] decimal places
+ */
 fun Double.format(digits: Int): String {
     val multiplier = 10.0.pow(digits)
     val rounded = (this * multiplier).roundToLong() / multiplier
