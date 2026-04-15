@@ -7,10 +7,12 @@ ksp = "2.3.2"
 agp = "8.12.3"
 
 javax-inject = "1"
+kotlinx-serialization = "1.10.0"
 kotlinx-coroutines = "1.10.1"
 jetbrain-immutable = "0.3.7"
 jetbrain-coroutines = "1.10.1"
 kotlinx-atomicfu = "0.29.0"
+kotlinx-datetime = "0.7.1"
 
 kotlinpoet = "2.0.0"
 stone = "2.1.0_lc"
@@ -23,8 +25,10 @@ testing-compile = "0.23.0"
 [libraries]
 
 
+kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 jetbrain-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "jetbrain-immutable" }
 jetbrain-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "jetbrain-coroutines" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 
 # https://mvnrepository.com/artifact/javax.inject/javax.inject
 java-inject = { group = "javax.inject", name = "javax.inject", version.ref = "javax-inject" }
@@ -53,7 +57,7 @@ stone-inject = { group = "com.github.klee0kai.stone", name = "inject_multiplatfo
 
 [bundles]
 
-kotlin = ["jetbrain-coroutines", "jetbrain-immutable"]
+kotlin = ["kotlinx-coroutines", "kotlinx-datetime", "kotlinx-atomicfu"]
 kotlinpoet = ["kotlinpoet", "kotlinpoet-ksp"]
 junit = ["jupiter-api", "jupiter-engine", "jupiter-launcher"]
 
@@ -62,6 +66,8 @@ junit = ["jupiter-api", "jupiter-engine", "jupiter-launcher"]
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
 android-library = { id = "com.android.library", version.ref = "agp" }
 
 publish-maven = { id = "org.gradle.maven-publish" }

@@ -1,7 +1,6 @@
 package com.github.klee0kai.hummus.collections.gen
 
 import com.github.klee0kai.hummus.model.SameModel
-import kotlin.reflect.KClass
 
 /**
  * Factory object for creating equality predicates.

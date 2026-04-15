@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.publish.maven)
+    alias(libs.plugins.kotlin.serialization)
 //    alias(libs.plugins.publish.stone)
 }
 
@@ -21,19 +22,22 @@ kotlin {
         nodejs()
     }
 
+    // Disable yarn lock file validation
+    rootProject.tasks.matching { it.name == "kotlinStoreYarnLock" }.all {
+        enabled = false
+    }
+
     sourceSets {
         commonMain.dependencies {
+            api(libs.bundles.kotlin)
             api(libs.stone.ref)
             api(libs.stone.inject)
-//            api(libs.java.inject)
-//            api(libs.kotlinx.coroutines)
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
         }
         all {
             languageSettings {
-                // Enables expect/actual classes support without warnings
                 optIn("kotlin.ExperimentalStdlibApi")
                 compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
             }

@@ -1,6 +1,7 @@
 package com.github.klee0kai.hummus.extensions
 
 import kotlin.math.pow
+import kotlin.math.roundToLong
 
 /**
  * Calculates the decimal exponent (order of magnitude) of a number.
@@ -70,46 +71,14 @@ fun Number.roundDecExponent(exp: Int): Float {
     return ((this.toFloat() * 10f.pow(-exp)).toInt().toFloat() / 10f.pow(-exp))
 }
 
-/**
- * Formats a number as a string with a specific decimal exponent precision.
- *
- * Creates a string representation with proper decimal places based on the exponent.
- * Handles integer and decimal parts with appropriate formatting.
- *
- * **Examples:**
- * ```kotlin
- * 1234.56.strFormat(1)   // "123" (10^1 precision)
- * 1234.56.strFormat(-1)  // "1234.5" (0.1 precision)
- * 1234.56.strFormat(-2)  // "1234.56" (0.01 precision)
- * 0.001.strFormat(-3)    // "0.001" (0.001 precision)
- * ```
- *
- * **Behavior:**
- * - exp = 0 or positive: returns only integer part (no decimals)
- * - exp < 0: returns integer.decimal formatted with proper padding
- * - Automatically adds leading zeros after decimal point as needed
- *
- * @param exp the decimal exponent for precision
- * @return formatted string representation
- */
-fun Number.strFormat(exp: Int): String {
-    if (exp >= 0)
-        return this.toInt().toString()
 
-    val multiplier = 10f.pow(-exp).toInt()
-    val intValue = this.toFloat()
-    val scaled = (intValue * multiplier).toLong()
+fun Double.format(digits: Int): String {
+    val multiplier = 10.0.pow(digits)
+    val rounded = (this * multiplier).roundToLong() / multiplier
+    val s = rounded.toString()
 
-    return buildString {
-        append((scaled / multiplier).toInt())
-        append('.')
-        val remainder = scaled % multiplier
-        val padding = -exp - 1
-        for (i in 0 until padding) {
-            if (remainder < 10f.pow(i + 1)) {
-                append('0')
-            }
-        }
-        append(remainder)
-    }
+    val parts = s.split(".")
+    if (parts.size == 1) return "$s." + "0".repeat(digits)
+    val decimalPart = parts[1].padEnd(digits, '0')
+    return "${parts[0]}.${decimalPart.take(digits)}"
 }
