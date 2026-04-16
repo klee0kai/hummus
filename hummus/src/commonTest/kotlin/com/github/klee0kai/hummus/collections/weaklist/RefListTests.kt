@@ -3,9 +3,9 @@ package com.github.klee0kai.hummus.collections.weaklist
 import com.github.klee0kai.hummus.collections.weaklist.ChangeListsHelper.assertListsSame
 import com.github.klee0kai.hummus.collections.weaklist.ChangeListsHelper.changeForEachListsSame
 import com.github.klee0kai.stone.weakref.Memory
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
-import kotlin.test.Test
 
 class RefListTests {
 

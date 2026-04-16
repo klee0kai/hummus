@@ -34,7 +34,13 @@ kotlin {
             api(libs.stone.inject)
         }
         commonTest.dependencies {
-            implementation(kotlin("test"))
+            api(libs.kotlin.test)
+        }
+        jvmTest.dependencies {
+            api(libs.kotlinx.coroutines.test)
+        }
+        nativeTest.dependencies {
+            api(libs.kotlinx.coroutines.test)
         }
         all {
             languageSettings {
