@@ -12,6 +12,10 @@ import com.github.klee0kai.hummus.compose.HummusTheme
 import com.github.klee0kai.storybook.screens.DesignComponentsBrowser
 import picocli.CommandLine
 
+enum class ViewerTheme {
+    LIGHT, DARK
+}
+
 /**
  * Command to launch the Design Components Viewer desktop application
  */
@@ -27,7 +31,7 @@ class DesignComponentsViewerCmd : Runnable {
         description = ["Theme to use: LIGHT, DARK"],
         defaultValue = "LIGHT"
     )
-    var theme: String = "LIGHT"
+    var theme: ViewerTheme = ViewerTheme.LIGHT
 
     @CommandLine.Option(
         names = ["-w", "--width"],
@@ -44,14 +48,10 @@ class DesignComponentsViewerCmd : Runnable {
     var height: Int = 900
 
     override fun run() {
-        launchDesktopApp(
-            width = width,
-            height = height,
-            useDarkTheme = theme.uppercase() == "DARK"
-        )
+        launchDesktopApp(width, height, theme)
     }
 
-    private fun launchDesktopApp(width: Int, height: Int, useDarkTheme: Boolean) {
+    private fun launchDesktopApp(width: Int, height: Int, theme: ViewerTheme) {
         application {
             Window(
                 onCloseRequest = ::exitApplication,
