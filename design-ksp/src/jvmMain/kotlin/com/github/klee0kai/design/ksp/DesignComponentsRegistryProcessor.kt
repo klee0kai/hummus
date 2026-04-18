@@ -13,6 +13,7 @@ import com.github.klee0kai.crossbox.processor.poet.*
 import com.github.klee0kai.hummus.design.core.DebugOnly
 import com.github.klee0kai.hummus.design.core.ComponentParameter
 import com.github.klee0kai.hummus.design.core.DesignComponentMethod
+import com.github.klee0kai.hummus.design.core.ParameterType
 import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.containingFile
 import com.google.devtools.ksp.processing.Dependencies
@@ -25,6 +26,43 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.ksp.toTypeName
 
 class DesignComponentsRegistryProcessor : TargetSymbolProcessor {
+
+    private fun buildParameterTypeCode(resolvedType: KSType, isNullable: Boolean): CodeBlock {
+        val declaration = resolvedType.declaration
+        val qualifiedName = declaration.qualifiedName?.asString() ?: "kotlin.Any"
+        val parameterTypeName = ClassName("com.github.klee0kai.hummus.design.core", "ParameterType")
+
+        return if (resolvedType.arguments.isNotEmpty()) {
+            // Generic type with type arguments
+            val typeArgs = resolvedType.arguments.mapNotNull { arg ->
+                val argType = arg.type?.resolve()
+                if (argType != null) {
+                    buildParameterTypeCode(argType, argType.isMarkedNullable)
+                } else {
+                    null
+                }
+            }
+
+            val code = CodeBlock.builder()
+            code.add("%T.Generic(%T::class, listOf(\n", parameterTypeName, ClassName.bestGuess(qualifiedName))
+            typeArgs.forEachIndexed { index, argCode ->
+                code.add("          %L", argCode)
+                if (index < typeArgs.size - 1) code.add(",")
+                code.add("\n")
+            }
+            code.add("        ), %L)", isNullable)
+            code.build()
+        } else {
+            // Simple type
+            CodeBlock.of(
+                "%T.Simple(%T::class, %L)",
+                parameterTypeName,
+                ClassName.bestGuess(qualifiedName),
+                isNullable
+            )
+        }
+    }
+
 
     override suspend fun findSymbolsToProcess(
         resolver: Resolver,
@@ -79,15 +117,23 @@ class DesignComponentsRegistryProcessor : TargetSymbolProcessor {
 
                             func.parameters.forEach { param ->
                                 val paramType = param.type.resolve().toTypeName().toString()
+                                val resolvedType = param.type.resolve()
+                                val isNullable = resolvedType.isMarkedNullable
+                                val declaration = resolvedType.declaration
+
                                 val isParamComposable = param.annotations.any {
                                     it.annotationType.resolve().toTypeName() == Composable::class.asClassName()
                                 }
                                 val hasDefault = param.hasDefault
                                 val paramName = param.name?.asString() ?: ""
 
+                                // Генерируем ParameterType код
+                                val typeCode = buildParameterTypeCode(resolvedType, isNullable)
+
                                 addCode("      %T(\n", ComponentParameter::class.asClassName())
                                 addCode("        name = %S,\n", paramName)
-                                addCode("        type = %S,\n", paramType)
+                                addCode("        type = %L,\n", typeCode)
+                                addCode("        typeString = %S,\n", paramType)
                                 addCode("        isComposable = %L,\n", isParamComposable)
                                 addCode("        hasDefault = %L\n", hasDefault)
                                 addCode("      ),\n")

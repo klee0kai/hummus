@@ -1,20 +1,131 @@
 package com.github.klee0kai.hummus.design.core
 
 import androidx.compose.runtime.Composable
+import kotlin.reflect.KClass
+
+sealed interface ParameterType {
+    val isNullable: Boolean
+    val simpleNameString: String
+
+    data class Simple(
+        val kClass: KClass<*>,
+        override val isNullable: Boolean = false,
+    ) : ParameterType {
+        override val simpleNameString: String
+            get() = (if (isNullable) kClass.simpleName + "?" else kClass.simpleName) ?: "Unknown"
+
+        fun matches(className: String): Boolean {
+            val baseName = kClass.simpleName ?: return false
+            return className.endsWith(".$baseName") || className == baseName
+        }
+    }
+
+    data class Generic(
+        val baseClass: KClass<*>,
+        val typeArguments: List<ParameterType>,
+        override val isNullable: Boolean = false,
+    ) : ParameterType {
+        override val simpleNameString: String
+            get() {
+                val args = typeArguments.joinToString(", ") { it.simpleNameString }
+                val baseName = baseClass.simpleName ?: "Unknown"
+                return if (isNullable) "$baseName<$args>?" else "$baseName<$args>"
+            }
+
+        fun isList(): Boolean = baseClass.simpleName == "List"
+        fun isMap(): Boolean = baseClass.simpleName == "Map"
+        fun isSet(): Boolean = baseClass.simpleName == "Set"
+        fun isFunction(): Boolean = baseClass.simpleName?.startsWith("Function") == true
+
+        fun firstTypeArgument(): ParameterType? = typeArguments.firstOrNull()
+        fun lastTypeArgument(): ParameterType? = typeArguments.lastOrNull()
+        fun getTypeArgument(index: Int): ParameterType? =
+            if (index >= 0 && index < typeArguments.size) typeArguments[index] else null
+    }
+
+    data class Nested(
+        val outer: ParameterType,
+        val inner: ParameterType,
+        override val isNullable: Boolean = false,
+    ) : ParameterType {
+        override val simpleNameString: String
+            get() {
+                val nested = if (isNullable) "${outer.simpleNameString}.${inner.simpleNameString}?"
+                             else "${outer.simpleNameString}.${inner.simpleNameString}"
+                return nested
+            }
+    }
+
+    companion object {
+        fun simple(kClass: KClass<*>, nullable: Boolean = false): ParameterType =
+            Simple(kClass, nullable)
+
+        fun generic(
+            baseClass: KClass<*>,
+            typeArguments: List<ParameterType>,
+            nullable: Boolean = false
+        ): ParameterType = Generic(baseClass, typeArguments, nullable)
+
+        fun nested(outer: ParameterType, inner: ParameterType, nullable: Boolean = false): ParameterType =
+            Nested(outer, inner, nullable)
+    }
+}
 
 data class ComponentParameter(
     val name: String,
-    val type: String,
+    val type: ParameterType,
+    val typeString: String,  // String representation для совместимости
     val isComposable: Boolean = false,
     val hasDefault: Boolean = false,
 ) {
-    fun isBoolean(): Boolean = type.contains("Boolean")
-    fun isInt(): Boolean = type.contains("Int")
-    fun isString(): Boolean = type.contains("String")
-    fun isFloat(): Boolean = type.contains("Float")
-    fun isDouble(): Boolean = type.contains("Double")
-    fun isList(): Boolean = type.startsWith("kotlin.collections.List")
-    fun isLambda(): Boolean = type.contains("(") && type.contains(")")
+    fun isBoolean(): Boolean = when (type) {
+        is ParameterType.Simple -> type.kClass.simpleName == "Boolean"
+        else -> typeString.contains("Boolean")
+    }
+
+    fun isInt(): Boolean = when (type) {
+        is ParameterType.Simple -> type.kClass.simpleName == "Int"
+        else -> typeString.contains("Int")
+    }
+
+    fun isString(): Boolean = when (type) {
+        is ParameterType.Simple -> type.kClass.simpleName == "String"
+        else -> typeString.contains("String")
+    }
+
+    fun isFloat(): Boolean = when (type) {
+        is ParameterType.Simple -> type.kClass.simpleName == "Float"
+        else -> typeString.contains("Float")
+    }
+
+    fun isDouble(): Boolean = when (type) {
+        is ParameterType.Simple -> type.kClass.simpleName == "Double"
+        else -> typeString.contains("Double")
+    }
+
+    fun isList(): Boolean = when (type) {
+        is ParameterType.Generic -> type.isList()
+        else -> typeString.startsWith("kotlin.collections.List")
+    }
+
+    fun isMap(): Boolean = when (type) {
+        is ParameterType.Generic -> type.isMap()
+        else -> typeString.contains("Map")
+    }
+
+    fun isSet(): Boolean = when (type) {
+        is ParameterType.Generic -> type.isSet()
+        else -> typeString.contains("Set")
+    }
+
+    fun isLambda(): Boolean = when (type) {
+        is ParameterType.Generic -> type.isFunction()
+        else -> typeString.contains("(") && typeString.contains(")")
+    }
+
+    fun isNullable(): Boolean = type.isNullable
+
+    fun getSimpleName(): String = type.simpleNameString
 }
 
 class DesignComponentMethod(
