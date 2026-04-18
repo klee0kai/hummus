@@ -18,6 +18,7 @@ import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import com.github.klee0kai.hummus.compose.HummusTheme
 import com.github.klee0kai.hummus.storybook.screens.ColorSchemeBrowserScreen
+import com.github.klee0kai.hummus.storybook.screens.TypographyBrowserScreen
 import com.github.klee0kai.storybook.screens.DesignComponentsBrowser
 import picocli.CommandLine
 
@@ -93,11 +94,17 @@ class DesignComponentsViewerCmd : Runnable {
                         selected = selectedTab == 1,
                         onClick = { selectedTab = 1 }
                     )
+                    Tab(
+                        text = { Text("Typography") },
+                        selected = selectedTab == 2,
+                        onClick = { selectedTab = 2 }
+                    )
                 }
 
                 when (selectedTab) {
                     0 -> DesignComponentsBrowser(modifier = Modifier.fillMaxSize())
                     1 -> ColorSchemeBrowserScreen(modifier = Modifier.fillMaxSize())
+                    2 -> TypographyBrowserScreen(modifier = Modifier.fillMaxSize())
                 }
             }
         }
