@@ -1,4 +1,4 @@
-package com.github.klee0kai.storybook.utils
+package com.github.klee0kai.hummus.storybook.storybook.utils
 
 import com.github.klee0kai.hummus.design.core.DesignComponentMethod
 

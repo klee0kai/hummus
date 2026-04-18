@@ -1,19 +1,24 @@
 [versions]
 
+# Project version
 hummus = "0.0.3"
 
-kotlin = "2.2.21"
-ksp = "2.3.2"
+# Build tools
+gradle = "9.1.0"
 agp = "8.12.3"
 
-javax-inject = "1"
+# Kotlin & KSP
+kotlin = "2.2.21"
+ksp = "2.3.2"
+
+# Kotlin libs - common
 kotlinx-serialization = "1.10.0"
 kotlinx-coroutines = "1.10.1"
-jetbrain-immutable = "0.3.7"
-jetbrain-coroutines = "1.10.1"
 kotlinx-atomicfu = "0.29.0"
 kotlinx-datetime = "0.7.1"
+kotlinx-collections-immutable = "0.3.7"
 
+# Compose & UI
 compose = "1.10.0"
 compose-m = "1.7.3"
 compose-m3 = "1.9.0"
@@ -22,47 +27,47 @@ compose-multiplatform = "1.10.0"
 compose-nav = "1.5.0"
 compose-m3-adaptive = "1.3.0-alpha06"
 
-kotlinpoet = "2.0.0"
-stone = "2.1.0_lc"
-
-picocli = "4.7.5"
+# Server & Networking
 ktor = "3.1.0"
+kotlinx-rpc = "0.10.2"
+logback = "1.5.18"
 
+# Code generation & Processing
+kotlinpoet = "2.0.0"
+ktlint = "1.8.0"
+
+# Dependencies
+javax-inject = "1"
+stone = "2.1.0_lc"
+picocli = "4.7.5"
+kermit = "2.0.4"
+
+# Testing
 junit = "6.0.0"
 junit-launcher = "6.0.0"
 testing-compile = "0.23.0"
+kotlin-test-junit = "1.9.1"
 
 
 [libraries]
 
-
-kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
-jetbrain-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "jetbrain-immutable" }
-jetbrain-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "jetbrain-coroutines" }
-kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+# Kotlin - common libs
+kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+kotlinx-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "kotlinx-atomicfu" }
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections-immutable" }
+
+# Kotlin - testing
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 
-# https://mvnrepository.com/artifact/javax.inject/javax.inject
-java-inject = { group = "javax.inject", name = "javax.inject", version.ref = "javax-inject" }
+# Common dependencies
+javax-inject = { module = "javax.inject:javax.inject", version.ref = "javax-inject" }
+kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 
-kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
-kotlinx-atomicfu = { group = "org.jetbrains.kotlinx", name = "atomicfu", version.ref = "kotlinx-atomicfu" }
-
-ksp = { group = "com.google.devtools.ksp", name = "symbol-processing-api", version.ref = "ksp" }
-
-kotlinpoet = { group = "com.squareup", name = "kotlinpoet", version.ref = "kotlinpoet" }
-kotlinpoet-ksp = { group = "com.squareup", name = "kotlinpoet-ksp", version.ref = "kotlinpoet" }
-
-kotlin-compiler = { group = "org.jetbrains.kotlin", name = "kotlin-compiler-embeddable", version.ref = "kotlin" }
-
-picocli = { group = "info.picocli", name = "picocli", version.ref = "picocli" }
-
-ktor-server-core = { group = "io.ktor", name = "ktor-server-core", version.ref = "ktor" }
-ktor-server-netty = { group = "io.ktor", name = "ktor-server-netty", version.ref = "ktor" }
-
-#  Common compose
+# Compose - common
 compose-contrainlayout = { module = "tech.annexflow.compose:constraintlayout-compose-multiplatform", version = "0.7.0" }
 compose-animation = { module = "org.jetbrains.compose.animation:animation", version.ref = "compose" }
 compose-animation-graphics = { module = "org.jetbrains.compose.animation:animation-graphics", version.ref = "compose" }
@@ -75,36 +80,91 @@ compose-util = { module = "org.jetbrains.compose.ui:ui-util", version.ref = "com
 compose-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose" }
 compose-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose" }
 
+# Compose - Material
 compose-m-icons = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "compose-m" }
 compose-m3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose-m3" }
 compose-m3-adaptive-nav = { module = "org.jetbrains.compose.material3:material3-adaptive-navigation-suite", version.ref = "compose-m3" }
 
+# Compose - Material3 Adaptive
 compose-m3-adaptive = { module = "org.jetbrains.compose.material3.adaptive:adaptive", version.ref = "compose-m3-adaptive" }
 compose-m3-adaptive-layout = { module = "org.jetbrains.compose.material3.adaptive:adaptive-layout", version.ref = "compose-m3-adaptive" }
 compose-m3-adaptive-navigation = { module = "org.jetbrains.compose.material3.adaptive:adaptive-navigation", version.ref = "compose-m3-adaptive" }
 
-# shimmer compose https://github.com/valentinilk/compose-shimmer
-compose-shimmer = { group = "com.valentinilk.shimmer", name = "compose-shimmer", version.ref = "compose-shimmer" }
+# Compose - Effects & Extensions
+compose-shimmer = { module = "com.valentinilk.shimmer:compose-shimmer", version.ref = "compose-shimmer" }
+compose-nav = { module = "dev.olshevski.navigation:reimagined", version.ref = "compose-nav" }
 
+# Server & Networking
+ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
+ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
+ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
-jupiter-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit" }
-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit" }
-jupiter-launcher = { group = "org.junit.platform", name = "junit-platform-launcher", version.ref = "junit-launcher" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 
-testing-kapt-compile = { group = "com.google.testing.compile", name = "compile-testing", version.ref = "testing-compile" }
+# Kotlin RPC
+kotlinx-rpc-client = { module = "org.jetbrains.kotlinx:kotlinx-rpc-krpc-client", version.ref = "kotlinx-rpc" }
+kotlinx-rpc-server = { module = "org.jetbrains.kotlinx:kotlinx-rpc-krpc-server", version.ref = "kotlinx-rpc" }
+kotlinx-rpc-json = { module = "org.jetbrains.kotlinx:kotlinx-rpc-krpc-serialization-json", version.ref = "kotlinx-rpc" }
+kotlinx-rpc-ktor-client = { module = "org.jetbrains.kotlinx:kotlinx-rpc-krpc-ktor-client", version.ref = "kotlinx-rpc" }
+kotlinx-rpc-ktor-server = { module = "org.jetbrains.kotlinx:kotlinx-rpc-krpc-ktor-server", version.ref = "kotlinx-rpc" }
 
+# Logging
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+
+# Code generation & Processing
+kotlin-poet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinpoet" }
+kotlin-poet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlinpoet" }
+kotlin-ksp = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
+kotlin-ksp-plugin = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp" }
+kotlin-compiler = { module = "org.jetbrains.kotlin:kotlin-compiler-embeddable", version.ref = "kotlin" }
+
+# Code formatting
+ktlint-engine = { module = "com.pinterest.ktlint:ktlint-rule-engine", version.ref = "ktlint" }
+ktlint-rules-std = { module = "com.pinterest.ktlint:ktlint-ruleset-standard", version.ref = "ktlint" }
+
+# CLI
+picocli = { module = "info.picocli:picocli", version.ref = "picocli" }
+
+# Testing
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+junit-jupiter-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-launcher" }
+kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+testing-compile = { module = "com.google.testing.compile:compile-testing", version.ref = "testing-compile" }
+
+# Stone - dependency injection & collections
 # https://github.com/klee0kai/stone
-stone-kotlin = { group = "com.github.klee0kai.stone", name = "stone_multiplatform", version.ref = "stone" }
-stone-ksp = { group = "com.github.klee0kai.stone", name = "stone_ksp", version.ref = "stone" }
-stone-ref = { group = "com.github.klee0kai.stone", name = "weakref_multiplatform", version.ref = "stone" }
-stone-inject = { group = "com.github.klee0kai.stone", name = "inject_multiplatform", version.ref = "stone" }
+stone-kotlin = { module = "com.github.klee0kai.stone:stone_multiplatform", version.ref = "stone" }
+stone-ksp = { module = "com.github.klee0kai.stone:stone_ksp", version.ref = "stone" }
+stone-ref = { module = "com.github.klee0kai.stone:weakref_multiplatform", version.ref = "stone" }
+stone-inject = { module = "com.github.klee0kai.stone:inject_multiplatform", version.ref = "stone" }
 
 [bundles]
 
-kotlin = ["kotlinx-coroutines", "kotlinx-datetime", "kotlinx-atomicfu"]
-kotlinpoet = ["kotlinpoet", "kotlinpoet-ksp"]
-junit = ["jupiter-api", "jupiter-engine", "jupiter-launcher"]
+# Kotlin core libraries
+kotlin = ["kotlinx-serialization", "kotlinx-coroutines", "kotlinx-datetime", "kotlinx-atomicfu", "kotlinx-collections-immutable"]
 
+# Code generation
+kotlinpoet = ["kotlin-poet", "kotlin-poet-ksp"]
+
+# Testing
+junit = ["junit-jupiter-api", "junit-jupiter-engine", "junit-jupiter-launcher"]
+
+# Ktor common
+ktorCommon = ["ktor-serialization-json", "ktor-server-core", "ktor-server-netty"]
+ktorClient = ["ktor-client-core", "ktor-client-content-negotiation"]
+ktorServer = ["ktor-server-core", "ktor-server-netty", "ktor-server-content-negotiation"]
+
+# Kotlin RPC
+rpcClient = ["kotlinx-rpc-client", "kotlinx-rpc-json", "kotlinx-rpc-ktor-client"]
+rpcServer = ["kotlinx-rpc-server", "kotlinx-rpc-json", "kotlinx-rpc-ktor-server"]
+
+# Code formatting
+ktlint = ["ktlint-engine", "ktlint-rules-std"]
+
+# Compose - complete stack
 compose = [
     "compose-foundation", "compose-runtime", "compose-runtime-saveable", "compose-ui", "compose-resources",
     "compose-animation", "compose-animation-graphics", "compose-util", "compose-preview",
@@ -113,19 +173,27 @@ compose = [
     "compose-contrainlayout", "compose-shimmer"
 ]
 
+# Stone libraries
+stone = ["stone-kotlin", "stone-ksp", "stone-ref", "stone-inject"]
+
 [plugins]
 
-kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+# Kotlin
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
+# KSP & Code generation
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
+# Compose
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
+# Android
 android-library = { id = "com.android.library", version.ref = "agp" }
 
+# Publishing & Gradle
 publish-maven = { id = "org.gradle.maven-publish" }
-
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
+kotlinx-rpc = { id = "org.jetbrains.kotlinx.rpc.plugin", version.ref = "kotlinx-rpc" }

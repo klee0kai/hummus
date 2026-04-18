@@ -1,4 +1,4 @@
-package com.github.klee0kai.storybook.components
+package com.github.klee0kai.hummus.storybook.storybook.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,14 +23,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ExpandLess
-import androidx.compose.material.icons.filled.ExpandMore
 import com.github.klee0kai.hummus.compose.theme.color.HummusColorScheme
-import com.github.klee0kai.hummus.compose.theme.color.NavigationBoardColors
-import com.github.klee0kai.hummus.compose.theme.color.PopupMenuColors
 import com.github.klee0kai.hummus.compose.theme.color.SurfaceScheme
-import com.github.klee0kai.hummus.compose.theme.color.TextColors
 
 @Composable
 fun ColorSchemeEditor(

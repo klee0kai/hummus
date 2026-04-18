@@ -16,7 +16,7 @@ kotlin {
 
                 implementation(libs.bundles.kotlin)
                 implementation(libs.bundles.kotlinpoet)
-                implementation(libs.ksp)
+                implementation(libs.kotlin.ksp)
             }
         }
 

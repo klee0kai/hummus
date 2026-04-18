@@ -1,10 +1,11 @@
-package com.github.klee0kai.storybook.components
+package com.github.klee0kai.hummus.storybook.storybook.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.github.klee0kai.hummus.design.core.*
@@ -70,7 +71,7 @@ private fun BooleanInputField(
             .fillMaxWidth()
             .padding(4.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Text(value.toString())
         Switch(

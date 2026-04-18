@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.ksp)
 }
 
 group = "com.github.klee0kai.ksp.base.sample"

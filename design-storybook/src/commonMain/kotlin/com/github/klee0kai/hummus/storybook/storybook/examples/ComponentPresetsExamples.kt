@@ -1,4 +1,4 @@
-package com.github.klee0kai.storybook.examples
+package com.github.klee0kai.hummus.storybook.storybook.examples
 
 import com.github.klee0kai.hummus.design.core.*
 

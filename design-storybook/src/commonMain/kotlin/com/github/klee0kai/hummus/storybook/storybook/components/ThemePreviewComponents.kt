@@ -1,4 +1,4 @@
-package com.github.klee0kai.storybook.components
+package com.github.klee0kai.hummus.storybook.storybook.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,7 +15,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -29,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.github.klee0kai.hummus.compose.HummusTheme
 import com.github.klee0kai.hummus.compose.theme.HummusTheme
+import com.github.klee0kai.hummus.compose.theme.color.SurfaceScheme
 
 @Composable
 fun ThemePreview(
@@ -197,7 +197,7 @@ private fun ColorIndicator(label: String, color: Color, modifier: Modifier = Mod
 }
 
 @Composable
-private fun SurfaceSchemePreview(label: String, scheme: com.github.klee0kai.hummus.compose.theme.color.SurfaceScheme, modifier: Modifier = Modifier) {
+private fun SurfaceSchemePreview(label: String, scheme: SurfaceScheme, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,

@@ -1,20 +1,19 @@
-package com.github.klee0kai.storybook.screens
+package com.github.klee0kai.hummus.storybook.storybook.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.github.klee0kai.hummus.design.core.*
-import com.github.klee0kai.storybook.components.ParametersEditor
-import com.github.klee0kai.storybook.examples.initializeComponentPresets
-import com.github.klee0kai.storybook.utils.getRegisteredComponents
+import com.github.klee0kai.hummus.storybook.storybook.components.ParametersEditor
+import com.github.klee0kai.hummus.storybook.storybook.examples.initializeComponentPresets
+import com.github.klee0kai.hummus.storybook.storybook.utils.getRegisteredComponents
 
 /**
  * Экран для просмотра и тестирования компонентов с редактированием параметров
@@ -71,7 +70,7 @@ fun DesignComponentsBrowser(modifier: Modifier = Modifier) {
                     .weight(0.75f)
                     .fillMaxHeight()
                     .background(MaterialTheme.colorScheme.surface),
-                contentAlignment = androidx.compose.ui.Alignment.Center
+                contentAlignment = Alignment.Center
             ) {
                 Text("Select a component to edit")
             }
@@ -284,7 +283,7 @@ private fun ComponentPreviewPanel(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
-                    contentAlignment = androidx.compose.ui.Alignment.Center
+                    contentAlignment = Alignment.Center
                 ) {
                     component.content()
                 }

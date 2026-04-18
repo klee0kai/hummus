@@ -1,4 +1,4 @@
-package com.github.klee0kai.storybook.components
+package com.github.klee0kai.hummus.storybook.storybook.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,7 +15,6 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,8 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.font.FontWeight as ComposeW
@@ -112,9 +109,9 @@ fun TextStyleEditor(
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                Text(label, style = androidx.compose.ui.text.TextStyle(fontWeight = FontWeight.Bold))
+                Text(label, style = TextStyle(fontWeight = FontWeight.Bold))
                 if (description.isNotEmpty()) {
-                    Text(description, style = androidx.compose.ui.text.TextStyle(fontSize = 10.sp))
+                    Text(description, style = TextStyle(fontSize = 10.sp))
                 }
             }
         }
@@ -124,7 +121,7 @@ fun TextStyleEditor(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Size", modifier = Modifier.width(50.dp), style = androidx.compose.ui.text.TextStyle(fontSize = 11.sp))
+            Text("Size", modifier = Modifier.width(50.dp), style = TextStyle(fontSize = 11.sp))
             Slider(
                 value = style.fontSize.value,
                 onValueChange = { newSize ->
@@ -133,7 +130,7 @@ fun TextStyleEditor(
                 valueRange = 8f..32f,
                 modifier = Modifier.weight(1f)
             )
-            Text("${style.fontSize.value.roundToInt()}sp", modifier = Modifier.width(40.dp), style = androidx.compose.ui.text.TextStyle(fontSize = 10.sp))
+            Text("${style.fontSize.value.roundToInt()}sp", modifier = Modifier.width(40.dp), style = TextStyle(fontSize = 10.sp))
         }
 
         Row(
@@ -141,7 +138,7 @@ fun TextStyleEditor(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Weight", modifier = Modifier.width(50.dp), style = androidx.compose.ui.text.TextStyle(fontSize = 11.sp))
+            Text("Weight", modifier = Modifier.width(50.dp), style = TextStyle(fontSize = 11.sp))
             FontWeightSelector(
                 fontWeight = style.fontWeight ?: FontWeight.Normal,
                 onWeightChange = { newWeight ->
@@ -156,7 +153,7 @@ fun TextStyleEditor(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Height", modifier = Modifier.width(50.dp), style = androidx.compose.ui.text.TextStyle(fontSize = 11.sp))
+            Text("Height", modifier = Modifier.width(50.dp), style = TextStyle(fontSize = 11.sp))
             Slider(
                 value = style.lineHeight.value,
                 onValueChange = { newHeight ->
@@ -165,7 +162,7 @@ fun TextStyleEditor(
                 valueRange = 8f..48f,
                 modifier = Modifier.weight(1f)
             )
-            Text("${style.lineHeight.value.roundToInt()}sp", modifier = Modifier.width(40.dp), style = androidx.compose.ui.text.TextStyle(fontSize = 10.sp))
+            Text("${style.lineHeight.value.roundToInt()}sp", modifier = Modifier.width(40.dp), style = TextStyle(fontSize = 10.sp))
         }
 
         Box(
@@ -210,7 +207,7 @@ fun FontWeightSelector(
                 .fillMaxWidth()
                 .clickable { expanded = true }
                 .padding(8.dp),
-            style = androidx.compose.ui.text.TextStyle(fontSize = 11.sp)
+            style = TextStyle(fontSize = 11.sp)
         )
 
         DropdownMenu(
@@ -220,7 +217,7 @@ fun FontWeightSelector(
         ) {
             weights.forEach { weight ->
                 DropdownMenuItem(
-                    text = { Text(weight.weight.toString(), style = androidx.compose.ui.text.TextStyle(fontSize = 10.sp)) },
+                    text = { Text(weight.weight.toString(), style = TextStyle(fontSize = 10.sp)) },
                     onClick = {
                         onWeightChange(weight)
                         expanded = false

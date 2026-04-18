@@ -8,10 +8,12 @@ import io.ktor.server.routing.routing
 import io.ktor.http.ContentType
 import io.ktor.server.response.respondBytes
 import io.ktor.server.response.respondText
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine
 import java.net.InetAddress
 import java.net.NetworkInterface
+import kotlin.time.Duration.Companion.seconds
 
 @CommandLine.Command(
     name = "server",
@@ -31,7 +33,7 @@ class DesignComponentsServerCmd : Runnable {
         launchServer(port)
     }
 
-    private fun launchServer(port: Int) {
+    private fun launchServer(port: Int) = runBlocking {
         val server = embeddedServer(Netty, port = port, host = "0.0.0.0") {
             configureRouting()
         }
@@ -67,9 +69,13 @@ class DesignComponentsServerCmd : Runnable {
             println("═══════════════════════════════════════════════════════════════")
             println()
 
-            runBlocking {
-                server.stop(gracePeriodMillis = 5000, timeoutMillis = 10000)
+
+            while (true) {
+                delay(1.seconds)
             }
+//            runBlocking {
+//                server.stop(gracePeriodMillis = 5000, timeoutMillis = 10000)
+//            }
 
         } catch (ex: Exception) {
             println("Error starting server: ${ex.message}")
