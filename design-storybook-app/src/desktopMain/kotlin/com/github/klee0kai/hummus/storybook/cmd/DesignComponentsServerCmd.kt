@@ -41,7 +41,7 @@ class DesignComponentsServerCmd : Runnable {
 
             val hostName = try {
                 InetAddress.getLocalHost().hostName
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 "design-storybook"
             }
 
@@ -54,7 +54,7 @@ class DesignComponentsServerCmd : Runnable {
             println("  Local access:     http://localhost:$port")
 
             if (networkAddresses.isNotEmpty()) {
-                networkAddresses.forEachIndexed { index, ip ->
+                networkAddresses.forEach { ip ->
                     println("  Network access:   http://$ip:$port")
                 }
             }
@@ -71,9 +71,9 @@ class DesignComponentsServerCmd : Runnable {
                 server.stop(gracePeriodMillis = 5000, timeoutMillis = 10000)
             }
 
-        } catch (e: Exception) {
-            println("Error starting server: ${e.message}")
-            e.printStackTrace()
+        } catch (ex: Exception) {
+            println("Error starting server: ${ex.message}")
+            ex.printStackTrace()
         }
     }
 
