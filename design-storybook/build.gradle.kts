@@ -56,10 +56,11 @@ kotlin {
 
 tasks.matching { it.name.startsWith("ksp") && it.name != "kspCommonMainKotlinMetadata" }.configureEach {
     dependsOn("kspCommonMainKotlinMetadata")
-    enabled = false
+//    enabled = false
 }
 
 
 dependencies {
     kspCommonMainMetadata(libs.stone.ksp)
+    ksp(project(":design-ksp"))
 }

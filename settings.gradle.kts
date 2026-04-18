@@ -30,6 +30,8 @@ include(
     ":ksp-base",
     ":ksp-tests:processor",
     ":ksp-tests:sample",
+    ":design-core",
     ":design-kit",
+    ":design-ksp",
     ":design-storybook",
 )

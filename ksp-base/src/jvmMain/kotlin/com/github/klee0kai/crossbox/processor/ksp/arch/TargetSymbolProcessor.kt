@@ -109,7 +109,7 @@ interface TargetSymbolProcessor {
         resolver: Resolver,
         options: Map<String, String>,
         logger: KSPLogger,
-    ): GenSpec?
+    ): GenSpec? = null
 
     /**
      * Processes multiple symbols together.
@@ -119,14 +119,14 @@ interface TargetSymbolProcessor {
      *
      * Default implementation returns null (batch processing is not required).
      *
-     * @param targetSymbol list of symbols to process
+     * @param targetSymbols list of symbols to process
      * @param resolver KSP resolver for working with symbols
      * @param options configuration options from gradle/maven
      * @param logger logger for output messages
      * @return [GenSpec] with generated code or null if batch processing is not required
      */
     suspend fun multiSymbolsProcess(
-        targetSymbol: List<KSAnnotated>,
+        targetSymbols: List<KSAnnotated>,
         resolver: Resolver,
         options: Map<String, String>,
         logger: KSPLogger,

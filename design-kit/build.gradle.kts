@@ -27,6 +27,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(project(":hummus"))
+            api(project(":design-core"))
             api(libs.bundles.kotlin)
             api(libs.bundles.compose)
         }

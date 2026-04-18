@@ -11,7 +11,7 @@ import com.squareup.kotlinpoet.*
  * @see <a href="https://kotlinlang.org/docs/type-safe-builders.html#scope-control-dslmarker">Kotlin DSL documentation</a>
  */
 @DslMarker
-annotation class FileSpecDsl
+annotation class PoetDsl
 
 /**
  * Creates a new [FileSpec] for generating a Kotlin file.
@@ -55,7 +55,7 @@ annotation class FileSpecDsl
  * @param block DSL block for configuring the [FileSpec.Builder]
  * @return the built [FileSpec]
  */
-@FileSpecDsl
+@PoetDsl
 fun genFileSpec(
     packageName: String,
     fileName: String,
@@ -74,7 +74,7 @@ fun genFileSpec(
  * @param modifiers optional modifiers (e.g., KModifier.PRIVATE, KModifier.CONST)
  * @param block optional DSL block for further configuration
  */
-@FileSpecDsl
+@PoetDsl
 fun FileSpec.Builder.genProperty(
     name: String,
     type: TypeName,
@@ -94,7 +94,7 @@ fun FileSpec.Builder.genProperty(
  * @param className the class name
  * @param block optional DSL block for configuring the class
  */
-@FileSpecDsl
+@PoetDsl
 fun FileSpec.Builder.genClass(
     className: ClassName,
     block: TypeSpec.Builder.() -> Unit = {},
@@ -112,7 +112,7 @@ fun FileSpec.Builder.genClass(
  * @param className the object name
  * @param block optional DSL block for configuring the object
  */
-@FileSpecDsl
+@PoetDsl
 fun FileSpec.Builder.genObject(
     className: ClassName,
     block: TypeSpec.Builder.() -> Unit = {},
@@ -130,7 +130,7 @@ fun FileSpec.Builder.genObject(
  * @param className the interface name
  * @param block optional DSL block for configuring the interface
  */
-@FileSpecDsl
+@PoetDsl
 fun FileSpec.Builder.genInterface(
     className: ClassName,
     block: TypeSpec.Builder.() -> Unit = {},
@@ -148,7 +148,7 @@ fun FileSpec.Builder.genInterface(
  * @param name the function name
  * @param block optional DSL block for configuring the function
  */
-@FileSpecDsl
+@PoetDsl
 fun FileSpec.Builder.genFun(
     name: String,
     block: FunSpec.Builder.() -> Unit = {},

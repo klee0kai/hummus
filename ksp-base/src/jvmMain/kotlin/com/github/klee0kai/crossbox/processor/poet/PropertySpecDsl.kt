@@ -4,17 +4,6 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.PropertySpec
 
 /**
- * Marker annotation for DSL functions that build [PropertySpec].
- *
- * This annotation prevents accidental use of DSL functions outside of their intended scope
- * and provides IDE support for DSL-based code generation.
- *
- * @see <a href="https://kotlinlang.org/docs/type-safe-builders.html#scope-control-dslmarker">Kotlin DSL documentation</a>
- */
-@DslMarker
-annotation class PropertySpecDsl
-
-/**
  * Adds a custom getter to the property being built.
  *
  * **Usage example:**
@@ -43,7 +32,7 @@ annotation class PropertySpecDsl
  * @param block optional DSL block for configuring the getter
  * @return the created getter [FunSpec]
  */
-@PropertySpecDsl
+@PoetDsl
 fun PropertySpec.Builder.genGetter(
     block: FunSpec.Builder.() -> Unit = {}
 ): FunSpec {
@@ -71,7 +60,7 @@ fun PropertySpec.Builder.genGetter(
  * @param block optional DSL block for configuring the setter
  * @return the created setter [FunSpec]
  */
-@PropertySpecDsl
+@PoetDsl
 fun PropertySpec.Builder.genSetter(
     block: FunSpec.Builder.() -> Unit = {}
 ): FunSpec {

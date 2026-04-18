@@ -1,6 +1,10 @@
 package com.github.klee0kai.crossbox.processor.poet
 
+import com.github.klee0kai.crossbox.processor.exceptions.wrapKsNoteInfo
+import com.github.klee0kai.crossbox.processor.ksp.isSuspend
+import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.ksp.toTypeName
 
 /**
  * Marker annotation for DSL functions that build [TypeSpec].
@@ -22,7 +26,7 @@ annotation class TypeSpecDsl
  * @param block optional DSL block for further configuration
  * @return the created [PropertySpec]
  */
-@TypeSpecDsl
+@PoetDsl
 fun TypeSpec.Builder.genProperty(
     name: String,
     type: TypeName,
@@ -43,7 +47,7 @@ fun TypeSpec.Builder.genProperty(
  * @param className the class name
  * @param block optional DSL block for configuring the class
  */
-@TypeSpecDsl
+@PoetDsl
 fun TypeSpec.Builder.genClass(
     className: ClassName,
     block: TypeSpec.Builder.() -> Unit = {},
@@ -61,7 +65,7 @@ fun TypeSpec.Builder.genClass(
  * @param className the object name
  * @param block optional DSL block for configuring the object
  */
-@TypeSpecDsl
+@PoetDsl
 fun TypeSpec.Builder.genObject(
     className: ClassName,
     block: TypeSpec.Builder.() -> Unit = {},
@@ -79,7 +83,7 @@ fun TypeSpec.Builder.genObject(
  * @param className the interface name
  * @param block optional DSL block for configuring the interface
  */
-@TypeSpecDsl
+@PoetDsl
 fun TypeSpec.Builder.genInterface(
     className: ClassName,
     block: TypeSpec.Builder.() -> Unit = {},
@@ -97,7 +101,7 @@ fun TypeSpec.Builder.genInterface(
  * @param name the function name
  * @param block optional DSL block for configuring the function
  */
-@TypeSpecDsl
+@PoetDsl
 fun TypeSpec.Builder.genFun(
     name: String,
     block: FunSpec.Builder.() -> Unit = {},
@@ -127,7 +131,7 @@ fun TypeSpec.Builder.genFun(
  *
  * @param block optional DSL block for configuring the constructor
  */
-@TypeSpecDsl
+@PoetDsl
 fun TypeSpec.Builder.genPrimaryConstructor(
     block: FunSpec.Builder.() -> Unit = {},
 ) {
@@ -146,7 +150,7 @@ fun TypeSpec.Builder.genPrimaryConstructor(
  *
  * @param block optional DSL block for configuring the constructor
  */
-@TypeSpecDsl
+@PoetDsl
 fun TypeSpec.Builder.genConstructor(
     block: FunSpec.Builder.() -> Unit = {},
 ) {
@@ -155,4 +159,18 @@ fun TypeSpec.Builder.genConstructor(
             .apply(block)
             .build()
     )
+}
+
+@PoetDsl
+fun TypeSpec.Builder.genOverrideFun(
+    func: KSFunctionDeclaration,
+    block: FunSpec.Builder.() -> Unit = {},
+) {
+    genFun(func.simpleName.asString()) {
+        addModifiers(KModifier.OVERRIDE)
+        if (func.isSuspend) addModifiers(KModifier.SUSPEND)
+        declareSameParameters(func)
+        func.returnType?.resolve()?.toTypeName()?.let { returns(it) }
+        wrapKsNoteInfo(func) { block() }
+    }
 }

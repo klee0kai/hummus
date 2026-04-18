@@ -155,29 +155,31 @@ open class TargetKSPProcessor(
                     }
                     globalSymbolsForReprocessing.addAll(symbols.symbolsForReprocessing)
 
-                    try {
-                        processor.multiSymbolsProcess(
-                            targetSymbol = symbols.symbolsForProcessing,
-                            resolver = resolver,
-                            options = options,
-                            logger = logger,
-                        )?.let {
-                            genSpecs.add(it)
-                        }
+                    if (symbols.symbolsForProcessing.isNotEmpty()) {
+                        try {
+                            processor.multiSymbolsProcess(
+                                targetSymbols = symbols.symbolsForProcessing,
+                                resolver = resolver,
+                                options = options,
+                                logger = logger,
+                            )?.let {
+                                genSpecs.add(it)
+                            }
 
-                        genSpecs.addAll(
-                            symbols.symbolsForProcessing
-                                .mapNotNull { targetSymbol ->
-                                    processor.process(
-                                        targetSymbol = targetSymbol,
-                                        resolver = resolver,
-                                        options = options,
-                                        logger = logger,
-                                    )
-                                }
-                        )
-                    } catch (e: KspBaseException) {
-                        logger.error(e.toString(), e.findErrorElement())
+                            genSpecs.addAll(
+                                symbols.symbolsForProcessing
+                                    .mapNotNull { targetSymbol ->
+                                        processor.process(
+                                            targetSymbol = targetSymbol,
+                                            resolver = resolver,
+                                            options = options,
+                                            logger = logger,
+                                        )
+                                    }
+                            )
+                        } catch (e: KspBaseException) {
+                            logger.error(e.toString(), e.findErrorElement())
+                        }
                     }
                 }
             }
