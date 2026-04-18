@@ -10,6 +10,8 @@ import io.ktor.server.response.respondBytes
 import io.ktor.server.response.respondText
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine
+import java.net.InetAddress
+import java.net.NetworkInterface
 
 @CommandLine.Command(
     name = "server",
@@ -34,8 +36,63 @@ class DesignComponentsServerCmd : Runnable {
             configureRouting()
         }
 
-        runBlocking {
-            server.start(wait = true)
+        try {
+            server.start(wait = false)
+
+            val hostName = try {
+                InetAddress.getLocalHost().hostName
+            } catch (e: Exception) {
+                "design-storybook"
+            }
+
+            val networkAddresses = getNetworkAddresses()
+
+            println()
+            println("═══════════════════════════════════════════════════════════════")
+            println("  Design Storybook Server Started")
+            println("═══════════════════════════════════════════════════════════════")
+            println("  Local access:     http://localhost:$port")
+
+            if (networkAddresses.isNotEmpty()) {
+                networkAddresses.forEachIndexed { index, ip ->
+                    println("  Network access:   http://$ip:$port")
+                }
+            }
+
+            println("  Hostname:         $hostName")
+            println("  Port:             $port")
+            println()
+            println("  Server is listening on 0.0.0.0:$port")
+            println("  Accessible from any device on your network")
+            println("═══════════════════════════════════════════════════════════════")
+            println()
+
+            runBlocking {
+                server.stop(gracePeriodMillis = 5000, timeoutMillis = 10000)
+            }
+
+        } catch (e: Exception) {
+            println("Error starting server: ${e.message}")
+            e.printStackTrace()
+        }
+    }
+
+    private fun getNetworkAddresses(): List<String> {
+        return try {
+            NetworkInterface.getNetworkInterfaces()
+                .toList()
+                .flatMap { iface ->
+                    iface.inetAddresses
+                        .toList()
+                        .filter { addr ->
+                            !addr.isLoopbackAddress && addr.hostAddress.contains(".")
+                        }
+                        .map { it.hostAddress }
+                }
+                .distinct()
+                .sorted()
+        } catch (e: Exception) {
+            emptyList()
         }
     }
 
