@@ -9,10 +9,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.github.klee0kai.hummus.compose.HummusTheme
 import com.github.klee0kai.hummus.compose.theme.HummusDefaultThemes
-import com.github.klee0kai.storybook.components.TypeSchemeEditor
-import com.github.klee0kai.storybook.components.TypographyPreview
+import com.github.klee0kai.hummus.storybook.storybook.components.TypeSchemeEditor
+import com.github.klee0kai.hummus.storybook.storybook.components.TypographyPreview
 
 @Composable
 fun TypographyBrowserScreen(modifier: Modifier = Modifier) {

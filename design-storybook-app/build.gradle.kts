@@ -47,10 +47,10 @@ kotlin {
                 implementation(project(":design-core"))
                 implementation(project(":design-storybook"))
 
-                implementation("info.picocli:picocli:4.7.5")
+                implementation(libs.picocli)
                 implementation(libs.bundles.compose)
-                implementation("io.ktor:ktor-server-core:3.1.0")
-                implementation("io.ktor:ktor-server-netty:3.1.0")
+                implementation(libs.ktor.server.core)
+                implementation(libs.ktor.server.netty)
             }
         }
 

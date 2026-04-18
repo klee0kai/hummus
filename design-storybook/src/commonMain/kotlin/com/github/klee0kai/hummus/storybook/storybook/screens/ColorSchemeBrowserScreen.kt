@@ -17,8 +17,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
 import com.github.klee0kai.hummus.compose.HummusTheme
 import com.github.klee0kai.hummus.compose.theme.HummusDefaultThemes
-import com.github.klee0kai.storybook.components.ColorSchemeEditor
-import com.github.klee0kai.storybook.components.ThemePreview
+import com.github.klee0kai.hummus.storybook.storybook.components.ColorSchemeEditor
+import com.github.klee0kai.hummus.storybook.storybook.components.ThemePreview
 
 @Composable
 fun ColorSchemeBrowserScreen(modifier: Modifier = Modifier) {
