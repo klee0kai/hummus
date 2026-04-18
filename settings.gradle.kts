@@ -34,4 +34,5 @@ include(
     ":design-kit",
     ":design-ksp",
     ":design-storybook",
+    ":design-storybook-app",
 )
