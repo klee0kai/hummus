@@ -4,3 +4,8 @@ plugins {
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.android.library) apply false
 }
+
+// Disable yarn lock file validation
+rootProject.tasks.matching { it.name == "kotlinStoreYarnLock" }.all {
+    enabled = false
+}

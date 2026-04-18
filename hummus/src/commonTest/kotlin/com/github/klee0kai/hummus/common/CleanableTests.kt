@@ -1,5 +1,6 @@
 package com.github.klee0kai.hummus.common
 
+import com.github.klee0kai.hummus.cleanable.Cleanable
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

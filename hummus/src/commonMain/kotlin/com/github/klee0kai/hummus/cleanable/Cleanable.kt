@@ -1,4 +1,4 @@
-package com.github.klee0kai.hummus.common
+package com.github.klee0kai.hummus.cleanable
 
 /**
  * Interface for objects that can be cleaned up or reset.

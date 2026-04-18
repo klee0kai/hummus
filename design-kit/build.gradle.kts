@@ -3,9 +3,12 @@ plugins {
     alias(libs.plugins.publish.maven)
     alias(libs.plugins.kotlin.serialization)
 //    alias(libs.plugins.publish.stone)
+    alias(libs.plugins.compose.multiplatform)
+    alias(libs.plugins.compose.compiler)
 }
 
-group = "com.github.klee0kai.hummus"
+group = "com.github.klee0kai.hummus.compose"
+
 
 kotlin {
     jvm()
@@ -14,21 +17,20 @@ kotlin {
         nodejs()
     }
 
-    linuxX64()
-    mingwX64()
+//    linuxX64()
+//    mingwX64()
     wasmJs {
         browser()
         nodejs()
     }
 
-
-
     sourceSets {
         commonMain.dependencies {
+            api(project(":hummus"))
             api(libs.bundles.kotlin)
-            api(libs.stone.ref)
-            api(libs.stone.inject)
+            api(libs.bundles.compose)
         }
+
         commonTest.dependencies {
             api(libs.kotlin.test)
         }
