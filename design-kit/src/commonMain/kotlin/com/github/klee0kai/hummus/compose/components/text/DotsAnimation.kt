@@ -13,7 +13,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.github.klee0kai.hummus.compose.LocalHummusTheme
+import com.github.klee0kai.hummus.design.core.DesignComponent
 
+@DesignComponent
 @Composable
 fun DotsFlashing(
     modifier: Modifier = Modifier,

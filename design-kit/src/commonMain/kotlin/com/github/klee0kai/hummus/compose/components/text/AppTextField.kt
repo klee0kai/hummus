@@ -23,10 +23,12 @@ import com.github.klee0kai.hummus.compose.LocalHummusTheme
 import com.github.klee0kai.hummus.compose.utils.views.animateAlphaAsState
 import com.github.klee0kai.hummus.compose.utils.views.grayColors
 import com.github.klee0kai.hummus.compose.utils.views.transparentColors
+import com.github.klee0kai.hummus.design.core.DesignComponent
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
 import com.valentinilk.shimmer.shimmer
 
+@DesignComponent
 @Composable
 fun HummusTextField(
     modifier: Modifier = Modifier,

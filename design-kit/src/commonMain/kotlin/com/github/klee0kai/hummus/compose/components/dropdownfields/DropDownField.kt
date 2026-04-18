@@ -16,8 +16,10 @@ import com.github.klee0kai.hummus.compose.LocalHummusTheme
 import com.github.klee0kai.hummus.compose.utils.possitions.onGlobalPositionState
 import com.github.klee0kai.hummus.compose.utils.possitions.rememberViewPosition
 import com.github.klee0kai.hummus.compose.components.overlay.PopupMenu
+import com.github.klee0kai.hummus.design.core.DesignComponent
 import kotlinx.coroutines.flow.filterIsInstance
 
+@DesignComponent
 @Composable
 fun DropDownField(
     modifier: Modifier = Modifier,

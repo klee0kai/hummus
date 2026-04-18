@@ -11,6 +11,7 @@ class ProcessorProvider : SymbolProcessorProvider {
         return TargetKSPProcessor(
             targetProcessors = arrayOf(
                 PreviewsRegistryTargetProcessor(),
+                DesignComponentsRegistryProcessor(),
             ),
             options = environment.options,
             logger = environment.logger,

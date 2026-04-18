@@ -9,7 +9,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import com.github.klee0kai.hummus.compose.utils.views.animateTargetFaded
+import com.github.klee0kai.hummus.design.core.DesignComponent
 
+@DesignComponent
 @Composable
 fun AddCheckedIcon(
     modifier: Modifier = Modifier,

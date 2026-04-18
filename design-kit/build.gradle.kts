@@ -5,6 +5,7 @@ plugins {
 //    alias(libs.plugins.publish.stone)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.ksp)
 }
 
 group = "com.github.klee0kai.hummus.compose"
@@ -48,5 +49,9 @@ kotlin {
             }
         }
     }
+}
+
+dependencies {
+    ksp(project(":design-ksp"))
 }
 

@@ -21,6 +21,7 @@ import com.github.klee0kai.hummus.compose.components.dropdownfields.SimpleSelect
 import com.github.klee0kai.hummus.compose.components.text.HummusTextField
 import com.github.klee0kai.hummus.compose.utils.possitions.*
 import com.github.klee0kai.hummus.compose.utils.views.*
+import com.github.klee0kai.hummus.design.core.DesignComponent
 import kotlin.time.Duration
 
 private enum class PopupGravity {
@@ -28,6 +29,7 @@ private enum class PopupGravity {
     BOTTOM,
 }
 
+@DesignComponent
 @Composable
 fun PopupMenu(
     visible: Boolean,

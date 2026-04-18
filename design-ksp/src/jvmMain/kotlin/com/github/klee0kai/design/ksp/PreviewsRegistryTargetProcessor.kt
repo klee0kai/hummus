@@ -134,7 +134,7 @@ class PreviewsRegistryTargetProcessor : TargetSymbolProcessor {
         func: KSFunctionDeclaration,
         annotationsCode: CodeBlock,
         paramIndex: String = "0",
-        funParams: String = "",
+        funParams: String? = null,
     ) {
         addStatement(
             "yield( FoundPreviewMethod( " +
@@ -148,10 +148,10 @@ class PreviewsRegistryTargetProcessor : TargetSymbolProcessor {
                     "} ) ",
             func.toMemberName().packageName,
             func.toMemberName().simpleName,
-            "null",
+            funParams ?: "null",
             paramIndex,
             func.toMemberName(),
-            funParams,
+            funParams ?: "",
         )
     }
 

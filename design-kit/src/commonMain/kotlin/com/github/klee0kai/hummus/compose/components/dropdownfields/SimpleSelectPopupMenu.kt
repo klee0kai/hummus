@@ -14,7 +14,9 @@ import com.github.klee0kai.hummus.compose.LocalHummusTheme
 import com.github.klee0kai.hummus.compose.utils.possitions.onGlobalPositionState
 import com.github.klee0kai.hummus.compose.utils.possitions.pxToDp
 import com.github.klee0kai.hummus.compose.utils.possitions.rememberViewPosition
+import com.github.klee0kai.hummus.design.core.DesignComponent
 
+@DesignComponent
 @Composable
 fun SimpleSelectPopupMenu(
     modifier: Modifier = Modifier,
