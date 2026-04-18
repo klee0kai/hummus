@@ -93,7 +93,8 @@ class DesignComponentsRegistryProcessor : TargetSymbolProcessor {
 
         val fileSpec = genFileSpec(commonPkg, "DesignComponentsRegistry") {
             genObject(ClassName(packageName, "DesignComponentsRegistry")) {
-                addAnnotation(DebugOnly::class.asClassName())
+                // Note: Not adding @DebugOnly to allow access from UI components
+                // addAnnotation(DebugOnly::class.asClassName())
 
                 genProperty(
                     "components",
