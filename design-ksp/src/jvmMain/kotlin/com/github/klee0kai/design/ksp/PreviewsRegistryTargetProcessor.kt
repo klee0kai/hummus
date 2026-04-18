@@ -4,10 +4,13 @@ package com.github.klee0kai.design.ksp
 
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.klee0kai.crossbox.processor.common.findCommonPgk
-import com.github.klee0kai.crossbox.processor.exceptions.forEachAnnotated
+import com.github.klee0kai.crossbox.processor.exceptions.forEachKsNode
+import com.github.klee0kai.crossbox.processor.exceptions.mapKsNode
 import com.github.klee0kai.crossbox.processor.ksp.arch.GenSpec
 import com.github.klee0kai.crossbox.processor.ksp.arch.SymbolsToProcess
 import com.github.klee0kai.crossbox.processor.ksp.arch.TargetSymbolProcessor
+import com.github.klee0kai.crossbox.processor.ksp.poet.invokeCodeBlock
+import com.github.klee0kai.crossbox.processor.ksp.poet.toMemberName
 import com.github.klee0kai.crossbox.processor.poet.*
 import com.github.klee0kai.hummus.design.core.FoundPreviewMethod
 import com.google.devtools.ksp.KspExperimental
@@ -19,9 +22,11 @@ import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.validate
 import com.squareup.kotlinpoet.ClassName
-import com.squareup.kotlinpoet.MemberName
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.asClassName
+import com.squareup.kotlinpoet.joinToCode
+import com.squareup.kotlinpoet.ksp.toTypeName
 import androidx.compose.desktop.ui.tooling.preview.Preview as OldPreview
 
 class PreviewsRegistryTargetProcessor : TargetSymbolProcessor {
@@ -68,30 +73,37 @@ class PreviewsRegistryTargetProcessor : TargetSymbolProcessor {
                 ) {
                     genGetter {
                         genControlFlow("sequence<%T>", FoundPreviewMethod::class.asClassName()) {
-                            targetSymbols.forEachAnnotated { idx, it ->
+                            targetSymbols.forEachKsNode { idx, it ->
                                 val func = it as? KSFunctionDeclaration ?: error("should be a function")
 
-                                val memo = MemberName(
-                                    func.packageName.asString(),
-                                    func.simpleName.asString(),
-                                )
+                                val annotationsCode = func.annotations.mapKsNode { index, annotation ->
+                                    val annotationTypeName = annotation
+                                        .annotationType
+                                        .resolve()
+                                        .toTypeName()
+                                    val args = annotation.arguments
+                                        .mapKsNode { idx, arg -> arg.invokeCodeBlock() }
+                                        .joinToCode(separator = ",")
+                                    CodeBlock.of("%T(%L)", annotationTypeName, args)
+                                }.toList()
+                                    .joinToCode(separator = ",\n")
+
 
                                 addStatement(
                                     "yield( FoundPreviewMethod( " +
                                             "pkg = %S,\n " +
                                             "methodName = %S,\n " +
-                                            "annotations = %L ,\n " +
+                                            "annotations = listOf(\n    $annotationsCode\n) ,\n " +
                                             "param = %L , \n " +
                                             "paramIdx = %L , \n " +
                                             ") { \n " +
                                             "%M( %L ) \n " +
                                             "} ) ",
-                                    memo.packageName,
-                                    memo.simpleName,
-                                    "listOf()",
+                                    func.toMemberName().packageName,
+                                    func.toMemberName().simpleName,
                                     "null",
                                     "1",
-                                    memo,
+                                    func.toMemberName(),
                                     "",
                                 )
 

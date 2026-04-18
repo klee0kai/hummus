@@ -2,6 +2,7 @@ package com.github.klee0kai.crossbox.processor.poet
 
 import com.github.klee0kai.crossbox.processor.exceptions.wrapKsNoteInfo
 import com.github.klee0kai.crossbox.processor.ksp.isSuspend
+import com.github.klee0kai.crossbox.processor.ksp.poet.declareSameParameters
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ksp.toTypeName

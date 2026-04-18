@@ -1,6 +1,5 @@
 package com.github.klee0kai.crossbox.processor.exceptions
 
-import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSNode
 
 inline fun <T, R> T.wrapKsNoteInfo(
@@ -18,7 +17,7 @@ inline fun <T, R> T.wrapKsNoteInfo(
     }
 }
 
-fun <T : KSAnnotated> Sequence<T>.forEachAnnotated(
+fun <T : KSNode> Sequence<T>.forEachKsNode(
     action: (index: Int, T) -> Unit
 ) {
     forEachIndexed { idx, func ->
@@ -29,7 +28,7 @@ fun <T : KSAnnotated> Sequence<T>.forEachAnnotated(
 }
 
 
-fun <T : KSAnnotated> Iterable<T>.forEachAnnotated(
+fun <T : KSNode> Iterable<T>.forEachKsNode(
     action: (index: Int, T) -> Unit
 ) {
     forEachIndexed { idx, func ->
@@ -38,3 +37,22 @@ fun <T : KSAnnotated> Iterable<T>.forEachAnnotated(
         }
     }
 }
+
+fun <T : KSNode, R> Sequence<T>.mapKsNode(
+    action: (index: Int, T) -> R
+) = mapIndexed { idx, func ->
+    wrapKsNoteInfo(func) {
+        action(idx, func)
+    }
+}
+
+
+fun <T : KSNode, R> Iterable<T>.mapKsNode(
+    action: (index: Int, T) -> R
+) = mapIndexed { idx, func ->
+    wrapKsNoteInfo(func) {
+        action(idx, func)
+    }
+}
+
+
