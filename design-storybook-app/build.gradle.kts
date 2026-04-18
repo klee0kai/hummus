@@ -49,12 +49,15 @@ kotlin {
 
                 implementation("info.picocli:picocli:4.7.5")
                 implementation(libs.bundles.compose)
+                implementation("io.ktor:ktor-server-core:3.1.0")
+                implementation("io.ktor:ktor-server-netty:3.1.0")
             }
         }
 
         val desktopMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
+                implementation(project(":design-storybook", configuration = "wasmArchives"))
             }
         }
     }
@@ -77,6 +80,9 @@ tasks.register<Jar>("fatJar") {
     dependsOn(desktopJar)
     from(desktopJar.map { zipTree(it.archiveFile) })
     from(desktopMain.map { files -> files.map { if (it.isDirectory) it else zipTree(it) } })
+    from(configurations.getByName("desktopRuntimeClasspath").map {
+        if (it.isDirectory) it else zipTree(it)
+    })
     isZip64 = true
     exclude("META-INF/*.RSA", "META-INF/*.SF", "META-INF/*.DSA")
 }

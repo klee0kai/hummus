@@ -1,6 +1,7 @@
 package com.github.klee0kai.hummus.storybook
 
 import com.github.klee0kai.hummus.storybook.cmd.DesignComponentsViewerCmd
+import com.github.klee0kai.hummus.storybook.cmd.DesignComponentsServerCmd
 import picocli.CommandLine
 import java.util.concurrent.Callable
 import kotlin.system.exitProcess
@@ -12,6 +13,7 @@ import kotlin.system.exitProcess
     version = ["1.0.0"],
     subcommands = [
         DesignComponentsViewerCmd::class,
+        DesignComponentsServerCmd::class,
     ]
 )
 class DesignStorybookApp : Callable<Int> {

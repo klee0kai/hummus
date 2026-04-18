@@ -59,6 +59,26 @@ tasks.matching { it.name.startsWith("ksp") && it.name != "kspCommonMainKotlinMet
 //    enabled = false
 }
 
+tasks.register<Jar>("wasmJsBrowserProductionJar") {
+    group = "build"
+    description = "Package WASM artifacts into JAR"
+    archiveClassifier.set("prod")
+    archiveAppendix.set("wasm-artifacts")
+
+    val wasmOutputDir = layout.buildDirectory.dir("dist/wasmJs/productionExecutable")
+    from(wasmOutputDir)
+}
+
+configurations {
+    create("wasmArchives") {
+        isCanBeConsumed = true
+        isCanBeResolved = false
+    }
+}
+
+artifacts {
+    add("wasmArchives", tasks.named("wasmJsBrowserProductionJar"))
+}
 
 dependencies {
     kspCommonMainMetadata(libs.stone.ksp)
