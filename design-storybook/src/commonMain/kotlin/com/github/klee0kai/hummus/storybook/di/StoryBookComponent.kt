@@ -1,7 +1,7 @@
 package com.github.klee0kai.hummus.storybook.di
 
 import com.github.klee0kai.hummus.compose.HummusComposeConfig
-import com.github.klee0kai.hummus.compose.debug.annotations.DebugOnly
+import com.github.klee0kai.hummus.design.core.DebugOnly
 import com.github.klee0kai.hummus.storybook.di.modules.ComposeModules
 import com.github.klee0kai.hummus.storybook.di.modules.UIComposeModule
 import com.github.klee0kai.hummus.storybook.di.providers.ComposeProviders

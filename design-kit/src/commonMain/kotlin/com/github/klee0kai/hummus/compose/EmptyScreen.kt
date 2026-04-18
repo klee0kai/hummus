@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.github.klee0kai.hummus.compose.debug.annotations.DebugOnly
+import com.github.klee0kai.hummus.design.core.DebugOnly
 
 
 @Composable

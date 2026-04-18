@@ -6,7 +6,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import com.github.klee0kai.hummus.compose.HummusTheme
 import com.github.klee0kai.hummus.compose.LocalHummusComposeConfig
 import com.github.klee0kai.hummus.compose.components.overlay.OverlayContainer
-import com.github.klee0kai.hummus.compose.debug.annotations.DebugOnly
+import com.github.klee0kai.hummus.design.core.DebugOnly
 import com.github.klee0kai.hummus.compose.theme.HummusTheme
 
 

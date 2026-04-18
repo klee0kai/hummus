@@ -17,7 +17,7 @@ import com.github.klee0kai.hummus.compose.components.dropdownfields.SimpleSelect
 import com.github.klee0kai.hummus.compose.components.overlay.PopupMenu
 import com.github.klee0kai.hummus.compose.components.text.HummusTextField
 import com.github.klee0kai.hummus.compose.debug.DebugScreenPreview
-import com.github.klee0kai.hummus.compose.debug.annotations.DebugOnly
+import com.github.klee0kai.hummus.design.core.DebugOnly
 import com.github.klee0kai.hummus.compose.utils.possitions.onGlobalPositionState
 import com.github.klee0kai.hummus.compose.utils.possitions.rememberViewPosition
 import com.github.klee0kai.hummus.compose.utils.views.appContent

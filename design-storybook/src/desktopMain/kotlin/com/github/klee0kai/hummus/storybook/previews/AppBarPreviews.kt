@@ -14,7 +14,7 @@ import com.github.klee0kai.hummus.compose.components.appbar.HummusBarStates
 import com.github.klee0kai.hummus.compose.components.appbar.LoadingTitle
 import com.github.klee0kai.hummus.compose.components.appbar.SearchTitle
 import com.github.klee0kai.hummus.compose.debug.DebugContentPreview
-import com.github.klee0kai.hummus.compose.debug.annotations.DebugOnly
+import com.github.klee0kai.hummus.design.core.DebugOnly
 
 
 @OptIn(DebugOnly::class)

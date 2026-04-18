@@ -1,4 +1,4 @@
-package com.github.klee0kai.hummus.compose.debug.annotations
+package com.github.klee0kai.hummus.design.core
 
 /**
  * screen preview desc

@@ -12,7 +12,7 @@ import com.github.klee0kai.hummus.compose.components.dropdownfields.DropDownFiel
 import com.github.klee0kai.hummus.compose.components.dropdownfields.SimpleSelectPopupMenu
 import com.github.klee0kai.hummus.compose.debug.DebugContentPreview
 import com.github.klee0kai.hummus.compose.debug.DebugScreenPreview
-import com.github.klee0kai.hummus.compose.debug.annotations.DebugOnly
+import com.github.klee0kai.hummus.design.core.DebugOnly
 
 
 @OptIn(DebugOnly::class)
