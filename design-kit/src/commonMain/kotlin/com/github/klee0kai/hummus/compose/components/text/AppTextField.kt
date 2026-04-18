@@ -18,11 +18,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.klee0kai.hummus.compose.LocalHummusTheme
-import com.github.klee0kai.hummus.compose.debug.DebugContentPreview
-import com.github.klee0kai.hummus.compose.debug.annotations.DebugOnly
 import com.github.klee0kai.hummus.compose.utils.views.animateAlphaAsState
 import com.github.klee0kai.hummus.compose.utils.views.grayColors
 import com.github.klee0kai.hummus.compose.utils.views.transparentColors
@@ -191,91 +188,3 @@ fun HummusTextField(
 }
 
 
-@OptIn(DebugOnly::class)
-@Composable
-@Preview
-fun AppTextFieldPreview() = DebugContentPreview {
-    Box(
-        modifier = Modifier.padding(10.dp)
-    ) {
-        HummusTextField(
-            modifier = Modifier,
-            value = TextFieldValue("User some input text"),
-            label = {
-                Text(text = "label")
-            }
-        )
-    }
-}
-
-@OptIn(DebugOnly::class)
-@Composable
-@Preview
-fun AppTextFieldSkeletonPreview() = DebugContentPreview {
-    Box(
-        modifier = Modifier.padding(10.dp),
-    ) {
-        HummusTextField(
-            modifier = Modifier,
-            isSkeleton = true,
-            value = "User some input text",
-            label = {
-                Text(text = "label")
-            }
-        )
-    }
-}
-
-@OptIn(DebugOnly::class)
-@Composable
-@Preview
-fun AppTextEmptyFieldPreview() = DebugContentPreview {
-    Box(
-        modifier = Modifier.padding(10.dp)
-    ) {
-        HummusTextField(
-            modifier = Modifier,
-            value = "",
-            label = {
-                Text(text = "label")
-            }
-        )
-    }
-}
-
-
-@OptIn(DebugOnly::class)
-@Composable
-@Preview
-fun AppTransparentTextFieldPreview() = DebugContentPreview {
-    Box(
-        modifier = Modifier.padding(10.dp)
-    ) {
-        HummusTextField(
-            modifier = Modifier,
-            value = TextFieldValue("User some input text"),
-            label = {
-                Text(text = "label")
-            },
-            colors = TextFieldDefaults.transparentColors(),
-        )
-    }
-}
-
-@OptIn(DebugOnly::class)
-@Composable
-@Preview
-fun AppTransparentTextEmptyFieldPreview() = DebugContentPreview {
-    Box(
-        modifier = Modifier.padding(10.dp)
-    ) {
-        HummusTextField(
-            modifier = Modifier,
-            value = "",
-            label = {
-                Text(text = "label")
-            },
-            colors = TextFieldDefaults.transparentColors(),
-        )
-    }
-}

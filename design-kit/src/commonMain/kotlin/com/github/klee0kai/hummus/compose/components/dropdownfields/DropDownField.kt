@@ -4,22 +4,15 @@ package com.github.klee0kai.hummus.compose.components.dropdownfields
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.klee0kai.hummus.compose.components.text.HummusTextField
 import com.github.klee0kai.hummus.compose.LocalHummusTheme
-import com.github.klee0kai.hummus.compose.debug.DebugScreenPreview
-import com.github.klee0kai.hummus.compose.debug.annotations.DebugOnly
 import com.github.klee0kai.hummus.compose.utils.possitions.onGlobalPositionState
 import com.github.klee0kai.hummus.compose.utils.possitions.rememberViewPosition
 import com.github.klee0kai.hummus.compose.components.overlay.PopupMenu
@@ -78,35 +71,3 @@ fun DropDownField(
 
 }
 
-@OptIn(DebugOnly::class)
-@Composable
-@Preview
-fun DropDownFieldPreview() = DebugScreenPreview {
-    var isExpanded by remember { mutableStateOf(false) }
-    val variants = remember {
-        buildList {
-            repeat(10) { idx ->
-                add("select $idx")
-            }
-        }
-    }
-    var selectedIndex by remember { mutableIntStateOf(-1) }
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        DropDownField(
-            expanded = isExpanded,
-            variants = variants,
-            selectedIndex = selectedIndex,
-            onExpandedChange = { isExpanded = it },
-            onSelected = {
-                isExpanded = false
-                selectedIndex = it
-            },
-            label = {
-                Text(text = "select")
-            }
-        )
-    }
-}

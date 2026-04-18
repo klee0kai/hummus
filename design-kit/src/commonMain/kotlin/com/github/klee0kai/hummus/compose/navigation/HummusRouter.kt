@@ -14,11 +14,11 @@ interface HummusRouter {
 
     val navItems: Flow<List<NavItem>> get() = emptyFlow()
 
-    val navigator: ThreePaneScaffoldNavigator<Destination>?
+    val navigator: ThreePaneScaffoldNavigator<Destination>? get() = null
 
     fun navigator(
         navigator: ThreePaneScaffoldNavigator<Destination>? = null,
-    ): ThreePaneScaffoldNavigator<Destination>
+    ): ThreePaneScaffoldNavigator<Destination> = error("no navigator")
 
     fun navigate(destination: Destination): Job = Job()
 
@@ -34,6 +34,6 @@ interface HummusRouter {
     fun BackHandler(
         isEnabled: Boolean = true,
         onBack: () -> Unit,
-    )
+    ) = Unit
 
 }

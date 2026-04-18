@@ -1,22 +1,14 @@
 package com.github.klee0kai.hummus.compose.components.appbar
 
-import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.klee0kai.hummus.compose.components.text.DotsFlashing
-import com.github.klee0kai.hummus.compose.debug.DebugContentPreview
-import com.github.klee0kai.hummus.compose.debug.annotations.DebugOnly
 import com.github.klee0kai.hummus.compose.utils.possitions.pxToDp
 
 @Composable
@@ -54,21 +46,3 @@ fun LoadingTitle(
 
 }
 
-@OptIn(DebugOnly::class)
-@VisibleForTesting
-@Composable
-@Preview
-fun StorageLoadingTitlePreview() = DebugContentPreview {
-    HummusBarStates(
-        navigationIcon = {
-            IconButton(onClick = { }) {
-                Icon(
-                    Icons.AutoMirrored.Default.ArrowBack,
-                    contentDescription = null,
-                )
-            }
-        }
-    ) {
-        LoadingTitle(text = "Loading")
-    }
-}
