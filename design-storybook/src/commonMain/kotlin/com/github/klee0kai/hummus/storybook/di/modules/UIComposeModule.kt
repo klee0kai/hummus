@@ -5,7 +5,7 @@ import com.github.klee0kai.hummus.compose.screenresolver.ScreenResolverCommonImp
 import com.github.klee0kai.stone.annotations.module.Module
 import com.github.klee0kai.stone.annotations.module.Provide
 
-@Module(genProviderName = "UIProvider")
+@Module
 interface UIComposeModule {
 
 //    @Provide(cache = Provide.CacheType.Weak)

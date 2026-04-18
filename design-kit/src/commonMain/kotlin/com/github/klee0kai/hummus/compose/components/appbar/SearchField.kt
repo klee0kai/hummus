@@ -15,7 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.tooling.preview.Preview
-import com.github.klee0kai.hummus.compose.components.text.AppTextField
+import com.github.klee0kai.hummus.compose.components.text.HummusTextField
 import com.github.klee0kai.hummus.compose.debug.DebugContentPreview
 import com.github.klee0kai.hummus.compose.debug.annotations.DebugOnly
 import com.github.klee0kai.hummus.compose.utils.views.transparentColors
@@ -30,7 +30,7 @@ fun SearchTitle(
 ) {
 
     Box {
-        AppTextField(
+        HummusTextField(
             modifier = textModifier
                 .wrapContentHeight()
                 .fillMaxWidth(),
@@ -50,50 +50,6 @@ fun SearchTitle(
                 .align(Alignment.CenterEnd),
             onClick = { onClose.invoke() },
             content = { Icon(Icons.Filled.Close, contentDescription = null) }
-        )
-    }
-}
-
-@OptIn(DebugOnly::class)
-@Preview
-@Composable
-fun SearchFieldEmptyPreview() = DebugContentPreview {
-    HummusBarStates(
-        navigationIcon = {
-            IconButton(onClick = { }) {
-                Icon(
-                    Icons.AutoMirrored.Default.ArrowBack,
-                    contentDescription = null,
-                )
-            }
-        }
-    ) {
-        SearchTitle(
-            textModifier = Modifier,
-            searchTitle = "Search",
-            searchText = "",
-        )
-    }
-}
-
-@OptIn(DebugOnly::class)
-@Preview
-@Composable
-fun SearchFieldTextPreview() = DebugContentPreview {
-    HummusBarStates(
-        navigationIcon = {
-            IconButton(onClick = { }) {
-                Icon(
-                    Icons.AutoMirrored.Default.ArrowBack,
-                    contentDescription = null,
-                )
-            }
-        }
-    ) {
-        SearchTitle(
-            textModifier = Modifier,
-            searchTitle = "Search",
-            searchText = "some text",
         )
     }
 }

@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.github.klee0kai.hummus.compose.components.text.AppTextField
+import com.github.klee0kai.hummus.compose.components.text.HummusTextField
 import com.github.klee0kai.hummus.compose.LocalHummusTheme
 import com.github.klee0kai.hummus.compose.debug.DebugScreenPreview
 import com.github.klee0kai.hummus.compose.debug.annotations.DebugOnly
@@ -48,7 +48,7 @@ fun DropDownField(
             }
     }
 
-    AppTextField(
+    HummusTextField(
         modifier = modifier
             .onGlobalPositionState(textFieldPosition),
         isSkeleton = isSkeleton,

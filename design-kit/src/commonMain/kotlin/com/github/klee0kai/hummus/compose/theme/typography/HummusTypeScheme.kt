@@ -5,13 +5,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.github.klee0kai.hummus.compose.theme.typography.RegularAppTypeScheme.bodySmallText
-import com.github.klee0kai.hummus.compose.theme.typography.RegularAppTypeScheme.bodyText
-import com.github.klee0kai.hummus.compose.theme.typography.RegularAppTypeScheme.buttonText
-import com.github.klee0kai.hummus.compose.theme.typography.RegularAppTypeScheme.headerText
-import com.github.klee0kai.hummus.compose.theme.typography.RegularAppTypeScheme.screenHeaderText
+import com.github.klee0kai.hummus.compose.theme.typography.HummusAppTypeScheme.bodySmallText
+import com.github.klee0kai.hummus.compose.theme.typography.HummusAppTypeScheme.bodyText
+import com.github.klee0kai.hummus.compose.theme.typography.HummusAppTypeScheme.buttonText
+import com.github.klee0kai.hummus.compose.theme.typography.HummusAppTypeScheme.headerText
+import com.github.klee0kai.hummus.compose.theme.typography.HummusAppTypeScheme.screenHeaderText
 
-internal object RegularAppTypeScheme {
+internal object HummusAppTypeScheme {
     val appFontFamily = FontFamily.SansSerif
 
     val androidTitleLarge = TextStyle(

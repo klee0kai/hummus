@@ -31,7 +31,7 @@ import com.valentinilk.shimmer.rememberShimmer
 import com.valentinilk.shimmer.shimmer
 
 @Composable
-fun AppTextField(
+fun HummusTextField(
     modifier: Modifier = Modifier,
     value: TextFieldValue,
     enabled: Boolean = true,
@@ -111,7 +111,7 @@ fun AppTextField(
 }
 
 @Composable
-fun AppTextField(
+fun HummusTextField(
     modifier: Modifier = Modifier,
     value: String,
     enabled: Boolean = true,
@@ -198,7 +198,7 @@ fun AppTextFieldPreview() = DebugContentPreview {
     Box(
         modifier = Modifier.padding(10.dp)
     ) {
-        AppTextField(
+        HummusTextField(
             modifier = Modifier,
             value = TextFieldValue("User some input text"),
             label = {
@@ -215,7 +215,7 @@ fun AppTextFieldSkeletonPreview() = DebugContentPreview {
     Box(
         modifier = Modifier.padding(10.dp),
     ) {
-        AppTextField(
+        HummusTextField(
             modifier = Modifier,
             isSkeleton = true,
             value = "User some input text",
@@ -233,7 +233,7 @@ fun AppTextEmptyFieldPreview() = DebugContentPreview {
     Box(
         modifier = Modifier.padding(10.dp)
     ) {
-        AppTextField(
+        HummusTextField(
             modifier = Modifier,
             value = "",
             label = {
@@ -251,7 +251,7 @@ fun AppTransparentTextFieldPreview() = DebugContentPreview {
     Box(
         modifier = Modifier.padding(10.dp)
     ) {
-        AppTextField(
+        HummusTextField(
             modifier = Modifier,
             value = TextFieldValue("User some input text"),
             label = {
@@ -269,7 +269,7 @@ fun AppTransparentTextEmptyFieldPreview() = DebugContentPreview {
     Box(
         modifier = Modifier.padding(10.dp)
     ) {
-        AppTextField(
+        HummusTextField(
             modifier = Modifier,
             value = "",
             label = {

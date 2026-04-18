@@ -19,7 +19,7 @@ import com.github.klee0kai.hummus.compose.LocalHummusRouter
 import com.github.klee0kai.hummus.compose.LocalHummusTheme
 import com.github.klee0kai.hummus.compose.components.appbar.HummusBarConst
 import com.github.klee0kai.hummus.compose.components.dropdownfields.SimpleSelectPopupMenu
-import com.github.klee0kai.hummus.compose.components.text.AppTextField
+import com.github.klee0kai.hummus.compose.components.text.HummusTextField
 import com.github.klee0kai.hummus.compose.debug.DebugScreenPreview
 import com.github.klee0kai.hummus.compose.debug.annotations.DebugOnly
 import com.github.klee0kai.hummus.compose.utils.possitions.*
@@ -413,7 +413,7 @@ fun PopupMenuInsetsPreview() = DebugScreenPreview() {
             pathTextField,
         ) = createRefs()
 
-        AppTextField(
+        HummusTextField(
             modifier = Modifier
                 .onFocusChanged { }
                 .onGlobalPositionState(storagePathPosition)
@@ -482,7 +482,7 @@ fun PopupMenuMaxSizePreview() = DebugScreenPreview() {
             pathTextField,
         ) = createRefs()
 
-        AppTextField(
+        HummusTextField(
             modifier = Modifier
                 .onFocusChanged { }
                 .onGlobalPositionState(storagePathPosition)

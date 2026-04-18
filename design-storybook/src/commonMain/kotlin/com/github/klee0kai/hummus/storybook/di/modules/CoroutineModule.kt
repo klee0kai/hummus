@@ -8,7 +8,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 
-@Module(genProviderName = "CoroutineProvider")
+@Module
 interface CoroutineModule {
 
     @MainDispatcher

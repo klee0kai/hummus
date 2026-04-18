@@ -40,6 +40,8 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 api(compose.desktop.currentOs)
+                api(libs.kotlinx.coroutines.swing)
+                api(libs.compose.tooling)
             }
         }
 
@@ -52,12 +54,12 @@ kotlin {
     }
 }
 
-// Trigger Common Metadata Generation from Native tasks
 tasks.matching { it.name.startsWith("ksp") && it.name != "kspCommonMainKotlinMetadata" }.configureEach {
     dependsOn("kspCommonMainKotlinMetadata")
+    enabled = false
 }
 
+
 dependencies {
-    ksp(libs.stone.ksp)
     kspCommonMainMetadata(libs.stone.ksp)
 }

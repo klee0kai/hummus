@@ -5,4 +5,3 @@ import androidx.compose.runtime.Stable
 @Stable
 interface WidgetState
 
-data object StartServerToggleSettingWidgetState : WidgetState
