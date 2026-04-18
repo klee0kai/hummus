@@ -20,7 +20,7 @@ import com.github.klee0kai.storybook.utils.getRegisteredComponents
  * Экран для просмотра и тестирования компонентов с редактированием параметров
  */
 @Composable
-fun DesignComponentsBrowser() {
+fun DesignComponentsBrowser(modifier: Modifier = Modifier) {
     LaunchedEffect(Unit) {
         initializeComponentPresets()
     }
@@ -36,7 +36,7 @@ fun DesignComponentsBrowser() {
         component.pkg.contains(searchQuery.text, ignoreCase = true)
     }
 
-    Row(modifier = Modifier.fillMaxSize()) {
+    Row(modifier = modifier.fillMaxSize()) {
         // Left panel: Component list
         ComponentListPanel(
             components = filteredComponents,
