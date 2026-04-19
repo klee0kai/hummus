@@ -1,19 +1,14 @@
 package com.github.klee0kai.hummus.storybook.cmd
 
-import io.ktor.server.application.Application
-import io.ktor.server.engine.embeddedServer
-import io.ktor.server.netty.Netty
-import io.ktor.server.routing.get
-import io.ktor.server.routing.routing
-import io.ktor.http.ContentType
-import io.ktor.server.response.respondBytes
-import io.ktor.server.response.respondText
-import kotlinx.coroutines.delay
+import com.github.klee0kai.hummus.storybook.server.AppAddress
+import io.ktor.http.*
+import io.ktor.server.application.*
+import io.ktor.server.engine.*
+import io.ktor.server.netty.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine
-import java.net.InetAddress
-import java.net.NetworkInterface
-import kotlin.time.Duration.Companion.seconds
 
 @CommandLine.Command(
     name = "server",
@@ -23,11 +18,19 @@ import kotlin.time.Duration.Companion.seconds
 class DesignComponentsServerCmd : Runnable {
 
     @CommandLine.Option(
+        names = ["-n", "--name"],
+        description = ["Server local host name"],
+        defaultValue = "storybook"
+    )
+    var hostName: String = "storybook"
+
+    @CommandLine.Option(
         names = ["-p", "--port"],
         description = ["Server port"],
         defaultValue = "8080"
     )
     var port: Int = 8080
+
 
     override fun run() {
         launchServer(port)
@@ -39,68 +42,23 @@ class DesignComponentsServerCmd : Runnable {
         }
 
         try {
-            server.start(wait = false)
+            val mDnsAddress = AppAddress.registerDNSInLocal(
+                name = hostName,
+                port = port,
+                description = "Hummus storybook website",
+            )
+            println("Story Book Service $mDnsAddress or http://${AppAddress.realLocalAddress()}:$port")
 
-            val hostName = try {
-                InetAddress.getLocalHost().hostName
-            } catch (_: Exception) {
-                "design-storybook"
-            }
-
-            val networkAddresses = getNetworkAddresses()
-
-            println()
-            println("═══════════════════════════════════════════════════════════════")
-            println("  Design Storybook Server Started")
-            println("═══════════════════════════════════════════════════════════════")
-            println("  Local access:     http://localhost:$port")
-
-            if (networkAddresses.isNotEmpty()) {
-                networkAddresses.forEach { ip ->
-                    println("  Network access:   http://$ip:$port")
-                }
-            }
-
-            println("  Hostname:         $hostName")
-            println("  Port:             $port")
-            println()
-            println("  Server is listening on 0.0.0.0:$port")
-            println("  Accessible from any device on your network")
-            println("═══════════════════════════════════════════════════════════════")
-            println()
-
-
-            while (true) {
-                delay(1.seconds)
-            }
-//            runBlocking {
-//                server.stop(gracePeriodMillis = 5000, timeoutMillis = 10000)
-//            }
-
+            server.start(wait = true)
         } catch (ex: Exception) {
             println("Error starting server: ${ex.message}")
             ex.printStackTrace()
         }
+
+        AppAddress.unregisterDNSInLocal()
+        server.stop(gracePeriodMillis = 5000, timeoutMillis = 10000)
     }
 
-    private fun getNetworkAddresses(): List<String> {
-        return try {
-            NetworkInterface.getNetworkInterfaces()
-                .toList()
-                .flatMap { iface ->
-                    iface.inetAddresses
-                        .toList()
-                        .filter { addr ->
-                            !addr.isLoopbackAddress && addr.hostAddress.contains(".")
-                        }
-                        .map { it.hostAddress }
-                }
-                .distinct()
-                .sorted()
-        } catch (e: Exception) {
-            emptyList()
-        }
-    }
 
     private fun Application.configureRouting() {
         routing {

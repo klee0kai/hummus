@@ -51,6 +51,7 @@ kotlin {
                 implementation(libs.bundles.compose)
                 implementation(libs.ktor.server.core)
                 implementation(libs.ktor.server.netty)
+                implementation(libs.jmdns)
             }
         }
 
