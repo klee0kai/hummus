@@ -1,4 +1,4 @@
-package com.github.klee0kai.hummus.storybook.cmd
+package com.github.klee0kai.hummus.storybook.desktop
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
@@ -18,11 +18,11 @@ enum class ViewerTheme {
  * Command to launch the Design Components Viewer desktop application
  */
 @CommandLine.Command(
-    name = "viewer",
+    name = "desktop",
     description = ["Launch interactive design components viewer"],
     mixinStandardHelpOptions = true
 )
-class DesignComponentsViewerCmd : Runnable {
+class DesktopCmd : Runnable {
 
     @CommandLine.Option(
         names = ["-t", "--theme"],

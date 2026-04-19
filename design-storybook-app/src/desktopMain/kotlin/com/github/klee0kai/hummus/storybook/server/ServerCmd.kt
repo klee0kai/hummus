@@ -1,12 +1,13 @@
-package com.github.klee0kai.hummus.storybook.cmd
+package com.github.klee0kai.hummus.storybook.server
 
-import com.github.klee0kai.hummus.storybook.server.AppAddress
-import io.ktor.http.*
-import io.ktor.server.application.*
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
+import io.ktor.http.ContentType
+import io.ktor.server.application.Application
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.netty.Netty
+import io.ktor.server.response.respondBytes
+import io.ktor.server.response.respondText
+import io.ktor.server.routing.get
+import io.ktor.server.routing.routing
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine
 
@@ -15,7 +16,7 @@ import picocli.CommandLine
     description = ["Launch design components browser as HTTP server"],
     mixinStandardHelpOptions = true
 )
-class DesignComponentsServerCmd : Runnable {
+class ServerCmd : Runnable {
 
     @CommandLine.Option(
         names = ["-n", "--name"],
