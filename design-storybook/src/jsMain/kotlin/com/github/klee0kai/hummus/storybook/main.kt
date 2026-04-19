@@ -1,4 +1,4 @@
-package com.github.klee0kai.cloud
+package com.github.klee0kai.hummus.storybook
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.ComposeViewport

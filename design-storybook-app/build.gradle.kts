@@ -58,7 +58,7 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
-                implementation(project(":design-storybook", configuration = "wasmArchives"))
+//                implementation(project(path = ":design-storybook", configuration = "wasmArchives"))
             }
         }
     }

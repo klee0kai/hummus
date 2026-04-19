@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.publish.maven)
@@ -9,22 +11,44 @@ plugins {
 }
 
 group = "com.github.klee0kai.hummus.storybook"
-
+version = libs.versions.hummus.get()
 
 kotlin {
     jvm("desktop") {
 
     }
     js(IR) {
-        browser()
-        nodejs()
+        outputModuleName = "composeAppJs"
+        browser {
+            commonWebpackConfig {
+                outputFileName = "bundle.js"
+            }
+        }
+        binaries.executable()
     }
 
 //    linuxX64()
 //    mingwX64()
     wasmJs {
-        browser()
-        nodejs()
+        outputModuleName = "composeAppWasm"
+        browser {
+            val rootDirPath = project.rootDir.path
+            val projectDirPath = project.projectDir.path
+            commonWebpackConfig {
+                outputFileName = "bundle.js"
+                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+                    cssSupport { enabled = true }
+                    mode = KotlinWebpackConfig.Mode.DEVELOPMENT
+                    static = (static ?: mutableListOf()).apply {
+                        // Serve sources to debug inside browser
+                        add(rootDirPath)
+                        add(projectDirPath)
+                    }
+                }
+            }
+        }
+
+        binaries.executable()
     }
 
     sourceSets {
@@ -59,25 +83,33 @@ tasks.matching { it.name.startsWith("ksp") && it.name != "kspCommonMainKotlinMet
 //    enabled = false
 }
 
-tasks.register<Jar>("wasmJsBrowserProductionJar") {
+
+val wasmArtifactsJar by tasks.register<Jar>(name = "wasmJsBrowserProductionJar") {
     group = "build"
-    description = "Package WASM artifacts into JAR"
+    description = "Package WebAssembly production artifacts into a JAR"
+
+    archiveBaseName.set("wasm-artifacts")
     archiveClassifier.set("prod")
+    archiveVersion.set(libs.versions.hummus.get())
     archiveAppendix.set("wasm-artifacts")
 
-    val wasmOutputDir = layout.buildDirectory.dir("dist/wasmJs/productionExecutable")
-    from(wasmOutputDir)
+//    dependsOn("wasmJsBrowserDistribution")
+
+    from(layout.buildDirectory.dir("dist/wasmJs/productionExecutable")) {
+        include("**/*")
+    }
 }
 
-configurations {
-    create("wasmArchives") {
-        isCanBeConsumed = true
-        isCanBeResolved = false
+val wasmArchives by configurations.creating {
+    isCanBeConsumed = true
+    isCanBeResolved = false
+    attributes {
+        attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.JAVA_RUNTIME))
     }
 }
 
 artifacts {
-    add("wasmArchives", tasks.named("wasmJsBrowserProductionJar"))
+    add("wasmArchives", wasmArtifactsJar)
 }
 
 dependencies {

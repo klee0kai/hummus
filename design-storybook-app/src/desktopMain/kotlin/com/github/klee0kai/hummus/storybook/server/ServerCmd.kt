@@ -1,13 +1,11 @@
 package com.github.klee0kai.hummus.storybook.server
 
-import io.ktor.http.ContentType
-import io.ktor.server.application.Application
-import io.ktor.server.engine.embeddedServer
-import io.ktor.server.netty.Netty
-import io.ktor.server.response.respondBytes
-import io.ktor.server.response.respondText
-import io.ktor.server.routing.get
-import io.ktor.server.routing.routing
+import io.ktor.http.*
+import io.ktor.server.application.*
+import io.ktor.server.engine.*
+import io.ktor.server.netty.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine
 
@@ -64,12 +62,10 @@ class ServerCmd : Runnable {
     private fun Application.configureRouting() {
         routing {
             get("/") {
-                val indexHtml = loadResourceFromWasm("index.html")
-                if (indexHtml != null) {
-                    call.respondText(String(indexHtml), ContentType.Text.Html)
-                } else {
-                    call.respondText("Design Components Browser", ContentType.Text.Plain)
-                }
+                val composeHtml = findResourceFromWasmArtefacts("index-storybook-compose.html")
+                call.respondBytes(
+                    bytes = composeHtml!!.openStream().readBytes(),
+                )
             }
 
             get("/{...}") {

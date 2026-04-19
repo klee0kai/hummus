@@ -12,6 +12,7 @@ kotlin {
     js(IR) {
         browser()
         nodejs()
+        binaries.executable()
     }
 
     linuxX64()
@@ -19,6 +20,7 @@ kotlin {
     wasmJs {
         browser()
         nodejs()
+        binaries.executable()
     }
 
 
