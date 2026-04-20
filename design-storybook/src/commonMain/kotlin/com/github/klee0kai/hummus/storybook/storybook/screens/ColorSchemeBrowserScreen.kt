@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import com.github.klee0kai.hummus.compose.HummusTheme
 import com.github.klee0kai.hummus.compose.theme.HummusDefaultThemes
 import com.github.klee0kai.hummus.storybook.storybook.components.ColorSchemeEditor
+import com.github.klee0kai.hummus.storybook.storybook.components.MultiColorComponentSelector
 import com.github.klee0kai.hummus.storybook.storybook.components.ThemePreview
 
 @Composable
@@ -58,6 +59,23 @@ fun ColorSchemeBrowserScreen(modifier: Modifier = Modifier) {
                     )
                     Text("Light", style = TextStyle(fontSize = 11.sp))
                 }
+
+                MultiColorComponentSelector(
+                    label = "Status Colors",
+                    colors = listOf(
+                        "Green" to colorScheme.greenColor,
+                        "Yellow" to colorScheme.yellowColor,
+                        "Red" to colorScheme.redColor
+                    ),
+                    onColorsChange = { updatedColors ->
+                        val updated = colorScheme.copy(
+                            greenColor = updatedColors[0].second,
+                            yellowColor = updatedColors[1].second,
+                            redColor = updatedColors[2].second
+                        )
+                        colorScheme = updated
+                    }
+                )
 
                 ColorSchemeEditor(
                     scheme = colorScheme,

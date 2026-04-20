@@ -3,6 +3,7 @@ package com.github.klee0kai.hummus.storybook.storybook.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,11 +27,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlin.math.abs
+import kotlin.math.atan2
+import kotlin.math.cos
 import kotlin.math.roundToInt
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 @Composable
 fun ColorSwatch(
@@ -59,6 +67,101 @@ fun ColorSwatch(
 }
 
 @Composable
+fun ColorWheel(
+    hue: Float,
+    saturation: Float,
+    value: Float,
+    onHueChange: (Float) -> Unit,
+    onSaturationChange: (Float) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    var isDraggingWheel by remember { mutableStateOf(false) }
+
+    Box(
+        modifier = modifier
+            .size(240.dp)
+            .pointerInput(Unit) {
+                detectDragGestures(
+                    onDrag = { change, _ ->
+                        val x = change.position.x - 120.dp.toPx()
+                        val y = change.position.y - 120.dp.toPx()
+                        val distance = sqrt(x * x + y * y)
+                        val radius = 120.dp.toPx()
+
+                        if (distance <= radius) {
+                            val angle = (atan2(y, x) * 180 / 3.14 + 360) % 360
+                            val sat = (distance / radius).coerceIn(0f, 1f)
+                            onHueChange(angle.toFloat())
+                            onSaturationChange(sat)
+                        }
+                    }
+                )
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        androidx.compose.foundation.Canvas(Modifier.size(240.dp)) {
+            drawColorWheel(hue = hue, saturation = saturation, value = value)
+
+            val wheelRadius = 120.dp.toPx()
+            val angleRad = (hue * 3.14 / 180f).toFloat()
+            val x = (saturation * wheelRadius * cos(angleRad)).toFloat()
+            val y = (saturation * wheelRadius * sin(angleRad)).toFloat()
+
+            drawCircle(
+                color = Color.White,
+                radius = 8.dp.toPx(),
+                center = center.copy(x = center.x + x, y = center.y + y)
+            )
+            drawCircle(
+                color = Color.Black,
+                radius = 6.dp.toPx(),
+                center = center.copy(x = center.x + x, y = center.y + y)
+            )
+        }
+    }
+}
+
+fun DrawScope.drawColorWheel(hue: Float, saturation: Float, value: Float) {
+    val wheelRadius = 120.dp.toPx()
+    val centerX = center.x
+    val centerY = center.y
+    val steps = 360
+
+    for (i in 0 until steps) {
+        val angle1 = i * 360f / steps
+        val angle2 = (i + 1) * 360f / steps
+
+        for (sat in 0..100 step 2) {
+            val satNorm = sat / 100f
+            val innerRadius = (satNorm - 0.02f) * wheelRadius
+            val outerRadius = satNorm * wheelRadius
+
+            val startAngle = angle1
+            val sweepAngle = angle2 - angle1
+
+            val color = hsvToColor(angle1, satNorm, value)
+            drawArc(
+                color = color,
+                startAngle = startAngle,
+                sweepAngle = sweepAngle,
+                useCenter = true,
+                topLeft = androidx.compose.ui.geometry.Offset(
+                    centerX - outerRadius,
+                    centerY - outerRadius
+                ),
+                size = androidx.compose.ui.geometry.Size(outerRadius * 2, outerRadius * 2)
+            )
+        }
+    }
+
+    drawCircle(
+        color = Color.White,
+        radius = 3.dp.toPx(),
+        center = center
+    )
+}
+
+@Composable
 fun ColorPickerPanel(
     color: Color,
     onColorChange: (Color) -> Unit,
@@ -78,60 +181,84 @@ fun ColorPickerPanel(
     }
 
     Column(modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text("Hue", modifier = Modifier.width(40.dp))
-            Slider(
-                value = hue,
-                onValueChange = { h ->
-                    hue = h
-                    updateColor()
-                },
-                valueRange = 0f..360f,
-                modifier = Modifier.weight(1f)
-            )
-            Text("${hue.roundToInt()}°", style = TextStyle(fontSize = 11.sp), modifier = Modifier.width(40.dp))
-        }
+        Row(horizontalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text("Color Wheel", style = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.Bold))
+                ColorWheel(
+                    hue = hue,
+                    saturation = saturation,
+                    value = value,
+                    onHueChange = { h ->
+                        hue = h
+                        updateColor()
+                    },
+                    onSaturationChange = { s ->
+                        saturation = s
+                        updateColor()
+                    },
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
 
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text("Sat", modifier = Modifier.width(40.dp))
-            Slider(
-                value = saturation,
-                onValueChange = { s ->
-                    saturation = s
-                    updateColor()
-                },
-                valueRange = 0f..1f,
-                modifier = Modifier.weight(1f)
-            )
-            Text("${(saturation * 100).roundToInt()}%", style = TextStyle(fontSize = 11.sp), modifier = Modifier.width(40.dp))
-        }
+            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text("Controls", style = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.Bold))
 
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text("Val", modifier = Modifier.width(40.dp))
-            Slider(
-                value = value,
-                onValueChange = { v ->
-                    value = v
-                    updateColor()
-                },
-                valueRange = 0f..1f,
-                modifier = Modifier.weight(1f)
-            )
-            Text("${(value * 100).roundToInt()}%", style = TextStyle(fontSize = 11.sp), modifier = Modifier.width(40.dp))
-        }
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Text("Hue", modifier = Modifier.width(30.dp), style = TextStyle(fontSize = 10.sp))
+                    Slider(
+                        value = hue,
+                        onValueChange = { h ->
+                            hue = h
+                            updateColor()
+                        },
+                        valueRange = 0f..360f,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Text("${hue.roundToInt()}°", style = TextStyle(fontSize = 9.sp), modifier = Modifier.width(35.dp))
+                }
 
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text("Alph", modifier = Modifier.width(40.dp))
-            Slider(
-                value = alpha,
-                onValueChange = { a ->
-                    alpha = a
-                    updateColor()
-                },
-                valueRange = 0f..1f,
-                modifier = Modifier.weight(1f)
-            )
-            Text("${(alpha * 100).roundToInt()}%", style = TextStyle(fontSize = 11.sp), modifier = Modifier.width(40.dp))
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Text("Sat", modifier = Modifier.width(25.dp), style = TextStyle(fontSize = 10.sp))
+                    Slider(
+                        value = saturation,
+                        onValueChange = { s ->
+                            saturation = s
+                            updateColor()
+                        },
+                        valueRange = 0f..1f,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Text("${(saturation * 100).roundToInt()}%", style = TextStyle(fontSize = 9.sp), modifier = Modifier.width(30.dp))
+                }
+
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Text("Val", modifier = Modifier.width(25.dp), style = TextStyle(fontSize = 10.sp))
+                    Slider(
+                        value = value,
+                        onValueChange = { v ->
+                            value = v
+                            updateColor()
+                        },
+                        valueRange = 0f..1f,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Text("${(value * 100).roundToInt()}%", style = TextStyle(fontSize = 9.sp), modifier = Modifier.width(30.dp))
+                }
+
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Text("Alph", modifier = Modifier.width(25.dp), style = TextStyle(fontSize = 10.sp))
+                    Slider(
+                        value = alpha,
+                        onValueChange = { a ->
+                            alpha = a
+                            updateColor()
+                        },
+                        valueRange = 0f..1f,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Text("${(alpha * 100).roundToInt()}%", style = TextStyle(fontSize = 9.sp), modifier = Modifier.width(30.dp))
+                }
+            }
         }
 
         Row(
@@ -263,6 +390,70 @@ fun Color.toHsv(): Triple<Float, Float, Float> {
     val value = max
 
     return Triple(hue, saturation, value)
+}
+
+@Composable
+fun MultiColorComponentSelector(
+    label: String,
+    colors: List<Pair<String, Color>>,
+    onColorsChange: (List<Pair<String, Color>>) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    var selectedIndices by remember { mutableStateOf(setOf<Int>()) }
+    var showColorPicker by remember { mutableStateOf(false) }
+
+    if (showColorPicker && selectedIndices.isNotEmpty()) {
+        val firstSelectedColor = colors[selectedIndices.first()].second
+        ColorPickerDialog(firstSelectedColor, { newColor ->
+            val updated = colors.mapIndexed { index, (name, color) ->
+                if (selectedIndices.contains(index)) name to newColor else name to color
+            }
+            onColorsChange(updated)
+        }, onDismiss = { showColorPicker = false })
+    }
+
+    Column(modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(label, style = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.Bold))
+            Button(
+                onClick = { showColorPicker = true },
+                enabled = selectedIndices.isNotEmpty(),
+                modifier = Modifier.height(32.dp)
+            ) {
+                Text("Apply Color", style = TextStyle(fontSize = 10.sp))
+            }
+        }
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            colors.forEachIndexed { index, (name, color) ->
+                Column(
+                    modifier = Modifier.clickable {
+                        selectedIndices = if (selectedIndices.contains(index)) {
+                            selectedIndices - index
+                        } else {
+                            selectedIndices + index
+                        }
+                    },
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .background(color)
+                            .border(
+                                width = if (selectedIndices.contains(index)) 3.dp else 1.dp,
+                                color = if (selectedIndices.contains(index)) Color.White else Color.Gray
+                            )
+                    )
+                    Text(name, style = TextStyle(fontSize = 9.sp), modifier = Modifier.padding(top = 4.dp))
+                }
+            }
+        }
+    }
 }
 
 fun hsvToColor(hue: Float, saturation: Float, value: Float, alpha: Float = 1f): Color {
