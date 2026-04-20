@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Slider
@@ -62,6 +64,78 @@ fun ColorSwatch(
         }
         if (label != null) {
             Text(label, style = TextStyle(fontSize = 10.sp))
+        }
+    }
+}
+
+@Composable
+fun MultiColorWheel(
+    colors: List<Pair<String, Color>>,
+    selectedIndices: Set<Int>,
+    onColorChange: (Int, Float, Float) -> Unit,
+    value: Float = 1f,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier
+            .size(280.dp)
+            .pointerInput(Unit) {
+                detectDragGestures(
+                    onDrag = { change, _ ->
+                        val x = change.position.x - 140.dp.toPx()
+                        val y = change.position.y - 140.dp.toPx()
+                        val distance = sqrt(x * x + y * y)
+                        val radius = 120.dp.toPx()
+
+                        if (distance <= radius) {
+                            val angle = (atan2(y, x) * 180 / 3.14 + 360) % 360
+                            val sat = (distance / radius).coerceIn(0f, 1f)
+
+                            selectedIndices.forEach { index ->
+                                onColorChange(index, angle.toFloat(), sat)
+                            }
+                        }
+                    }
+                )
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        androidx.compose.foundation.Canvas(Modifier.size(280.dp)) {
+            drawColorWheel(hue = 0f, saturation = 1f, value = value)
+
+            val wheelRadius = 120.dp.toPx()
+            val markerColors = listOf(
+                Color.Red, Color.Green, Color.Blue, Color.Yellow,
+                Color.Cyan, Color.Magenta
+            )
+
+            selectedIndices.forEachIndexed { displayIndex, colorIndex ->
+                val hsv = colors[colorIndex].second.toHsv()
+                val hue = hsv.first
+                val sat = hsv.second
+
+                val angleRad = (hue * 3.14 / 180f).toFloat()
+                val markerX = (sat * wheelRadius * cos(angleRad)).toFloat()
+                val markerY = (sat * wheelRadius * sin(angleRad)).toFloat()
+
+                val markerColor = markerColors[displayIndex % markerColors.size]
+
+                drawCircle(
+                    color = Color.White,
+                    radius = 10.dp.toPx(),
+                    center = center.copy(x = center.x + markerX, y = center.y + markerY)
+                )
+                drawCircle(
+                    color = markerColor,
+                    radius = 7.dp.toPx(),
+                    center = center.copy(x = center.x + markerX, y = center.y + markerY)
+                )
+                drawCircle(
+                    color = Color.Black,
+                    radius = 5.dp.toPx(),
+                    center = center.copy(x = center.x + markerX, y = center.y + markerY)
+                )
+            }
         }
     }
 }
@@ -390,6 +464,108 @@ fun Color.toHsv(): Triple<Float, Float, Float> {
     val value = max
 
     return Triple(hue, saturation, value)
+}
+
+@Composable
+fun MultiColorPickerDialog(
+    colors: List<Pair<String, Color>>,
+    onColorsChange: (List<Pair<String, Color>>) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    var selectedIndices by remember { mutableStateOf(setOf(0)) }
+    var updatedColors by remember { mutableStateOf(colors) }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Pick Multiple Colors") },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
+                Text("Select colors to edit:", style = TextStyle(fontSize = 11.sp, fontWeight = FontWeight.Bold))
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState())
+                ) {
+                    updatedColors.forEachIndexed { index, (name, color) ->
+                        Column(
+                            modifier = Modifier
+                                .clickable {
+                                    selectedIndices = if (selectedIndices.contains(index)) {
+                                        selectedIndices - index
+                                    } else {
+                                        selectedIndices + index
+                                    }
+                                }
+                                .padding(4.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(40.dp)
+                                    .background(color)
+                                    .border(
+                                        width = if (selectedIndices.contains(index)) 3.dp else 1.dp,
+                                        color = if (selectedIndices.contains(index)) Color.White else Color.Gray
+                                    )
+                            )
+                            Text(name, style = TextStyle(fontSize = 8.sp), modifier = Modifier.padding(top = 2.dp))
+                        }
+                    }
+                }
+
+                Text("Adjust on the wheel (multiple markers):", style = TextStyle(fontSize = 11.sp, fontWeight = FontWeight.Bold))
+
+                MultiColorWheel(
+                    colors = updatedColors,
+                    selectedIndices = selectedIndices,
+                    onColorChange = { colorIndex, hue, sat ->
+                        val hsv = updatedColors[colorIndex].second.toHsv()
+                        updatedColors = updatedColors.mapIndexed { index, (name, _) ->
+                            if (index == colorIndex) {
+                                name to hsvToColor(hue, sat, hsv.third)
+                            } else {
+                                name to updatedColors[index].second
+                            }
+                        }
+                    },
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+
+                if (selectedIndices.isNotEmpty()) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Selected:", style = TextStyle(fontSize = 10.sp, fontWeight = FontWeight.Bold))
+                        selectedIndices.forEach { index ->
+                            Text(
+                                updatedColors[index].first,
+                                style = TextStyle(fontSize = 10.sp),
+                                modifier = Modifier
+                                    .background(Color.Gray.copy(alpha = 0.3f))
+                                    .padding(4.dp)
+                            )
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            Button(onClick = {
+                onColorsChange(updatedColors)
+                onDismiss()
+            }) {
+                Text("OK")
+            }
+        },
+        dismissButton = {
+            Button(onClick = onDismiss) {
+                Text("Cancel")
+            }
+        }
+    )
 }
 
 @Composable
