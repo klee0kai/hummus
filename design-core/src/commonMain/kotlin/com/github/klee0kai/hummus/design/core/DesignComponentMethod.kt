@@ -54,7 +54,7 @@ sealed interface ParameterType {
         override val simpleNameString: String
             get() {
                 val nested = if (isNullable) "${outer.simpleNameString}.${inner.simpleNameString}?"
-                             else "${outer.simpleNameString}.${inner.simpleNameString}"
+                else "${outer.simpleNameString}.${inner.simpleNameString}"
                 return nested
             }
     }
@@ -135,7 +135,7 @@ class DesignComponentMethod(
     val pkg: String,
     val methodName: String,
     val parameters: List<ComponentParameter>,
-    val content: @Composable () -> Unit,
+    val invoker: @Composable ((Map<String, Any?>) -> Unit)? = null,
 ) {
     fun createBuilder(): ComponentParameterBuilder = ComponentParameterBuilder(this)
 
@@ -144,10 +144,28 @@ class DesignComponentMethod(
     fun requiredParameters(): List<ComponentParameter> = parameters.filter { !it.hasDefault }
 
     fun optionalParameters(): List<ComponentParameter> = parameters.filter { it.hasDefault }
+
+    @Composable
+    fun invoke(builder: ComponentParameterBuilder) {
+        invoker?.invoke(builder.build())
+    }
+
+    @Composable
+    fun invoke(vararg params: Pair<String, Any?>) {
+        invoker?.invoke(mapOf(*params))
+    }
 }
 
 class ComponentParameterBuilder(private val method: DesignComponentMethod) {
     private val values = mutableMapOf<String, Any?>()
+
+    init {
+        method.parameters.forEach { param ->
+            if (param.type is ParameterType.Generic && param.type.isFunction()) {
+                values[param.name] = {}
+            }
+        }
+    }
 
     fun set(name: String, value: Any?): ComponentParameterBuilder {
         values[name] = value

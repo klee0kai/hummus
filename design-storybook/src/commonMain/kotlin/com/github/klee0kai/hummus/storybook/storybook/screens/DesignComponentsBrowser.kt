@@ -285,7 +285,13 @@ private fun ComponentPreviewPanel(
                         .padding(16.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    component.content()
+                    val builder = component.createBuilder()
+                    component.parameters.forEach { param ->
+                        parameterValues[param.name]?.let { value ->
+                            builder.set(param.name, value)
+                        }
+                    }
+                    component.invoke(builder)
                 }
             }
         }

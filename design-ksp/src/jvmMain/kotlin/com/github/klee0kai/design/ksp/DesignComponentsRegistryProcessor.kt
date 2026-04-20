@@ -9,20 +9,25 @@ import com.github.klee0kai.crossbox.processor.ksp.arch.GenSpec
 import com.github.klee0kai.crossbox.processor.ksp.arch.SymbolsToProcess
 import com.github.klee0kai.crossbox.processor.ksp.arch.TargetSymbolProcessor
 import com.github.klee0kai.crossbox.processor.ksp.poet.toMemberName
-import com.github.klee0kai.crossbox.processor.poet.*
-import com.github.klee0kai.hummus.design.core.DebugOnly
+import com.github.klee0kai.crossbox.processor.poet.genFileSpec
+import com.github.klee0kai.crossbox.processor.poet.genGetter
+import com.github.klee0kai.crossbox.processor.poet.genObject
+import com.github.klee0kai.crossbox.processor.poet.genProperty
 import com.github.klee0kai.hummus.design.core.ComponentParameter
 import com.github.klee0kai.hummus.design.core.DesignComponentMethod
-import com.github.klee0kai.hummus.design.core.ParameterType
 import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.containingFile
 import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
-import com.google.devtools.ksp.symbol.*
+import com.google.devtools.ksp.symbol.KSAnnotated
+import com.google.devtools.ksp.symbol.KSFunctionDeclaration
+import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.validate
-import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.ksp.toTypeName
 
 class DesignComponentsRegistryProcessor : TargetSymbolProcessor {
@@ -141,12 +146,26 @@ class DesignComponentsRegistryProcessor : TargetSymbolProcessor {
                             }
 
                             addCode("    ),\n")
-                            val allParamsHaveDefaults = func.parameters.all { it.hasDefault }
-                            if (allParamsHaveDefaults) {
-                                addCode("    content = { %M() }\n", func.toMemberName())
-                            } else {
-                                addCode("    content = { }\n")
+                            addCode("    invoker = { params ->\n")
+                            addCode("      %M(\n", func.toMemberName())
+                            func.parameters.forEach { param ->
+                                val paramName = param.name?.asString() ?: ""
+                                val resolvedType = param.type.resolve()
+                                val isFunction = resolvedType.declaration.qualifiedName?.asString()
+                                    ?.startsWith("kotlin.Function") == true
+
+                                if (!isFunction) {
+                                    val paramTypeName = resolvedType.toTypeName()
+                                    addCode(
+                                        "        %L = params[%S] as %T,\n",
+                                        paramName,
+                                        paramName,
+                                        paramTypeName
+                                    )
+                                }
                             }
+                            addCode("      )\n")
+                            addCode("    }\n")
                             addCode("  ),\n")
                         }
                         addCode(")\n")
