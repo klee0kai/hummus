@@ -32,9 +32,12 @@ sealed interface ParameterType {
                 return if (isNullable) "$baseName<$args>?" else "$baseName<$args>"
             }
 
-        fun isList(): Boolean = baseClass.simpleName == "List"
-        fun isMap(): Boolean = baseClass.simpleName == "Map"
-        fun isSet(): Boolean = baseClass.simpleName == "Set"
+        fun isList(): Boolean = baseClass == List::class
+
+        fun isMap(): Boolean = baseClass == Map::class
+
+        fun isSet(): Boolean = baseClass == Set::class
+
         fun isFunction(): Boolean = baseClass.simpleName?.startsWith("Function") == true
 
         fun firstTypeArgument(): ParameterType? = typeArguments.firstOrNull()
@@ -79,43 +82,43 @@ data class ComponentParameter(
     val hasDefault: Boolean = false,
 ) {
     fun isBoolean(): Boolean = when (type) {
-        is ParameterType.Simple -> type.kClass.simpleName == "Boolean"
-        else -> typeString.contains("Boolean")
+        is ParameterType.Simple -> type.kClass == Boolean::class
+        else -> false
     }
 
     fun isInt(): Boolean = when (type) {
-        is ParameterType.Simple -> type.kClass.simpleName == "Int"
-        else -> typeString.contains("Int")
+        is ParameterType.Simple -> type.kClass == Int::class
+        else -> false
     }
 
     fun isString(): Boolean = when (type) {
-        is ParameterType.Simple -> type.kClass.simpleName == "String"
-        else -> typeString.contains("String")
+        is ParameterType.Simple -> type.kClass == String::class
+        else -> false
     }
 
     fun isFloat(): Boolean = when (type) {
-        is ParameterType.Simple -> type.kClass.simpleName == "Float"
-        else -> typeString.contains("Float")
+        is ParameterType.Simple -> type.kClass == Float::class
+        else -> false
     }
 
     fun isDouble(): Boolean = when (type) {
-        is ParameterType.Simple -> type.kClass.simpleName == "Double"
-        else -> typeString.contains("Double")
+        is ParameterType.Simple -> type.kClass == Double::class
+        else -> false
     }
 
     fun isList(): Boolean = when (type) {
-        is ParameterType.Generic -> type.isList()
-        else -> typeString.startsWith("kotlin.collections.List")
+        is ParameterType.Generic -> type.baseClass == List::class
+        else -> false
     }
 
     fun isMap(): Boolean = when (type) {
-        is ParameterType.Generic -> type.isMap()
-        else -> typeString.contains("Map")
+        is ParameterType.Generic -> type.baseClass == Map::class
+        else -> false
     }
 
     fun isSet(): Boolean = when (type) {
-        is ParameterType.Generic -> type.isSet()
-        else -> typeString.contains("Set")
+        is ParameterType.Generic -> type.baseClass == Set::class
+        else -> false
     }
 
     fun isLambda(): Boolean = when (type) {
