@@ -146,13 +146,27 @@ class DesignComponentMethod(
     fun optionalParameters(): List<ComponentParameter> = parameters.filter { it.hasDefault }
 
     @Composable
-    fun invoke(builder: ComponentParameterBuilder) {
+    fun invoke(paramsBuilder: ComponentParameterBuilder.() -> Unit) {
+        val builder = createBuilder()
+        parameters.forEach { param ->
+            if (param.hasDefault && !param.isLambda()) {
+                builder.set(param.name, getDefaultValue(param))
+            }
+        }
+        builder.paramsBuilder()
         invoker?.invoke(builder.build())
     }
 
-    @Composable
-    fun invoke(vararg params: Pair<String, Any?>) {
-        invoker?.invoke(mapOf(*params))
+    companion object {
+        private fun getDefaultValue(param: ComponentParameter): Any? = when {
+            param.isBoolean() -> false
+            param.isString() -> ""
+            param.isInt() -> 0
+            param.isFloat() -> 0f
+            param.isDouble() -> 0.0
+            param.isList() -> emptyList<String>()
+            else -> null
+        }
     }
 }
 

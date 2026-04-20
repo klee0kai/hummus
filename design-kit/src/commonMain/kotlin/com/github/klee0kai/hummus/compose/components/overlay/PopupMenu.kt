@@ -29,7 +29,6 @@ private enum class PopupGravity {
     BOTTOM,
 }
 
-@DesignComponent
 @Composable
 fun PopupMenu(
     visible: Boolean,

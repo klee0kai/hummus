@@ -19,7 +19,6 @@ import com.github.klee0kai.hummus.compose.components.overlay.PopupMenu
 import com.github.klee0kai.hummus.design.core.DesignComponent
 import kotlinx.coroutines.flow.filterIsInstance
 
-@DesignComponent
 @Composable
 fun DropDownField(
     modifier: Modifier = Modifier,

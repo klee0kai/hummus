@@ -10,7 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import com.github.klee0kai.hummus.design.core.*
+import com.github.klee0kai.hummus.design.core.ComponentParameter
+import com.github.klee0kai.hummus.design.core.DesignComponentMethod
+import com.github.klee0kai.hummus.design.core.ParameterType
 import com.github.klee0kai.hummus.storybook.storybook.components.ParametersEditor
 import com.github.klee0kai.hummus.storybook.storybook.examples.initializeComponentPresets
 import com.github.klee0kai.hummus.storybook.storybook.utils.getRegisteredComponents
@@ -32,7 +34,7 @@ fun DesignComponentsBrowser(modifier: Modifier = Modifier) {
     val components = getRegisteredComponents()
     val filteredComponents = components.filter { component ->
         component.methodName.contains(searchQuery.text, ignoreCase = true) ||
-        component.pkg.contains(searchQuery.text, ignoreCase = true)
+                component.pkg.contains(searchQuery.text, ignoreCase = true)
     }
 
     Row(modifier = modifier.fillMaxSize()) {
@@ -244,6 +246,15 @@ private fun ComponentPreviewPanel(
                 val param = component.parameters[index]
                 val value = parameterValues[param.name]
 
+                if (param.type is ParameterType.Nested) {
+                    // no support
+                    return@items
+                }
+                if ((param.type as? ParameterType.Generic)?.isFunction() == true) {
+                    // no support
+                    return@items
+                }
+
                 Column(modifier = Modifier.padding(8.dp)) {
                     Text(
                         text = "${param.name}:",
@@ -285,13 +296,15 @@ private fun ComponentPreviewPanel(
                         .padding(16.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    val builder = component.createBuilder()
-                    component.parameters.forEach { param ->
-                        parameterValues[param.name]?.let { value ->
-                            builder.set(param.name, value)
+                    component.invoke(
+                        paramsBuilder = {
+                            component.parameters.forEach { param ->
+                                parameterValues[param.name]?.let { value ->
+                                    set(param.name, value)
+                                }
+                            }
                         }
-                    }
-                    component.invoke(builder)
+                    )
                 }
             }
         }
