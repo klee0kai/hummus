@@ -17,13 +17,12 @@ kotlin {
 
     linuxX64()
     mingwX64()
+
     wasmJs {
         browser()
         nodejs()
         binaries.executable()
     }
-
-
 
     sourceSets {
         commonMain.dependencies {

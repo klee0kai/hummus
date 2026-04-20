@@ -4,8 +4,10 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import io.ktor.server.request.path
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.websocket.readBytes
 import kotlinx.coroutines.runBlocking
 import picocli.CommandLine
 
@@ -68,27 +70,16 @@ class ServerCmd : Runnable {
                 )
             }
 
-            get("/{...}") {
-                val path = call.parameters.getAll("")?.joinToString("/") ?: ""
-
-                val resourceBytes = loadResourceFromWasm(path)
-                if (resourceBytes != null) {
-                    val contentType = when {
-                        path.endsWith(".wasm") -> ContentType("application", "wasm")
-                        path.endsWith(".js") -> ContentType.Application.JavaScript
-                        path.endsWith(".css") -> ContentType.Text.CSS
-                        path.endsWith(".html") -> ContentType.Text.Html
-                        else -> ContentType.Application.OctetStream
-                    }
-                    call.respondBytes(resourceBytes, contentType)
-                } else {
-                    val indexHtml = loadResourceFromWasm("index.html")
-                    if (indexHtml != null) {
-                        call.respondText(String(indexHtml), ContentType.Text.Html)
-                    } else {
-                        call.respondText("Not Found", ContentType.Text.Plain)
-                    }
+            get("{...}") {
+                val path = call.request.path().dropWhile { it == '/' }
+                val contentType = when {
+                    path.endsWith(".wasm") -> ContentType.parse("application/wasm")
+                    else -> null
                 }
+                call.respondBytes(
+                    bytes = findResourceFromWasmArtefacts(path)!!.openStream().readBytes(),
+                    contentType = contentType,
+                )
             }
         }
     }

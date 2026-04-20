@@ -8,7 +8,7 @@ gradle = "9.1.0"
 agp = "8.12.3"
 
 # Kotlin & KSP
-kotlin = "2.2.21"
+kotlin = "2.3.20"
 ksp = "2.3.2"
 
 # Kotlin libs - common

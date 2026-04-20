@@ -93,7 +93,7 @@ val wasmArtifactsJar by tasks.register<Jar>(name = "wasmJsBrowserProductionJar")
     archiveVersion.set(libs.versions.hummus.get())
     archiveAppendix.set("wasm-artifacts")
 
-//    dependsOn("wasmJsBrowserDistribution")
+    dependsOn("wasmJsBrowserDistribution")
 
     from(layout.buildDirectory.dir("dist/wasmJs/productionExecutable")) {
         include("**/*")

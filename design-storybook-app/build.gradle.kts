@@ -46,6 +46,7 @@ kotlin {
                 implementation(project(":design-kit"))
                 implementation(project(":design-core"))
                 implementation(project(":design-storybook"))
+                implementation(project(path = ":design-storybook", configuration = "wasmArchives"))
 
                 implementation(libs.picocli)
                 implementation(libs.bundles.compose)
@@ -58,7 +59,6 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
-//                implementation(project(path = ":design-storybook", configuration = "wasmArchives"))
             }
         }
     }
