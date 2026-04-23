@@ -1,5 +1,6 @@
-package com.github.klee0kai.hummus.storybook.storybook.components
+package com.github.klee0kai.hummus.storybook.ui.components
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -28,6 +29,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.input.pointer.pointerInput
@@ -100,7 +103,7 @@ fun MultiColorWheel(
             },
         contentAlignment = Alignment.Center
     ) {
-        androidx.compose.foundation.Canvas(Modifier.size(280.dp)) {
+        Canvas(Modifier.size(280.dp)) {
             drawColorWheel(hue = 0f, saturation = 1f, value = value)
 
             val wheelRadius = 120.dp.toPx()
@@ -173,7 +176,7 @@ fun ColorWheel(
             },
         contentAlignment = Alignment.Center
     ) {
-        androidx.compose.foundation.Canvas(Modifier.size(240.dp)) {
+        Canvas(Modifier.size(240.dp)) {
             drawColorWheel(hue = hue, saturation = saturation, value = value)
 
             val wheelRadius = 120.dp.toPx()
@@ -219,11 +222,11 @@ fun DrawScope.drawColorWheel(hue: Float, saturation: Float, value: Float) {
                 startAngle = startAngle,
                 sweepAngle = sweepAngle,
                 useCenter = true,
-                topLeft = androidx.compose.ui.geometry.Offset(
+                topLeft = Offset(
                     centerX - outerRadius,
                     centerY - outerRadius
                 ),
-                size = androidx.compose.ui.geometry.Size(outerRadius * 2, outerRadius * 2)
+                size = Size(outerRadius * 2, outerRadius * 2)
             )
         }
     }

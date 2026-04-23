@@ -6,9 +6,10 @@ import com.github.klee0kai.hummus.compose.navigation.Destination
 import com.github.klee0kai.hummus.compose.navigation.WidgetState
 import com.github.klee0kai.hummus.compose.screenresolver.ScreenPanel
 import com.github.klee0kai.hummus.compose.screenresolver.ScreenResolver
-import com.github.klee0kai.hummus.storybook.storybook.screens.ColorSchemeBrowserScreen
-import com.github.klee0kai.hummus.storybook.storybook.screens.DesignComponentsBrowser
-import com.github.klee0kai.hummus.storybook.storybook.screens.TypographyBrowserScreen
+import com.github.klee0kai.hummus.storybook.ui.color_screen.ColorSchemeBrowserScreen
+import com.github.klee0kai.hummus.storybook.ui.components_screen.ComponentEditScreen
+import com.github.klee0kai.hummus.storybook.ui.components_screen.ComponentListScreen
+import com.github.klee0kai.hummus.storybook.ui.typography_screen.TypographyBrowserScreen
 
 open class ScreenResolverImpl : ScreenResolver {
 
@@ -16,7 +17,14 @@ open class ScreenResolverImpl : ScreenResolver {
         destination: Destination,
     ): ScreenPanel? = when (destination) {
         is ComponentsBrowserDestination -> {
-            ScreenPanel(list = { DesignComponentsBrowser() })
+            ScreenPanel(list = { ComponentListScreen() })
+        }
+
+        is ComponentEditDestination -> {
+            ScreenPanel(
+                list = { ComponentListScreen(selectedComponent = destination.component) },
+                details = { ComponentEditScreen(destination) }
+            )
         }
 
         is ColorSchemeBrowserDestination -> {

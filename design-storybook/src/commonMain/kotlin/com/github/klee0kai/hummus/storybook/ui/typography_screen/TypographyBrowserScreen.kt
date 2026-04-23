@@ -1,4 +1,4 @@
-package com.github.klee0kai.hummus.storybook.storybook.screens
+package com.github.klee0kai.hummus.storybook.ui.typography_screen
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -11,8 +11,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.github.klee0kai.hummus.compose.HummusTheme
 import com.github.klee0kai.hummus.compose.theme.HummusDefaultThemes
-import com.github.klee0kai.hummus.storybook.storybook.components.TypeSchemeEditor
-import com.github.klee0kai.hummus.storybook.storybook.components.TypographyPreview
+import com.github.klee0kai.hummus.storybook.ui.components.TypeSchemeEditor
+import com.github.klee0kai.hummus.storybook.ui.components.TypographyPreview
 
 @Composable
 fun TypographyBrowserScreen(modifier: Modifier = Modifier) {

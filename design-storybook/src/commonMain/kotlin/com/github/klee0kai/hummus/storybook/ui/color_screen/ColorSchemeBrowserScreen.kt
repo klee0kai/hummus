@@ -1,4 +1,4 @@
-package com.github.klee0kai.hummus.storybook.storybook.screens
+package com.github.klee0kai.hummus.storybook.ui.color_screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,10 +19,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
 import com.github.klee0kai.hummus.compose.HummusTheme
 import com.github.klee0kai.hummus.compose.theme.HummusDefaultThemes
-import com.github.klee0kai.hummus.storybook.storybook.components.ColorSchemeEditor
-import com.github.klee0kai.hummus.storybook.storybook.components.MultiColorComponentSelector
-import com.github.klee0kai.hummus.storybook.storybook.components.MultiColorPickerDialog
-import com.github.klee0kai.hummus.storybook.storybook.components.ThemePreview
+import com.github.klee0kai.hummus.storybook.ui.components.ColorSchemeEditor
+import com.github.klee0kai.hummus.storybook.ui.components.MultiColorComponentSelector
+import com.github.klee0kai.hummus.storybook.ui.components.MultiColorPickerDialog
+import com.github.klee0kai.hummus.storybook.ui.components.ThemePreview
 
 @Composable
 fun ColorSchemeBrowserScreen(modifier: Modifier = Modifier) {

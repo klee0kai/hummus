@@ -1,4 +1,4 @@
-package com.github.klee0kai.hummus.storybook.storybook.components
+package com.github.klee0kai.hummus.storybook.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
