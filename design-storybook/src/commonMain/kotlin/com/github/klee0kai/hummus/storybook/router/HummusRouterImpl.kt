@@ -2,6 +2,10 @@
 
 package com.github.klee0kai.hummus.storybook.router
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Apps
+import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.filled.TypeSpecimen
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
@@ -13,6 +17,9 @@ import com.github.klee0kai.hummus.compose.navigation.NavItem
 import com.github.klee0kai.hummus.coroutine.lazyStateFlow
 import com.github.klee0kai.hummus.coroutine.touch
 import com.github.klee0kai.hummus.storybook.di.StoryBookDI
+import com.github.klee0kai.hummus.storybook.navigation.ColorSchemeBrowserDestination
+import com.github.klee0kai.hummus.storybook.navigation.ComponentsBrowserDestination
+import com.github.klee0kai.hummus.storybook.navigation.TypographyBrowserDestination
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -30,26 +37,27 @@ class HummusRouterImpl : HummusRouter {
         defaultArg = Unit,
     ) {
         value = buildList {
-//            NavItem(
-//                icon = Icons.Default.Apps,
-//                text = Res.string.stubs,
-//                destination = StubDestination,
-//            ),
-//            NavItem(
-//                icon = Icons.Default.Monitor,
-//                text = Res.string.sniffing,
-//                destination = SniffingDestination,
-//            ),
-//            NavItem(
-//                icon = Icons.Default.History,
-//                text = Res.string.logs,
-//                destination = LogsListDestination,
-//            ),
-//            NavItem(
-//                icon = Icons.Default.Settings,
-//                text = Res.string.settings,
-//                destination = SettingsDestination,
-//            ),
+            add(
+                NavItem(
+                    icon = Icons.Default.Apps,
+                    text = "components",
+                    destination = ComponentsBrowserDestination,
+                )
+            )
+            add(
+                NavItem(
+                    icon = Icons.Default.Palette,
+                    text = "Colors",
+                    destination = ColorSchemeBrowserDestination,
+                )
+            )
+            add(
+                NavItem(
+                    icon = Icons.Default.TypeSpecimen,
+                    text = "Typography",
+                    destination = TypographyBrowserDestination,
+                )
+            )
         }
     }
 

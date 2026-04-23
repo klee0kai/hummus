@@ -2,7 +2,7 @@ package com.github.klee0kai.hummus.storybook.di.modules
 
 import com.github.klee0kai.hummus.compose.navigation.HummusRouter
 import com.github.klee0kai.hummus.compose.screenresolver.ScreenResolver
-import com.github.klee0kai.hummus.compose.screenresolver.ScreenResolverCommonImpl
+import com.github.klee0kai.hummus.storybook.navigation.ScreenResolverImpl
 import com.github.klee0kai.hummus.storybook.router.HummusRouterImpl
 import com.github.klee0kai.hummus.storybook.theme.AppThemeManager
 import com.github.klee0kai.hummus.storybook.theme.AppThemeManagerImpl
@@ -19,6 +19,6 @@ interface UIComposeModule {
     fun appRouter(): HummusRouter = HummusRouterImpl()
 
     @Provide(cache = Provide.CacheType.Weak)
-    fun screenResolver(): ScreenResolver = ScreenResolverCommonImpl()
+    fun screenResolver(): ScreenResolver = ScreenResolverImpl()
 
 }
