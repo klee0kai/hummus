@@ -14,24 +14,16 @@ import com.github.klee0kai.hummus.design.core.ComponentParameter
 import com.github.klee0kai.hummus.design.core.DesignComponentMethod
 import com.github.klee0kai.hummus.design.core.ParameterType
 import com.github.klee0kai.hummus.storybook.storybook.components.ParametersEditor
-import com.github.klee0kai.hummus.storybook.storybook.examples.initializeComponentPresets
-import com.github.klee0kai.hummus.storybook.storybook.utils.getRegisteredComponents
+import com.github.klee0kai.hummus.storybook.storybook.utils.getRegisteredDesignComponents
 
-/**
- * Экран для просмотра и тестирования компонентов с редактированием параметров
- */
 @Composable
 fun DesignComponentsBrowser(modifier: Modifier = Modifier) {
-    LaunchedEffect(Unit) {
-        initializeComponentPresets()
-    }
-
     var selectedComponent by remember { mutableStateOf<DesignComponentMethod?>(null) }
     var parameterValues by remember { mutableStateOf<Map<String, Any?>>(emptyMap()) }
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
 
     // Get components from registry - may be empty in non-debug builds
-    val components = getRegisteredComponents()
+    val components = getRegisteredDesignComponents()
     val filteredComponents = components.filter { component ->
         component.methodName.contains(searchQuery.text, ignoreCase = true) ||
                 component.pkg.contains(searchQuery.text, ignoreCase = true)

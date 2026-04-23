@@ -19,6 +19,9 @@ interface AppThemeManager {
     /**
      * when changing the theme, theme modifiers are applied by their identifiers
      */
-    fun modify(id: String, modifier: HummusTheme.() -> HummusTheme = { this }) = Unit
+    fun modify(
+        id: String,
+        modifier: HummusTheme.() -> HummusTheme = { this },
+    ) = Unit
 
 }

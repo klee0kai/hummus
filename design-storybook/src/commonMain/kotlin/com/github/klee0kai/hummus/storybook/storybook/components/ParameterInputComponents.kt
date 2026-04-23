@@ -10,9 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.github.klee0kai.hummus.design.core.*
 
-/**
- * Компонент для ввода значения параметра с учетом его типа
- */
 @Composable
 fun ParameterInputField(
     parameter: ComponentParameter,

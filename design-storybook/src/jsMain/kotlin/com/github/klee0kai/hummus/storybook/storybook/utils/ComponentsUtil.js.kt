@@ -2,4 +2,5 @@ package com.github.klee0kai.hummus.storybook.storybook.utils
 
 import com.github.klee0kai.hummus.design.core.DesignComponentMethod
 
-expect fun getRegisteredDesignComponents(): List<DesignComponentMethod>
+actual fun getRegisteredDesignComponents(
+): List<DesignComponentMethod> = DesignComponentsRegistry.components
