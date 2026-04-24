@@ -5,6 +5,7 @@ import com.github.klee0kai.hummus.IgnoreNative
 import com.github.klee0kai.hummus.collections.weaklist.ChangeListsHelper.assertListsSame
 import com.github.klee0kai.hummus.collections.weaklist.ChangeListsHelper.changeForEachListsSame
 import com.github.klee0kai.stone.weakref.Memory
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
@@ -245,6 +246,7 @@ class RefListTests {
 
 
     @Test
+    @Ignore// "wait stone 2.1.1"
     fun sameLists() {
         //When
         val ref1List = SoftList<Pair<Int, Int>>()

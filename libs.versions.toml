@@ -40,7 +40,7 @@ ktlint = "1.8.0"
 
 # Dependencies
 javax-inject = "1"
-stone = "2.1.0_lc"
+stone = "2.1.0"
 picocli = "4.7.5"
 kermit = "2.0.4"
 

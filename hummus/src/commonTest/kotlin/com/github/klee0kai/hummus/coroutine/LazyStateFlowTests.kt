@@ -4,12 +4,12 @@ import com.github.klee0kai.hummus.IgnoreJs
 import com.github.klee0kai.hummus.IgnoreNative
 import com.github.klee0kai.hummus.runTest
 import kotlinx.coroutines.*
+import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
 
 class LazyStateFlowTests {
 
@@ -247,6 +247,7 @@ class LazyStateFlowTests {
     }
 
     @Test
+    @Ignore// "wait stone 2.1.1"
     fun lazyStateFlow_multiple_touch_calls() = runTest {
         // Given
         val scope = CoroutineScope(Job())
