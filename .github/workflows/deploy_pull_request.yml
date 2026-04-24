@@ -13,7 +13,7 @@ jobs:
         continue-on-error: true
         run: echo ${{ toJSON(github) }} > github.json
       - name: Upload Meta artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: wf-meta
           path: |
@@ -37,31 +37,13 @@ jobs:
         continue-on-error: true
         run: ./gradlew test
       - name: Upload test artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-report
           path: |
             ./**/build/reports
             ./**/build/test-results
 
-  mikepenz_report:
-    name: Prepare Mikepenz Test Report
-    needs: tests
-    runs-on: ubuntu-latest
-    if: ${{ always() }}
-    steps:
-      - uses: actions/checkout@v3
-      - name: Download Test Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: test-report
-
-      - name: Publish Test Report
-        uses: mikepenz/action-junit-report@v3
-        with:
-          report_paths: '**/build/test-results/**/*.xml'
-          detailed_summary: true
-          check_name: Mikepenz JUnit Test Report
 
 
 

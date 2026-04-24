@@ -1,0 +1,69 @@
+package com.github.klee0kai.hummus.storybook.desktop
+
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.WindowState
+import androidx.compose.ui.window.application
+import com.github.klee0kai.hummus.storybook.AppContent
+import picocli.CommandLine
+
+enum class ViewerTheme {
+    LIGHT, DARK
+}
+
+/**
+ * Command to launch the Design Components Viewer desktop application
+ */
+@CommandLine.Command(
+    name = "desktop",
+    description = ["Launch interactive design components viewer"],
+    mixinStandardHelpOptions = true
+)
+class DesktopCmd : Runnable {
+
+    @CommandLine.Option(
+        names = ["-t", "--theme"],
+        description = ["Theme to use: LIGHT, DARK"],
+        defaultValue = "LIGHT"
+    )
+    var theme: ViewerTheme = ViewerTheme.LIGHT
+
+    @CommandLine.Option(
+        names = ["-w", "--width"],
+        description = ["Window width in pixels"],
+        defaultValue = "1400"
+    )
+    var width: Int = 1400
+
+    @CommandLine.Option(
+        names = ["-h", "--height"],
+        description = ["Window height in pixels"],
+        defaultValue = "900"
+    )
+    var height: Int = 900
+
+    override fun run() {
+        launchDesktopApp(width, height, theme)
+    }
+
+    private fun launchDesktopApp(width: Int, height: Int, theme: ViewerTheme) {
+        application {
+            Window(
+                onCloseRequest = ::exitApplication,
+                title = "Design Components Viewer",
+                state = WindowState(width = width.dp, height = height.dp)
+            ) {
+                Surface(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    AppContent()
+                }
+            }
+        }
+    }
+
+
+}

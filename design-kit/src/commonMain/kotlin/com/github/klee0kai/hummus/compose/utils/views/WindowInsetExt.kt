@@ -1,0 +1,106 @@
+@file:OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
+
+package com.github.klee0kai.hummus.compose.utils.views
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.NonRestartableComposable
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
+import com.github.klee0kai.hummus.compose.utils.possitions.pxToDp
+import kotlin.math.max
+
+
+val WindowInsets.Companion.appContent: WindowInsets
+    @Composable
+    @NonRestartableComposable
+    get() :WindowInsets {
+        val appbarInsets = TopAppBarDefaults.windowInsets
+            .truncate(bottom = true, left = true, right = true)
+        val safeContentInsets = safeContent.truncate(top = true)
+
+        return safeContentInsets.add(appbarInsets)
+            .add(WindowInsets(left = 16.dp, top = 0.dp, right = 16.dp, bottom = 16.dp))
+    }
+
+
+val WindowInsets.bottomDp
+    @Composable
+    get() = getBottom(LocalDensity.current).pxToDp()
+
+val WindowInsets.topDp
+    @Composable
+    get() = getTop(LocalDensity.current).pxToDp()
+
+val WindowInsets.startDp
+    @Composable
+    get() = getLeft(LocalDensity.current, LocalLayoutDirection.current).pxToDp()
+
+val WindowInsets.endDp
+    @Composable
+    get() = getRight(LocalDensity.current, LocalLayoutDirection.current).pxToDp()
+
+
+fun WindowInsets.minInsets(all: Dp) = minInsets(all, all, all, all)
+
+fun WindowInsets.minInsets(vertical: Dp, horizontal: Dp) = minInsets(
+    top = vertical,
+    bottom = vertical,
+    right = horizontal,
+    left = horizontal
+)
+
+fun PaddingValues.horizontal(minValue: Dp = 0.dp) =
+    maxOf(calculateLeftPadding(LayoutDirection.Ltr), minValue)
+
+fun WindowInsets.minInsets(
+    top: Dp,
+    bottom: Dp,
+    left: Dp,
+    right: Dp,
+) = object : WindowInsets {
+    private val original = this@minInsets
+    override fun getBottom(density: Density): Int = with(density) {
+        max(original.getBottom(density), bottom.roundToPx())
+    }
+
+    override fun getLeft(density: Density, layoutDirection: LayoutDirection): Int = with(density) {
+        max(original.getLeft(density, layoutDirection), left.roundToPx())
+    }
+
+    override fun getRight(density: Density, layoutDirection: LayoutDirection): Int = with(density) {
+        max(original.getRight(density, layoutDirection), right.roundToPx())
+    }
+
+    override fun getTop(density: Density): Int = with(density) {
+        max(original.getTop(density), top.roundToPx())
+    }
+}
+
+fun WindowInsets.truncate(
+    top: Boolean = false,
+    bottom: Boolean = false,
+    left: Boolean = false,
+    right: Boolean = false,
+) = object : WindowInsets {
+    private val original = this@truncate
+    override fun getBottom(density: Density): Int =
+        if (!bottom) original.getBottom(density) else 0
+
+    override fun getLeft(density: Density, layoutDirection: LayoutDirection): Int =
+        if (!left) original.getLeft(density, layoutDirection) else 0
+
+    override fun getRight(density: Density, layoutDirection: LayoutDirection): Int =
+        if (!right) original.getRight(density, layoutDirection) else 0
+
+    override fun getTop(density: Density): Int =
+        if (!top) original.getTop(density) else 0
+}
+
+
