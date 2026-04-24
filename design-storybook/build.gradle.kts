@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.publish.maven)
     alias(libs.plugins.kotlin.serialization)
-//    alias(libs.plugins.publish.stone)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
@@ -81,6 +80,10 @@ kotlin {
 tasks.matching { it.name.startsWith("ksp") && it.name != "kspCommonMainKotlinMetadata" }.configureEach {
     dependsOn("kspCommonMainKotlinMetadata")
 //    enabled = false
+}
+
+tasks.named("sourcesJar") {
+    dependsOn("kspCommonMainKotlinMetadata")
 }
 
 

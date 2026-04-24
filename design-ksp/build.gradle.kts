@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.publish.maven)
 }
 
 group = "com.github.klee0kai.design.ksp"

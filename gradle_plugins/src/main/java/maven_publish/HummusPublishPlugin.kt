@@ -13,6 +13,7 @@ class HummusPublishPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
         project.pluginManager.apply(PublishingPlugin::class.java)
+        project.pluginManager.apply("org.jetbrains.dokka")
 
         project.afterEvaluate {
             project.extensions.configure(PublishingExtension::class.java) {
