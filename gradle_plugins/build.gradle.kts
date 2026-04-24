@@ -1,17 +1,19 @@
 plugins {
     `kotlin-dsl`
     `java-gradle-plugin`
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    alias(libs.plugins.kotlin.jvm)
 }
 
 
 gradlePlugin {
-    plugins.register("hummus_publish") {
-        id = "maven_publish.hummus_publish"
-        implementationClass = "maven_publish.HummusPublishPlugin"
+    plugins {
+        create("hummusPublish") {
+            id = "hummus.publish.maven"
+            implementationClass = "maven_publish.HummusPublishPlugin"
+        }
     }
+}
+
+dependencies {
+    implementation(kotlin("stdlib"))
 }

@@ -187,6 +187,9 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
+# Gradle
+publish-hummus-maven = { id = "hummus.publish.maven" }
+
 # KSP & Code generation
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 

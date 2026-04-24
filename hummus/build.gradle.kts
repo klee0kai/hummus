@@ -2,10 +2,11 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.publish.maven)
     alias(libs.plugins.kotlin.serialization)
-//    alias(libs.plugins.publish.stone)
+    alias(libs.plugins.publish.hummus.maven)
 }
 
 group = "com.github.klee0kai.hummus"
+version = libs.versions.hummus.get()
 
 kotlin {
     jvm()

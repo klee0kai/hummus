@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.publish.hummus.maven)
 }
 
 group = "com.github.klee0kai.hummus.storybook"
