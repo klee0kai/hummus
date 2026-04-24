@@ -23,7 +23,6 @@ fun ComponentEditScreen(
 ) = Screen(destination.component?.methodName ?: "") {
     if (destination.component == null) return@Screen
     var parameterValues by remember { mutableStateOf<Map<String, Any?>>(emptyMap()) }
-
     ComponentEditorPanel(
         component = destination.component,
         parameterValues = parameterValues,

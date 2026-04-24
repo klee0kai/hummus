@@ -20,11 +20,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.github.klee0kai.hummus.compose.HummusTheme
 import com.github.klee0kai.hummus.compose.LocalHummusRouter
-import com.github.klee0kai.hummus.compose.components.appbar.HummusBarStates
 import com.github.klee0kai.hummus.compose.navigation.Destination
 import com.github.klee0kai.hummus.compose.utils.views.collectAsState
 import com.github.klee0kai.hummus.storybook.di.StoryBookDI
 import com.github.klee0kai.hummus.storybook.navigation.MainDestinations
+import com.github.klee0kai.hummus.storybook.ui.main.CommonAppBar
 
 @Composable
 fun NavContainer() {
@@ -43,7 +43,7 @@ fun NavContainer() {
         LocalHummusRouter provides router
     ) {
         HummusTheme {
-            HummusBarStates()
+            CommonAppBar()
 
             NavigationSuiteScaffold(
                 modifier = Modifier.fillMaxSize()

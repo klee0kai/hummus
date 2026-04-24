@@ -13,8 +13,8 @@ import com.github.klee0kai.hummus.compose.utils.possitions.pxToDp
 
 @Composable
 fun LoadingTitle(
-    modifier: Modifier = Modifier,
     text: String,
+    modifier: Modifier = Modifier,
 ) {
     var baselinePadding by remember { mutableFloatStateOf(0f) }
     val dotSize = 2.2.dp

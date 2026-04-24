@@ -10,16 +10,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.github.klee0kai.hummus.compose.LocalHummusRouter
+import com.github.klee0kai.hummus.compose.utils.views.collectAsState
 import com.github.klee0kai.hummus.compose.utils.views.currentRef
 import com.github.klee0kai.hummus.design.core.ComponentParameter
 import com.github.klee0kai.hummus.design.core.DesignComponentMethod
 import com.github.klee0kai.hummus.storybook.Screen
+import com.github.klee0kai.hummus.storybook.di.StoryBookDI
 import com.github.klee0kai.hummus.storybook.navigation.ComponentEditDestination
 import com.github.klee0kai.hummus.storybook.ui.utils.getRegisteredDesignComponents
 
@@ -28,74 +28,44 @@ fun ComponentListScreen(
     selectedComponent: DesignComponentMethod? = null,
 ) = Screen("Components") {
     val router by LocalHummusRouter.currentRef
+    val vm = remember { StoryBookDI.appBarViewModel() }
     var parameterValues by remember { mutableStateOf<Map<String, Any?>>(emptyMap()) }
-    var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
+    val searchText by vm.searchText.collectAsState(key = Unit, initial = "")
+
 
     // Get components from registry - may be empty in non-debug builds
     val components = getRegisteredDesignComponents()
     val filteredComponents = components.filter { component ->
-        component.methodName.contains(searchQuery.text, ignoreCase = true) ||
-                component.pkg.contains(searchQuery.text, ignoreCase = true)
+        component.methodName.contains(searchText, ignoreCase = true) ||
+                component.pkg.contains(searchText, ignoreCase = true)
     }
 
-    ComponentListPanel(
-        components = filteredComponents,
-        selectedComponent = selectedComponent,
-        searchQuery = searchQuery,
-        onSearchQueryChange = { searchQuery = it },
-        onComponentSelected = { component ->
-            router?.navigate(destination = ComponentEditDestination(component))
-            // Initialize with default values
-            parameterValues = component.parameters.associate { param ->
-                param.name to getDefaultValueForParameter(param)
-            }
-        },
-    )
-
-}
-
-
-@Composable
-private fun ComponentListPanel(
-    components: List<DesignComponentMethod>,
-    selectedComponent: DesignComponentMethod?,
-    searchQuery: TextFieldValue,
-    onSearchQueryChange: (TextFieldValue) -> Unit,
-    onComponentSelected: (DesignComponentMethod) -> Unit,
-    modifier: Modifier = Modifier,
-) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxHeight()
             .background(MaterialTheme.colorScheme.surfaceVariant)
     ) {
-        // Search field
-        TextField(
-            value = searchQuery,
-            onValueChange = onSearchQueryChange,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
-            singleLine = true,
-            placeholder = { Text("Search components...") },
-            textStyle = MaterialTheme.typography.bodySmall
-        )
-
-        Divider()
 
         // Component list
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            items(components.size) { index ->
-                val component = components[index]
+            items(filteredComponents.size) { index ->
+                val component = filteredComponents[index]
                 ComponentListItem(
                     component = component,
                     isSelected = component == selectedComponent,
-                    onClick = { onComponentSelected(component) }
+                    onClick = {
+                        router?.navigate(destination = ComponentEditDestination(component))
+                        // Initialize with default values
+                        parameterValues = component.parameters.associate { param ->
+                            param.name to getDefaultValueForParameter(param)
+                        }
+                    }
                 )
             }
         }
     }
 }
+
 
 @Composable
 private fun ComponentListItem(
