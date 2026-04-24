@@ -8,6 +8,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.milliseconds
 
 class SafeContextScopeTests {
 
@@ -35,9 +36,10 @@ class SafeContextScopeTests {
 
         // When
         val job = scope.launchSafe(trackFlow = trackFlow) {
-            delay(10)
+            delay(100.milliseconds)
         }
 
+        delay(1.milliseconds)
         assertTrue(trackFlow.value > 0)
         job.join()
 

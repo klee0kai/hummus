@@ -2,8 +2,13 @@ package com.github.klee0kai.hummus
 
 import kotlinx.coroutines.CoroutineScope
 import kotlin.time.Duration
-
 import kotlinx.coroutines.test.runTest as rTest
+
+@Target(allowedTargets = [AnnotationTarget.FUNCTION, AnnotationTarget.CLASS])
+actual annotation class IgnoreNative actual constructor()
+
+@Target(allowedTargets = [AnnotationTarget.FUNCTION, AnnotationTarget.CLASS])
+actual annotation class IgnoreJs actual constructor()
 
 actual fun runTest(
     timeout: Duration,
@@ -11,5 +16,8 @@ actual fun runTest(
 ) {
     rTest(
         timeout = timeout
-    ) { block() }
+    ) {
+        backgroundScope.block()
+    }
 }
+

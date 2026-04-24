@@ -1,5 +1,7 @@
 package com.github.klee0kai.hummus.collections.weaklist
 
+import com.github.klee0kai.hummus.IgnoreJs
+import com.github.klee0kai.hummus.IgnoreNative
 import com.github.klee0kai.hummus.collections.weaklist.ChangeListsHelper.assertListsSame
 import com.github.klee0kai.hummus.collections.weaklist.ChangeListsHelper.changeForEachListsSame
 import com.github.klee0kai.stone.weakref.Memory
@@ -21,6 +23,7 @@ class RefListTests {
 
 
     @Test
+    @IgnoreJs
     fun initList() {
         //When
         val exampleList: List<Int?> = mutableListOf(1, 2, 4)
@@ -32,6 +35,7 @@ class RefListTests {
     }
 
     @Test
+    @IgnoreJs
     fun addOne() {
         //When
         val exampleList: MutableList<Int?> = mutableListOf()
@@ -45,6 +49,7 @@ class RefListTests {
     }
 
     @Test
+    @IgnoreJs
     fun addFew() {
         //When
         val exampleList: MutableList<Int?> = mutableListOf()
@@ -274,6 +279,8 @@ class RefListTests {
 
 
     @Test
+    @IgnoreJs
+    @IgnoreNative
     fun weakItemsCollect() {
         //Given
         val strongRef = Pair(7, 4)

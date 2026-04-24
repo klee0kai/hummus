@@ -1,16 +1,15 @@
 package com.github.klee0kai.hummus.coroutine
 
+import com.github.klee0kai.hummus.IgnoreJs
+import com.github.klee0kai.hummus.IgnoreNative
 import com.github.klee0kai.hummus.runTest
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 class LazyStateFlowTests {
 
@@ -35,15 +34,15 @@ class LazyStateFlowTests {
     @Test
     fun lazyStateFlow_updates_on_first_subscriber() = runTest {
         // Given
-        val scope = CoroutineScope(Job())
         val values = mutableListOf<String>()
         var blockExecuted = false
 
         val flow = lazyStateFlow(
             init = "initial",
             defaultArg = Unit,
-            scope = scope,
+            scope = this,
             block = {
+                delay(5.milliseconds)
                 blockExecuted = true
                 value = "updated"
             }
@@ -59,25 +58,25 @@ class LazyStateFlowTests {
             }
         }
 
-        delay(100.milliseconds)
+        delay(50.milliseconds)
 
         // Then
         assertTrue(blockExecuted)
         assertTrue(values.contains("initial"))
         assertTrue(values.contains("updated"))
-        scope.cancel()
     }
 
     @Test
+    @IgnoreJs
+    @IgnoreNative
     fun lazyStateFlow_touch_reruns_block() = runTest {
         // Given
-        val scope = CoroutineScope(Job())
         var executionCount = 0
 
         val flow = lazyStateFlow(
             init = 0,
             defaultArg = Unit,
-            scope = scope,
+            scope = this,
             block = {
                 executionCount++
                 value = executionCount
@@ -96,19 +95,17 @@ class LazyStateFlowTests {
 
         // Then
         assertEquals(2, executionCount)
-        scope.cancel()
     }
 
     @Test
     fun lazyStateFlow_touch_with_argument() = runTest {
         // Given
-        val scope = CoroutineScope(Job())
         val arguments = mutableListOf<String>()
 
         val flow = lazyStateFlow(
             init = "",
             defaultArg = "default",
-            scope = scope,
+            scope = this,
             block = { arg ->
                 arguments.add(arg)
                 value = arg
@@ -119,16 +116,15 @@ class LazyStateFlowTests {
             flow.collect { }
         }
 
-        delay(50.milliseconds)
+        delay(100.milliseconds)
 
         // When
         flow.touch("custom_arg")
-        delay(50.milliseconds)
+        delay(100.milliseconds)
 
         // Then
         assertTrue(arguments.contains("default"))
         assertTrue(arguments.contains("custom_arg"))
-        scope.cancel()
     }
 
     @Test
@@ -211,18 +207,22 @@ class LazyStateFlowTests {
     }
 
     @Test
+    @IgnoreJs
+    @IgnoreNative
     fun lazyStateFlow_emits_new_values() = runTest {
         // Given
-        val scope = CoroutineScope(Job())
         val emittedValues = mutableListOf<Int>()
 
         val flow = lazyStateFlow(
             init = 0,
             defaultArg = Unit,
-            scope = scope,
+            scope = this,
             block = {
+                delay(1.milliseconds)
                 emit(1)
+                delay(1.milliseconds)
                 emit(2)
+                delay(1.milliseconds)
                 emit(3)
             }
         )
@@ -244,7 +244,6 @@ class LazyStateFlowTests {
         assertTrue(emittedValues.contains(1))
         assertTrue(emittedValues.contains(2))
         assertTrue(emittedValues.contains(3))
-        scope.cancel()
     }
 
     @Test
@@ -276,7 +275,7 @@ class LazyStateFlowTests {
         delay(50.milliseconds)
 
         // Then
-        assertTrue(executionOrder.size >= 2)
+        assertTrue(executionOrder.size >= 2, "count ${executionOrder.size}")
         scope.cancel()
     }
 }

@@ -253,8 +253,11 @@ inline fun <reified T> Iterable<T>.accumulate(action: (T, T) -> T): T? {
  * @param dimensionVariants variable number of lists representing each dimension
  * @return lazy sequence of all possible combinations
  */
-fun enumerateAllVariants(vararg dimensionVariants: List<Any?>) = sequence<List<Any?>> {
+fun enumerateAllVariants(
+    vararg dimensionVariants: List<Any?>,
+) = sequence<List<Any?>> {
     val dimIdxs = buildListCount(dimensionVariants.size) { 0 }.toMutableList()
+    if (dimensionVariants.any { it.isEmpty() }) return@sequence
     while (true) {
         yield(
             buildList(dimensionVariants.size) {

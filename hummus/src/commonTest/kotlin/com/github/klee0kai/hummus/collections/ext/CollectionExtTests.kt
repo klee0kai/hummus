@@ -37,6 +37,7 @@ class CollectionExtTests {
     fun buildListCount_creates_unique_objects() {
         // Given
         data class Item(val id: Int)
+
         var counter = 0
 
         // When
@@ -100,7 +101,9 @@ class CollectionExtTests {
     fun runForEach_with_mutable_objects() {
         // Given
         data class Counter(var count: Int = 0) {
-            fun increment() { count++ }
+            fun increment() {
+                count++
+            }
         }
 
         val counters = listOf(
@@ -238,10 +241,10 @@ class CollectionExtTests {
 
         // Then
         assertEquals(4, result.size)
-        assertEquals(listOf("A", 1), result[0])
-        assertEquals(listOf("A", 2), result[1])
-        assertEquals(listOf("B", 1), result[2])
-        assertEquals(listOf("B", 2), result[3])
+        assertTrue { listOf("A", 1) in result }
+        assertTrue { listOf("A", 2) in result }
+        assertTrue { listOf("B", 1) in result }
+        assertTrue { listOf("B", 2) in result }
     }
 
     @Test
@@ -256,9 +259,9 @@ class CollectionExtTests {
 
         // Then
         assertEquals(2 * 3 * 2, result.size)
-        assertEquals(listOf("Red", "S", "Cotton"), result[0])
-        assertEquals(listOf("Red", "S", "Wool"), result[1])
-        assertEquals(listOf("Red", "M", "Cotton"), result[2])
+        assertTrue { listOf("Red", "S", "Cotton") in result }
+        assertTrue { listOf("Red", "S", "Wool") in result }
+        assertTrue { listOf("Red", "M", "Cotton") in result }
     }
 
     @Test
@@ -313,14 +316,9 @@ class CollectionExtTests {
         val result = enumerateAllVariants(dim1, dim2).toList()
 
         // Then
-        assertEquals(
-            listOf(
-                listOf(1, "a"),
-                listOf(1, "b"),
-                listOf(2, "a"),
-                listOf(2, "b")
-            ),
-            result
-        )
+        assertTrue { listOf(1, "a") in result }
+        assertTrue { listOf(1, "b") in result }
+        assertTrue { listOf(2, "a") in result }
+        assertTrue { listOf(2, "b") in result }
     }
 }

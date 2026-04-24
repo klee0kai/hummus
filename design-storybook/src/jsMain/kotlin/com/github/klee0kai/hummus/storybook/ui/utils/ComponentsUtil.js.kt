@@ -1,5 +1,6 @@
 package com.github.klee0kai.hummus.storybook.ui.utils
 
+import com.github.klee0kai.hummus.compose.components.DesignComponentsRegistry
 import com.github.klee0kai.hummus.design.core.DesignComponentMethod
 
 actual fun getRegisteredDesignComponents(
