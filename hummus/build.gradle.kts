@@ -15,10 +15,6 @@ kotlin {
         nodejs()
         binaries.executable()
     }
-
-    linuxX64()
-    mingwX64()
-
     wasmJs {
         browser()
         nodejs()

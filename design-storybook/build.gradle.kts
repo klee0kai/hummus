@@ -27,8 +27,6 @@ kotlin {
         binaries.executable()
     }
 
-//    linuxX64()
-//    mingwX64()
     wasmJs {
         outputModuleName = "composeAppWasm"
         browser {

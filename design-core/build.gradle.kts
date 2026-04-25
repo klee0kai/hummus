@@ -21,8 +21,6 @@ kotlin {
         nodejs()
     }
 
-//    linuxX64()
-//    mingwX64()
     wasmJs {
         browser()
         nodejs()
