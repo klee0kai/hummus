@@ -7,7 +7,6 @@ on:
       - "*"
 
 jobs:
-
   publish_github_packages:
     name: Publish to GitHub Packages
     runs-on: ubuntu-latest

@@ -2,7 +2,13 @@ jdk:
   - openjdk17
 
 env:
-  - NODE_VERSION=18.20.0
+  - NODE_VERSION=24.10.0
+
+before_install:
+  - wget https://nodejs.org/dist/v24.10.0/node-v24.10.0-linux-x64.tar.xz
+  - tar -xJf node-v24.10.0-linux-x64.tar.xz
+  - export PATH=$PWD/node-v24.10.0-linux-x64/bin:$PATH
+  - node -v
 
 install:
   - echo "publish"
