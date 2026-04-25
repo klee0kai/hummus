@@ -41,6 +41,16 @@ class HummusPublishPlugin : Plugin<Project> {
                         }
                     }
                 }
+                repositories {
+                    maven {
+                        name = "GitHubPackages"
+                        url = project.uri("https://maven.pkg.github.com/klee0kai/maven")
+                        credentials {
+                            username = System.getenv("GITHUB_ACTOR") ?: project.properties["github.actor"] as? String
+                            password = System.getenv("GITHUB_TOKEN") ?: project.properties["github.token"] as? String
+                        }
+                    }
+                }
             }
         }
     }
