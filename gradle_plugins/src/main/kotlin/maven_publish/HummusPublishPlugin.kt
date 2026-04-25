@@ -43,6 +43,7 @@ class HummusPublishPlugin : Plugin<Project> {
                 }
                 repositories {
                     maven {
+                        // https://docs.github.com/ru/actions/tutorials/publish-packages/publish-java-packages-with-maven
                         name = "GitHubPackages"
                         url = project.uri("https://maven.pkg.github.com/klee0kai/maven")
                         credentials {
