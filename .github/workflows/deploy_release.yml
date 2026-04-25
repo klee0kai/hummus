@@ -3,9 +3,8 @@ name: Deploy Release
 on:
   workflow_dispatch:
   push:
-    branches:
-      - 'release/**'
-      - 'releases/**'
+    tags:
+      - "*"
 
 jobs:
 
