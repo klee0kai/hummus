@@ -1,7 +1,7 @@
 [versions]
 
 # Project version
-hummus = "0.0.7"
+hummus = "0.0.8"
 
 # Build tools
 gradle = "9.1.0"
