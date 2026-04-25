@@ -2,12 +2,10 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.publish.maven)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.publish.hummus.maven)
 }
 
 group = "com.github.klee0kai.hummus.storybook"

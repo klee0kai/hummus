@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
 }
 
-group = "com.github.klee0kai.ksp.base.sample.processor"
+group = "com.github.klee0kai.hummus.ksp.base.sample.processor"
 version = libs.versions.hummus.get()
 
 kotlin {

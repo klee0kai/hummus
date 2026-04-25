@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.publish.hummus.maven)
 }
 
-group = "com.github.klee0kai.ksp.base"
+group = "com.github.klee0kai.hummus.ksp.base"
 version = libs.versions.hummus.get()
 
 kotlin {

@@ -17,6 +17,7 @@ class HummusPublishPlugin : Plugin<Project> {
             project.extensions.configure<PublishingExtension> {
                 publications.withType<MavenPublication> {
                     version = project.version as String
+                    groupId = "com.github.klee0kai.hummus"
                     pom {
                         name.set("Hummus")
                         description.set("DevKit for multiplatform developing (JVM, JS, Native, WASM)")
@@ -47,8 +48,10 @@ class HummusPublishPlugin : Plugin<Project> {
                         name = "GitHubPackages"
                         url = project.uri("https://maven.pkg.github.com/klee0kai/maven")
                         credentials {
-                            username = System.getenv("SECRETS_GH_ACTOR") ?: project.properties["github.actor"] as? String
-                            password = System.getenv("SECRETS_GH_API_TOKEN") ?: project.properties["github.token"] as? String
+                            username =
+                                System.getenv("SECRETS_GH_ACTOR") ?: project.properties["github.actor"] as? String
+                            password =
+                                System.getenv("SECRETS_GH_API_TOKEN") ?: project.properties["github.token"] as? String
                         }
                     }
                 }

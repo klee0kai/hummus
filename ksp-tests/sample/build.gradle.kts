@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
-group = "com.github.klee0kai.ksp.base.sample"
+group = "com.github.klee0kai.hummus.ksp.base.sample"
 version = libs.versions.hummus.get()
 
 kotlin {
