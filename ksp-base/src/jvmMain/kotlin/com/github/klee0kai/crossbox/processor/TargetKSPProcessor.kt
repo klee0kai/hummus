@@ -11,6 +11,7 @@ import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.squareup.kotlinpoet.ksp.writeTo
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
@@ -132,7 +133,6 @@ open class TargetKSPProcessor(
                                 totalCount + takeSymbolsCount
                             }
                             symbols = symbols.nowTakeOnly(takeSymbolsCount = takeSymbolsCount)
-
                         } else {
                             // ---- do not skip to next run ( incremental build is ignoring ) -----
                             processSymbolsCounter.updateAndGet { totalCount ->
@@ -145,6 +145,7 @@ open class TargetKSPProcessor(
                         symbols
                     }
 
+                    launchConductor.runCount.first { it >= targetProcessors.size }
                     symbols = symbols.forceProcess { it in globalSymbolsForProcessing }
 
                     if (debug && debugPkgFilter != null) {

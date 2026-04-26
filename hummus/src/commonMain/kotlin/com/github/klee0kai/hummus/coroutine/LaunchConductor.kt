@@ -1,8 +1,10 @@
 package com.github.klee0kai.hummus.coroutine
 
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.yield
 
 /**
  * Coordinates parallel coroutine work to ensure they complete together.
@@ -56,6 +58,8 @@ import kotlinx.coroutines.flow.update
 class LaunchConductor {
 
     private val parallelWorkCounter = MutableStateFlow(0)
+    private val _runCount = MutableStateFlow(0)
+    val runCount = _runCount.asStateFlow()
 
     /**
      * Executes a suspend block and waits for all parallel work to finish.
@@ -85,8 +89,10 @@ class LaunchConductor {
     ): T {
         parallelWorkCounter.update { it + 1 }
         try {
+            yield()
             return suspendFun()
         } finally {
+            _runCount.update { it + 1 }
             parallelWorkCounter.update { it - 1 }
             parallelWorkCounter.first { it <= 0 }
         }
