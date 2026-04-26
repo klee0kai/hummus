@@ -21,6 +21,11 @@ kotlin {
                 implementation(libs.kotlin.ksp)
             }
         }
+        val jvmTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
     }
 }
 
