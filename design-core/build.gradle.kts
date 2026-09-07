@@ -13,6 +13,7 @@ version = libs.versions.hummus.get()
 
 
 kotlin {
+    jvmToolchain(21)
     jvm {
 
     }

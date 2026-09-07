@@ -7,6 +7,7 @@ group = "com.github.klee0kai.hummus.ksp.base.sample"
 version = libs.versions.hummus.get()
 
 kotlin {
+    jvmToolchain(21)
     jvm()
 
     sourceSets {
