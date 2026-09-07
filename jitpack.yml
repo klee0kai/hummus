@@ -8,4 +8,4 @@ install:
   - echo "node installed"
   - echo $(node -v)
   - echo "publish"
-  - ./gradlew publishToMavenLocal
+  - ./gradlew publishToMavenLocal --max-workers=2 -Dorg.gradle.jvmargs="-Xmx1536m -Dfile.encoding=UTF-8" -Dkotlin.daemon.jvmargs="-Xmx1536m"
