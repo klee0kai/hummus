@@ -13,7 +13,7 @@ version = libs.versions.hummus.get()
 
 
 kotlin {
-    jvm() {
+    jvm {
 
     }
     js(IR) {
