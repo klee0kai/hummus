@@ -1,7 +1,6 @@
 package com.github.klee0kai.hummus.storybook.theme
 
 import com.github.klee0kai.hummus.compose.theme.HummusDefaultThemes
-import com.github.klee0kai.hummus.compose.theme.HummusDefaultThemes.defThemeIdentifier
 import com.github.klee0kai.hummus.compose.theme.HummusTheme
 import com.github.klee0kai.hummus.compose.theme.ThemeIdentifier
 import com.github.klee0kai.hummus.coroutine.launchSafe
@@ -10,7 +9,9 @@ import com.github.klee0kai.hummus.storybook.di.StoryBookDI
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.sync.withLock
 
-class AppThemeManagerImpl : AppThemeManager {
+open class AppThemeManagerImpl(
+    val defThemeIdentifier: ThemeIdentifier = ThemeIdentifier.LightTheme
+) : AppThemeManager {
 
     private val scope = StoryBookDI.defaultThreadScope()
 
@@ -47,9 +48,10 @@ class AppThemeManagerImpl : AppThemeManager {
         }
     }
 
+    override fun ThemeIdentifier.toTheme(): HummusTheme = when (this) {
+        ThemeIdentifier.DarkTheme -> HummusDefaultThemes.darkTheme
+        ThemeIdentifier.LightTheme -> HummusDefaultThemes.lightTheme
+    }
+
 }
 
-fun ThemeIdentifier.toTheme(): HummusTheme = when (this) {
-    ThemeIdentifier.DarkTheme -> HummusDefaultThemes.darkTheme
-    ThemeIdentifier.LightTheme -> HummusDefaultThemes.lightTheme
-}

@@ -7,8 +7,6 @@ import com.github.klee0kai.hummus.compose.theme.typography.regularAppTypeScheme
 
 object HummusDefaultThemes {
 
-    val defThemeIdentifier = ThemeIdentifier.LightTheme
-
     val darkTheme = HummusTheme(
         colorScheme = darkCommonColorScheme(),
         typeScheme = regularAppTypeScheme(),

@@ -24,4 +24,8 @@ interface AppThemeManager {
         modifier: HummusTheme.() -> HummusTheme = { this },
     ) = Unit
 
+    /**
+     * transform theme identifier to hummus theme
+     */
+    fun ThemeIdentifier.toTheme(): HummusTheme
 }

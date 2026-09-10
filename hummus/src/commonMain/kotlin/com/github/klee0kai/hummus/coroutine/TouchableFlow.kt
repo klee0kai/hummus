@@ -1,6 +1,10 @@
 package com.github.klee0kai.hummus.coroutine
 
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.launch
 
 
 /**
@@ -73,3 +77,30 @@ interface TouchableFlow<out T, in Arg> : Flow<T> {
  * ```
  */
 fun <T> TouchableFlow<T, Unit>.touch() = touch(Unit)
+
+
+/**
+ * make simple flow touchable
+ */
+fun <T> Flow<T>.touchable(): TouchableFlow<T, Unit> {
+    val originFlow = this
+    val ticker = MutableSharedFlow<Unit>(replay = 1)
+    val touchBody = channelFlow {
+        var lastJob: Job? = null
+        ticker.onTicks {
+            lastJob?.cancel()
+            lastJob = launch {
+                originFlow.collect {
+                    send(it)
+                }
+            }
+        }
+    }
+    return object : TouchableFlow<T, Unit>, Flow<T> by touchBody {
+
+        override fun touch(arg: Unit) {
+            ticker.tryEmit(arg)
+        }
+
+    }
+}
